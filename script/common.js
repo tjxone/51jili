@@ -1,4 +1,3 @@
-
 //**自定义post函数
 //**函数参数：values（json），userAgent名称，url地址,fun（回调函数）
 //**常量设置
@@ -8,139 +7,140 @@ const appid = '06wygzvDdr062rNwIXTC';
 const appkey = 'vxCdATZ76WeqjhF3ZNHu';
 const appver = '2.5.0';
 const apptype = 'ios';
-function apiPost(params,progressSwitch){
-  // url,values,fun,userAgent
-  if(Object.getOwnPropertyNames(params).length<4){
-    params.userAgent = userAgentDefalut;
-  };
-  var signature  = api.require('signature');
-  var valuesObj = params.values,
-      arr=[],
-      hash;
-  valuesObj.time = Date.parse(new Date());
-  valuesObj.appver = appver;
-  valuesObj.apptype = apptype;
-  for(var item in valuesObj){
-    // php接受post的值若为空，则不接受这个键名，并且后台序列化加密的键名里面不出现
-    if(valuesObj[item]!=''){
-      var temp = item+':'+valuesObj[item];
-      arr.push(temp);
-    }
-  }
-  arr.sort();
-  console.log(String(arr))
-  var str = '';
-  for(var i of arr){
-    var index = i.indexOf(':');
-    var temp = i.slice(0,index)+'='+i.slice(index+1);
-    str += temp+'&';
-  }
-  str += 'appid='+appid+'&appkey='+appkey;
-  signature.md5({
-    data:str
-  },function(ret,err){
-    if(ret.status){
-      hash = ret.value;
-      valuesObj.sign = hash;
-      showWaitingProgress();
-      api.ajax({
-        url: params.url,
-        method: 'post',
-        timeout:20,
-        headers:{
-            "User-Agent":params.userAgent,
-            "Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"
-        },
-        data:{
-            values:valuesObj
-        },
-      }, function(ret, err) {
-        api.hideProgress();
-        api.refreshHeaderLoadDone();
-        if(err&&err.code==0){
-          showNetError();
-        }else if(err&&err.code==1){
-          showToastMsg('网络超时，请检查网络后重试哦~~')
-        }
-        params.fun(ret,err);
-      })
-    }else{
-      //弹出转md5的错误
-      alert(JSON.stringify(err))
 
+function apiPost(params, progressSwitch) {
+    // url,values,fun,userAgent
+    if (Object.getOwnPropertyNames(params).length < 4) {
+        params.userAgent = userAgentDefalut;
+    };
+    var signature = api.require('signature');
+    var valuesObj = params.values,
+        arr = [],
+        hash;
+    valuesObj.time = Date.parse(new Date());
+    valuesObj.appver = appver;
+    valuesObj.apptype = apptype;
+    for (var item in valuesObj) {
+        // php接受post的值若为空，则不接受这个键名，并且后台序列化加密的键名里面不出现
+        if (valuesObj[item] != '') {
+            var temp = item + ':' + valuesObj[item];
+            arr.push(temp);
+        }
     }
-  })
+    arr.sort();
+    console.log(String(arr))
+    var str = '';
+    for (var i of arr) {
+        var index = i.indexOf(':');
+        var temp = i.slice(0, index) + '=' + i.slice(index + 1);
+        str += temp + '&';
+    }
+    str += 'appid=' + appid + '&appkey=' + appkey;
+    signature.md5({
+        data: str
+    }, function(ret, err) {
+        if (ret.status) {
+            hash = ret.value;
+            valuesObj.sign = hash;
+            showWaitingProgress();
+            api.ajax({
+                url: params.url,
+                method: 'post',
+                timeout: 20,
+                headers: {
+                    "User-Agent": params.userAgent,
+                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+                },
+                data: {
+                    values: valuesObj
+                },
+            }, function(ret, err) {
+                api.hideProgress();
+                api.refreshHeaderLoadDone();
+                if (err && err.code == 0) {
+                    showNetError();
+                } else if (err && err.code == 1) {
+                    showToastMsg('网络超时，请检查网络后重试哦~~')
+                }
+                params.fun(ret, err);
+            })
+        } else {
+            //弹出转md5的错误
+            alert(JSON.stringify(err))
+
+        }
+    })
 }
 
 //***
 //**等待中showProgress
 //**
-function showWaitingProgress(){
-  api.showProgress({
-      text:'使劲加载中..',
-      title: '客官请稍等..',
-      modal: true,
-      animationType:'fade'
-  });
+function showWaitingProgress() {
+    api.showProgress({
+        text: '使劲加载中..',
+        title: '客官请稍等..',
+        modal: true,
+        animationType: 'fade'
+    });
 }
 
 //***
 //**网络异常showProgress
 //**
-function showNetError(){
-  api.toast({
-    msg:'网络异常，请检查网络哦~',
-    duration:2000,
-    location:'center',
-    global:false
-  })
+function showNetError() {
+    api.toast({
+        msg: '网络异常，请检查网络哦~',
+        duration: 2000,
+        location: 'center',
+        global: false
+    })
 }
 
 //***
 //**消息提醒toast
 //**
-function showToastMsg(content){
-  api.toast({
-    msg:content,
-    duration:2000,
-    location:'center',
-    global:false
-  })
-}
-
-//***
-//**打开外部网址
-//**
-function open51Url(jumpUrl,jumpTitle){
-    api.openWin({
-      name:'urlWin',
-      url:'./urlWin.html',
-      useWKWebView:true,
-      historyGestureEnabled:true,
-      pageParam:{
-        url:'https://www.51jili.com/'+jumpUrl,
-        title:jumpTitle
-      },
-      scaleEnabled:true,
-      allowEdit:true
+function showToastMsg(content) {
+    api.toast({
+        msg: content,
+        duration: 2000,
+        location: 'center',
+        global: false
     })
 }
 
 //***
 //**打开外部网址
 //**
-function openUrl(jumpUrl,jumpTitle){
+function open51Url(jumpUrl, jumpTitle) {
     api.openWin({
-      name:'urlWin',
-      url:'../html/urlWin.html',
-      useWKWebView:true,
-      historyGestureEnabled:true,
-      pageParam:{
-        url:jumpUrl,
-        title:jumpTitle
-      },
-      scaleEnabled:true,
-      allowEdit:true
+        name: 'urlWin',
+        url: './urlWin.html',
+        useWKWebView: true,
+        historyGestureEnabled: true,
+        pageParam: {
+            url: 'https://www.51jili.com/' + jumpUrl,
+            title: jumpTitle
+        },
+        scaleEnabled: true,
+        allowEdit: true
+    })
+}
+
+//***
+//**打开外部网址
+//**
+function openUrl(jumpUrl, jumpTitle) {
+    api.openWin({
+        name: 'urlWin',
+        url: '../html/urlWin.html',
+        useWKWebView: true,
+        historyGestureEnabled: true,
+        pageParam: {
+            url: jumpUrl,
+            title: jumpTitle
+        },
+        scaleEnabled: true,
+        allowEdit: true
     })
 }
 
@@ -152,16 +152,16 @@ function openUrl(jumpUrl,jumpTitle){
 //** title  string 标题（必填）
 //** isback boolen 是否后退(可选)
 //**
-function jumpToWin(name,title,isbackvalue){
+function jumpToWin(name, title, isbackvalue) {
     api.openWin({
-      name:name,
-      url:'./publicHeader.html',
-      useWKWebView:true,
-      historyGestureEnabled:true,
-      pageParam:{
-        name:name,
-        title:title,
-        isback:!isbackvalue? true : false
-      }
+        name: name,
+        url: './publicHeader.html',
+        useWKWebView: true,
+        historyGestureEnabled: true,
+        pageParam: {
+            name: name,
+            title: title,
+            isback: !isbackvalue ? true : false
+        }
     })
 }
