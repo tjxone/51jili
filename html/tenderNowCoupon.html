@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1,minimal-ui">
+	<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no,minimal-ui">
 	<meta name="keywords" content="集利财富，集利网，投资理财，网络理财，个人理财，互联网理财，互联网金融，固定收益，本息保障，个人贷款，网络贷款，网络借贷，小额贷款，信用贷款，担保贷款，网贷平台，投融资平台">
 	<meta name="description" content="集利财富：安全可信赖的投资理财平台，为大众用户提供低门槛、可信赖、有保障的投资理财服务！在集利财富，足不出户、轻点鼠标，即可便捷投资、安享收益！">
 	<meta name="apple-mobile-web-app-title" content="集利财富，点滴投资，聚集好利，安全可信赖的投资理财平台" />
@@ -12,40 +12,52 @@
 	<link rel="stylesheet" href="../css/swiper.min.css">
 	<link rel="stylesheet" href="../css/bootstrap.min.css">
 	<link rel="stylesheet" href="../css/common.css">
-	<title>urlWin</title>
+	<title>消息管理－集利财富</title>
+  <style>
+    .couponList{
+      padding:10px 30px 0px 30px;
+      background:#fff;
+    }
+
+    .couponList li{
+      padding-top:10px;
+      border-bottom:1px solid #999;
+    }
+
+    .couponList li h3{
+      font-size:20px;
+      color:#777
+    }
+
+    .couponList li h5{
+      padding-top:5px;
+      padding-bottom:10px;
+    }
+  </style>
 </head>
 <body>
-	<div class="nei-title">
-    <div class="back hideReplaceBack"><i class="replace"></i></div>
-    <div class="back showBack" tapmode onclick="api.closeWin()"><i class="icon-left-open-big"></i></div>
-		<h1></h1>
-		<div class="back"><i class="replace"></i></div>
-	</div>
+  <div class="couponList">
+    <ul>
+      <li tapmode>
+        <h3>加息(月标可用)：1%</h3>
+        <h5>有效期：2017-11-22 15:16</h5>
+        <em class="active"></em>
+      </li>
+      <li tapmode>
+        <h3>加息(月标可用)：1%</h3>
+        <h5>有效期：2017-11-22 15:16</h5>
+        <em class=""></em>
+      </li>
+    </ul>
+  </div>
+</div>
 </body>
 <script src="../script/jquery.js"></script>
 <script src="../script/common.js"></script>
 <script>
-apiready = function() {
-  //接收参数
-  var param = api.pageParam;
-  console.log(JSON.stringify(param))
-  if(typeof(param.isback)&&!param.isback){
-    $('.showBack').addClass('hideBack').removeClass('showBack');
-    $('.hideReplaceBack').addClass('showReplaceBack').removeClass('hideReplaceBack');
-  }
-  $('.nei-title > h1').html(param.title);
-  // 打开新窗口
-  api.openFrame({
-    name:'tempFrame',
-    url:'./'+param.name+'_frame.html',
-    rect:{
-      x:0,
-      y:$('.nei-title')[0].offsetHeight,
-      w:'auto',
-      h:'auto'
-    }
+  $('.couponList li').on('click',function(){
+    $('.couponList li em').removeClass('active');
+    $(this).find('em').toggleClass('active')
   })
-}
 </script>
-
 </html>

@@ -114,7 +114,7 @@ function showToastMsg(content){
 function open51Url(jumpUrl,jumpTitle){
     api.openWin({
       name:'urlWin',
-      url:'./urlWin.html',
+      url:'widget://urlWin.html',
       useWKWebView:true,
       historyGestureEnabled:true,
       pageParam:{
@@ -132,7 +132,7 @@ function open51Url(jumpUrl,jumpTitle){
 function openUrl(jumpUrl,jumpTitle){
     api.openWin({
       name:'urlWin',
-      url:'../html/urlWin.html',
+      url:'widget://html/urlWin.html',
       useWKWebView:true,
       historyGestureEnabled:true,
       pageParam:{
