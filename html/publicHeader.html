@@ -16,8 +16,8 @@
 </head>
 <body>
 	<div class="nei-title">
-    <div class="back hideback"><i class="replace"></i></div>
-    <div class="back showback" tapmode onclick="api.closeWin()"><i class="icon-left-open-big"></i></div>
+    <div class="back hideReplaceBack"><i class="replace"></i></div>
+    <div class="back showBack" tapmode onclick="api.closeWin()"><i class="icon-left-open-big"></i></div>
 		<h1></h1>
 		<div class="back"><i class="replace"></i></div>
 	</div>
@@ -31,7 +31,7 @@ apiready = function() {
   console.log(JSON.stringify(param))
   if(typeof(param.isback)&&!param.isback){
     $('.showback').addClass('hideback').removeClass('showback');
-    $('.hideback').addClass('showback').removeClass('hideback');
+    $('.hideReplaceBack').addClass('showReplaceBack').removeClass('hideReplaceBack');
   }
   $('.nei-title > h1').html(param.title);
   // 打开新窗口

@@ -529,6 +529,14 @@ header {
 	display:block
 }
 
+.nei-title .hideReplaceBack{
+	display:none
+}
+
+.nei-title .showReplaceBack{
+	display:block
+}
+
 .nei-title h1 {
 	position: relative;
 	z-index: 1;
@@ -1171,6 +1179,7 @@ header {
 	overflow: hidden;
 	white-space: nowrap;
 	width:65%;
+	text-align:right;
 }
 
 .detail-style li i {

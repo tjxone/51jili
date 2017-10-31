@@ -155,7 +155,7 @@ function openUrl(jumpUrl,jumpTitle){
 function jumpToWin(name,title,isbackvalue){
     api.openWin({
       name:name,
-      url:'./publicHeader.html',
+      url:'widget://html/publicHeader.html',
       useWKWebView:true,
       historyGestureEnabled:true,
       pageParam:{
