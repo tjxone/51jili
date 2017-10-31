@@ -1,0 +1,205 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>主页</title>
+    <link rel="stylesheet" href="../css/fontello.css">
+    <link rel="stylesheet" href="../css/swiper.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/common.css">
+</head>
+<body>
+  <div class="footer-nav">
+      <ul class="clearfix">
+          <li onclick="randomSwitchBtn( this );" class="active">
+              <div class="footer-nav-img">
+                <!-- <img src="image/home.png"> -->
+              </div>
+              <p>首页</p>
+          </li>
+          <li onclick="randomSwitchBtn( this );">
+              <div class="footer-nav-img">
+                  <!-- <img src="image/wallet.png"> -->
+              </div>
+              <p>投资理财</p>
+          </li>
+          <li onclick="randomSwitchBtn( this );">
+              <div class="footer-nav-img">
+                  <!-- <img src="image/user.png"> -->
+              </div>
+              <p>我的</p>
+          </li>
+      </ul>
+  </div>
+</body>
+<script src="../script/jquery.js"></script>
+<script src="../common.js"></script>
+<script>
+var footHeight = $('.footer-nav')[0].offsetHeight;
+apiready = function () {
+    // fixStatusBar( $('header')[0] );
+    api.setStatusBarStyle({
+      style:'light',
+      color:'#ef4646'
+    });
+    funIniGroup();
+    // token存放在fs目录下，不要存放在cache目录，因为清除缓存的操作会清除掉
+    var path = api.fsDir
+    console.log(path)
+    api.writeFile({
+        path: path+'/a.txt',
+        data:JSON.stringify({username:'tom'})
+    }, function(ret, err) {
+        if (ret.status) {
+            var data = ret.data;
+            console.log('写入a.txt到cacheFile')
+            console.log(JSON.stringify(ret))
+        } else {
+            // alert(err.msg);
+            console.log('error')
+            console.log(err.code);
+        }
+    });
+    api.readFile({
+        path: path+'/a.txt'
+    }, function(ret, err) {
+        if (ret.status) {
+            var data = JSON.parse(ret.data);
+            console.log('读取a.txt')
+            console.log(data.username)
+        } else {
+            // alert(err.msg);
+            console.log('error')
+            console.log(err.code);
+        }
+    });
+
+    doubleClickExit()
+}
+
+function funIniGroup(){
+    // 打开窗口组
+    var eFooterLis = $('.footer-nav li');
+    var frames = [];
+    for (var i = 0,len = eFooterLis.length; i < len; i++) {
+      var url = '';
+          switch (i) {
+            case 0:
+            url = './frame0.html';
+            break;
+            case 1:
+            url = './investment.html';
+            break;
+            case 2 :
+            url = './userCenter.html';
+            break;
+          }
+            frames.push( {
+                name: 'frame'+i,
+                url: url,
+                bgColor : 'rgba(0,0,0,.2)',
+                bounces:false
+            } )
+    }
+    api.openFrameGroup({
+        name: 'indexFrameGroup',
+        scrollEnabled: false,
+        rect: {
+            x: 0,
+            y: 0,
+            w: api.winWidth,
+            h: api.frameHeight-$('.footer-nav')[0].offsetHeight
+        },
+        index: 0,
+        frames: frames
+    }, function (ret, err) {
+        var index = ret.index;
+        var eFootLis = $('.footer-nav li');
+        var activeFootLi = $('.footer-nav li.active');
+        $('.footer-nav li.active').removeClass('active');
+        $(eFootLis[index]).addClass('active');
+    });
+}
+
+// 随意切换按钮
+function randomSwitchBtn( tag ) {
+  if( tag == $('.footer-nav li.active')[0] )return;
+  var eFootLis = $('.footer-nav li'),
+      index = 0;
+  for (var i = 0,len = eFootLis.length; i < len; i++) {
+      if( tag == eFootLis[i] ){
+          index = i;
+      }else{
+        $(eFootLis[i]).removeClass('active');
+      }
+  }
+  $(eFootLis[index]).addClass('active');
+
+  api.setFrameGroupIndex({
+      name: 'indexFrameGroup',
+      index: index
+  });
+
+  //当index不为1时，把投标区内容隐藏，否则显示
+  if(index!=1){
+    //ios专用
+    api.setFrameAttr({
+			name:'investment',
+			hidden:true
+		})
+    // 安卓专用
+    api.sendFrameToBack({
+      from:'investment'
+    })
+  }else{
+    //ios专用
+    api.setFrameAttr({
+			name:'investment',
+			hidden:false
+		})
+    // 安卓专用
+    api.bringFrameToFront({
+        from: 'investment',
+    });
+  }
+}
+
+//双击退出应用
+function doubleClickExit(){
+  var closeApp = {
+    count:0,
+    timer:null,
+    time:2000
+  }
+  api.addEventListener({
+      name: 'keyback'
+  }, function(ret, err){
+      if( ret.keyCode==4 ){
+          closeApp.count++;
+          // alert( JSON.stringify( ret ) );
+          if(closeApp.count >= 2){
+            api.closeWidget({
+              id:'A6052214405912',
+              silent:true
+            })
+          }else{
+            api.toast({
+              msg:'再按一次退出应用',
+              duration:closeApp.time,
+              location:'bottom'
+            })
+          }
+          clearTimeout(closeApp.timer);
+          closeApp.timer = setTimeout(function(){
+            closeApp.count=0;
+          },closeApp.time)
+      }else{
+           alert( JSON.stringify( err ) );
+      }
+  });
+
+}
+</script>
+</html>

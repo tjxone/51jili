@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head >
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no,minimal-ui">
+	<meta name="keywords" content="集利财富，集利网，投资理财，网络理财，个人理财，互联网理财，互联网金融，固定收益，本息保障，个人贷款，网络贷款，网络借贷，小额贷款，信用贷款，担保贷款，网贷平台，投融资平台">
+	<meta name="description" content="集利财富：安全可信赖的投资理财平台，为大众用户提供低门槛、可信赖、有保障的投资理财服务！在集利财富，足不出户、轻点鼠标，即可便捷投资、安享收益！">
+	<meta name="apple-mobile-web-app-title" content="集利财富，点滴投资，聚集好利，安全可信赖的投资理财平台" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<link rel="stylesheet" href="../css/fontello.css">
+	<link rel="stylesheet" href="../css/swiper.min.css">
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/common.css">
+<title>会员登录－集利财富</title>
+</head>
+<body>
+	<div class="login" style="padding-top: 20px;">
+		<img src="../image/logo1.png" style="width: 200px;">
+		<form id="login_form">
+			<ul class="login-input">
+				<li>
+					<input type="text" name="username" id="username" placeholder="请输入您的用户名或手机号码" datatype="*4-25" sucmsg="输入正确"  nullmsg="用户名为4到25个字符" errormsg="请输入正确的用户名!" autocomplete="off">
+					<i><img src="../image/phone.png"></i>
+				</li>
+				<li>
+					<input type="password" name="password" id="password" placeholder="请输入您的密码" sucmsg="输入正确" datatype="*6-30,/^[a-zA-Z0-9_\.]+$/" nullmsg="请输入密码"  errormsg="密码为6到30个字符" autocomplete="off">
+					<i><img src="../image/pwd.png"></i>
+				</li>
+			</ul>
+			<div class="form-tips" id="msgdemo">
+				<p></p>
+			</div>
+      <input type="hidden" name="mytoken" value="43dc1b749c877b2ed72ad07edac1821c" />
+			<button type="button" class="btn toubiao-btn">登录</button>
+		</form>
+		<div class="login-other">
+			<ul class="clearfix">
+				<li>
+					<div tapmode onclick="jumpToWin('register','注册')">没有账号？马上注册！</div>
+				</li>
+				<li>
+					<div tapmode onclick="jumpToWin('findpsw','找回密码')">忘记密码？找回密码！</div>
+				</li>
+			</ul>
+		</div>
+
+</body>
+<script src="../script/jquery.js"></script>
+<script src="../script/common.js"></script>
+<script>
+  apiready = function(){
+    console.log(api)
+  }
+  // function jumpToRegister (){
+  //   api.openWin({
+  //     name:'register',
+  //     url:'./register.html',
+  //     useWKWebView:true,
+  //     historyGestureEnabled:true,
+  //     scaleEnabled:true,
+  //     allowEdit:true
+  //   })
+  // }
+  // function jumpToFindpsw (){
+  //   api.openWin({
+  //     name:'findpsw',
+  //     url:'./findpsw.html',
+  //     useWKWebView:true,
+  //     historyGestureEnabled:true,
+  //     scaleEnabled:true,
+  //     allowEdit:true
+  //   })
+  // }
+</script>
+</html>

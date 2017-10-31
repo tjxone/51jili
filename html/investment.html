@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head >
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no,minimal-ui">
+	<meta name="keywords" content="集利财富，集利网，投资理财，网络理财，个人理财，互联网理财，互联网金融，固定收益，本息保障，个人贷款，网络贷款，网络借贷，小额贷款，信用贷款，担保贷款，网贷平台，投融资平台">
+	<meta name="description" content="集利财富：安全可信赖的投资理财平台，为大众用户提供低门槛、可信赖、有保障的投资理财服务！在集利财富，足不出户、轻点鼠标，即可便捷投资、安享收益！">
+	<meta name="apple-mobile-web-app-title" content="集利财富，点滴投资，聚集好利，安全可信赖的投资理财平台" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<link rel="stylesheet" href="../css/fontello.css">
+	<link rel="stylesheet" href="../css/swiper.min.css">
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/common.css">
+	<title>投标专区－集利财富</title>
+  <style>
+    body{
+      background:rgba(0,0,0,0)
+    }
+  </style>
+</head>
+<body>
+	<div class="nei-title">
+		<div  class="back"><i class="replace"></i></div>
+		<h1>
+      <div href="/investment/index/21" class="active">投标专区</div>
+    </h1>
+		<div class="back"><i class="replace"></i></div>
+	</div>
+
+</div>
+</body>
+<script src="../script/jquery.js"></script>
+<script src="../common.js"></script>
+<script>
+  apiready = function(){
+    api.openFrame({
+        name: 'investment',
+        url: './investment_frame.html',
+        rect: {
+            x: 0,
+            y: $('.nei-title')[0].offsetHeight,
+            w: 'auto',
+            h: api.frameHeight-$('.nei-title')[0].offsetHeight
+        },
+        pageParam: {
+            name: 'test'
+        },
+        bounces: true,
+        bgColor: '#edf3f8',
+        vScrollBarEnabled: true,
+        hScrollBarEnabled: true
+    });
+
+    //默认打开index为0的页面，把投资内容隐藏
+		// alert('隐藏')
+		api.setFrameAttr({
+			name:'investment',
+			hidden:true
+		})
+		// alert('罗后')
+    api.sendFrameToBack({
+      from:'investment'
+    })
+
+    //点击筛选以外地方设置investment的背景色为rgba(255,255,255,1)，并且把内容区移到上层
+    $('.nei-title .active').click(function(){
+      alert(1)
+      api.bringFrameToFront({
+          from: 'investment',
+      });
+			api.bringFrameToFront({
+					from: 'investment',
+			});
+      api.setFrameAttr({
+          name: 'investment',
+          bgColor: 'rgba(255,255,255,1)',
+      });
+    })
+
+    //点击筛选后设置investment的透明度为0.5黑色，并且把内容区移到下层
+    $('.nav-list-screen li').click(function(){
+      api.setFrameAttr({
+          name: 'investment',
+          bgColor: 'rgba(0,0,0.5)',
+      });
+			api.bringFrameToFront({
+					from: 'frame1',
+			});
+      // api.sendFrameToBack({
+      //   from:'investment'
+      // })
+    })
+  }
+</script>
+</html>
