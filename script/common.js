@@ -114,7 +114,7 @@ function showToastMsg(content){
 function open51Url(jumpUrl,jumpTitle){
     api.openWin({
       name:'urlWin',
-      url:'widget://urlWin.html',
+      url:'widget://html/urlWin.html',
       useWKWebView:true,
       historyGestureEnabled:true,
       pageParam:{
@@ -163,5 +163,20 @@ function jumpToWin(name,title,isbackvalue){
         title:title,
         isback:!isbackvalue? true : false
       }
+    })
+}
+
+//***
+//**跳到主页指定frame
+//**params:
+//** index number 数字(必填)
+//**
+function jumpToIndex(index){
+    api.execScript({
+      name:'index',
+      script:"randomSwitchBtn($('.footer-nav li:eq("+index+")')[0])",
+    })
+    api.closeToWin({
+      name:'index'
     })
 }

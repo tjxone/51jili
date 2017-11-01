@@ -46,7 +46,7 @@
 						元
 					</em>
 				</li>
-				<li>
+				<li tapmode onclick="jumpToWin('tenderNowCoupon','可用礼券')">
 					<span class="coupon_name">礼券</span>
 					<em class="color3 fs14 ty-ch" data-value="" data-type="">
             <i id="cou_num">0</i>张礼券可用
@@ -67,27 +67,42 @@
 			预计收益<em class="color-red">￥<i>920.00</i></em>（投标 <span>10000</span>元）
 		</div>
 		<div class="toubiao-rule">
-				<p><i class="ok"></i><input type="checkbox" name="rule" checked="true">我已阅读了解并接受<a class="rule">《集利财富网借款协议》</a></p>
+				<p><i class="ok"></i><input type="checkbox" name="rule" checked="true">我已阅读了解并接受<span class="rule" tapmode >《集利财富网借款协议》</span></p>
 			</div>
 		<div class="form-tips" id="msgdemo1">
 			<p class=""></p>
 		</div>
-
-                        <input type="hidden" value="" id="reback_url" />
-                        <input type="hidden" value="2857" name="b_id" />
-                        <input type="hidden" value="21" name="n_id" />
-                        <input type="hidden" value="084cf9c2504d4a9063ed4a2366e9a4ed" name="webtoken" />
-                        <input type="hidden" name="agree_t" value='1'>
-<!--			<input type="hidden" name="item_name" value='安贷无忧'>投标项目-->
-			<input type="hidden" name="pay_num" value=''>
-			<!--<input type="hidden" name="ti_num" value='0' data-value="0">-->
-                        <input type="hidden" id="uic_id" value="0" name="uic_id" />
-                        <input type="hidden" id="uc_id" value="0" name="uc_id" />
-			<button type="button" class="btn toubiao-btn" data-value="2857">立即投标</button>
-
+			<button tapmode type="button" class="btn toubiao-btn" data-value="2857">立即投标</button>
 		</form>
 
 </div>
 </body>
+<script src="../script/jquery.js"></script>
+<script src="../script/common.js"></script>
+<script>
+  apiready = function(){
+    console.log(api)
+    //点击投标，判断余额，
+      // 通过输入交易密码
+        // 投资成功
+      // 不通过跳转充值页面
+    $('.toubiao-btn').on('click',function(){
+      prompt('请输入交易密码')
+      api.openWin({
+          name: 'tenderSuccess',
+          url: './tenderSuccess.html',
+          pageParam: {
+              id: 'GYL002857',//项目id
+              amount:$("input[name='money_num']").val()
+          }
+      });
+    })
 
+    //借款协议地址为‘contract/index/'+项目编号+'/1’
+    $('.toubiao-rule span').on('click',function(){
+      open51Url('contract/index/2859/1','集利财富网借款借款协议')
+    })
+
+  }
+</script>
 </html>

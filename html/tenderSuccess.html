@@ -12,52 +12,39 @@
 	<link rel="stylesheet" href="../css/swiper.min.css">
 	<link rel="stylesheet" href="../css/bootstrap.min.css">
 	<link rel="stylesheet" href="../css/common.css">
-	<title>消息管理－集利财富</title>
-  <style>
-    .couponList{
-      padding:10px 30px 0px 30px;
-      background:#fff;
-    }
-
-    .couponList li{
-      padding-top:10px;
-      border-bottom:1px solid #999;
-    }
-
-    .couponList li h3{
-      font-size:20px;
-      color:#777
-    }
-
-    .couponList li h5{
-      padding-top:5px;
-      padding-bottom:10px;
-    }
-  </style>
+  <title>投标成功－集利财富</title>
 </head>
 <body>
-  <div class="couponList">
-    <ul>
-      <li tapmode>
-        <h3>加息(月标可用)：1%</h3>
-        <h5>有效期：2017-11-22 15:16</h5>
-        <em class="active"></em>
-      </li>
-      <li tapmode>
-        <h3>加息(月标可用)：1%</h3>
-        <h5>有效期：2017-11-22 15:16</h5>
-        <em class=""></em>
-      </li>
-    </ul>
+  <div class="nei-title">
+    <div class="back"><i class="replace"></i></div>
+    <h1>投资成功</h1>
+    <div class="back"><i class="replace"></i></div>
   </div>
-</div>
+	<div class="main">
+		<div class="success-b">
+			<img src="../image/success.png">
+			<h1></h1>
+			<p></p>
+		</div>
+		<div class="btn-item">
+			<ul class="clearfix">
+				<li>
+					<div class="bg-blue" tapmode onclick="jumpToIndex(1)">继续投资</div>
+				</li>
+				<li>
+					<div class="bg-red" tapmode onclick="jumpToIndex(2)">个人中心</div>
+				</li>
+			</ul>
+		</div>
+	</div>
 </body>
 <script src="../script/jquery.js"></script>
 <script src="../script/common.js"></script>
 <script>
-  $('.couponList li').on('click',function(){
-    $('.couponList li em').removeClass('active');
-    $(this).find('em').toggleClass('active')
-  })
+  apiready = function(){
+    var param = api.pageParam
+    $('.success-b h1').html('您已经成功投资￥：'+param.amount+'元')
+    $('.success-b p').html('项目编号：'+param.id)
+  }
 </script>
 </html>

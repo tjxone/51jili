@@ -709,7 +709,7 @@ header {
 	font-size: 14px
 }
 
-.toubiao-rule p a {
+.toubiao-rule p span {
 	color: #4f83be;
 	text-decoration: underline
 }
@@ -976,7 +976,7 @@ header {
 	width: 50%
 }
 
-.btn-item a {
+.btn-item div {
 	display: inline-block;
 	width: 100%;
 	height: 50px;
@@ -3936,18 +3936,24 @@ header {
 		width: 55px
 	}
 
-	.item-recommend h1 img {
+	.item-recommend h1 img:first-of-type {
 		width: 90px;
 		height: 36px
 	}
 
-	.item-recommend h1 {
+	/*.item-recommend h1 {
 		font-size: 14px
-	}
+	}*/
 
 	.detail-b h3 {
 		font-size: 1pc
 	}
+}
+
+.item-recommend h1 img:first-of-type {
+	width: 90px;
+	height: 36px;
+	margin-right:10px;
 }
 
 @-webkit-keyframes logoDown {
@@ -4021,22 +4027,4 @@ header {
 	text-align: center;
 	font-size: 18px;
 	cursor: pointer
-}
-.couponList li{
-	position:relative;
-}
-.couponList em{
-	display:inline-block;
-	position: absolute;
-	right:10px;
-	top:50%;
-	width:20px;
-	height:20px;
-	background-repeat: no-repeat;
-	background-size: contain;
-	transform: translateY(-50%);
-
-}
-.couponList .active{
-	background-image:url('../image/ok1.png')
 }
