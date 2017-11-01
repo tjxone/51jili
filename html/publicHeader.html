@@ -33,7 +33,7 @@
         console.log(JSON.stringify(param))
         if (typeof(param.isback) && !param.isback) {
             $('.showback').addClass('hideback').removeClass('showback');
-            $('.hideback').addClass('showback').removeClass('hideback');
+            $('.hideReplaceBack').addClass('showReplaceBack').removeClass('hideReplaceBack');
         }
         $('.nei-title > h1').html(param.title);
         // 打开新窗口

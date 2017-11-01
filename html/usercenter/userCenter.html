@@ -154,19 +154,19 @@
     apiready = function() {};
     (function() {
         $('.msgRedirect').on('click', function() {
-            jumpToWin('login', '信息管理');
+            jumpToWin('usercenter/msg', '信息管理');
         });
         $('.chargeRedirect').on('click', function() {
-            jump('charge', './charge.html');
+            jumpToWin('usercenter/charge', '充值');
         });
         $('.withDrawalsRedirect').on('click', function() {
-            jump('withdrawals', './withdrawals.html')
+            jumpToWin('usercenter/withDrawals', '提现')
         });
         $('.incomeRedirect').on('click', function() {
-            jump('income', './income.html');
+            jumpToWin('usercenter/income', '收益概况');
         });
         $('.fundrecordRedirect').on('click', function() {
-            jump('fundrecord', './fundrecord.html');
+            jumpToWin('usercenter/fundrecord', '资金记录');
         });
         $('.fcodeRedirect').on('click', function() {
             jump('fcode', './fcode.html');

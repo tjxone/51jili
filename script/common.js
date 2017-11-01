@@ -155,7 +155,7 @@ function openUrl(jumpUrl, jumpTitle) {
 function jumpToWin(name, title, isbackvalue) {
     api.openWin({
         name: name,
-        url: './publicHeader.html',
+        url: 'widget://html/publicHeader.html',
         useWKWebView: true,
         historyGestureEnabled: true,
         pageParam: {
@@ -165,3 +165,13 @@ function jumpToWin(name, title, isbackvalue) {
         }
     })
 }
+//导航栏共用事件
+$('.nav-tab li').on('touchend', function() {
+    var $this = $(this);
+    var this_id = $this.attr('data-target');
+    $this.addClass('active').siblings('li').removeClass('active');
+    $('.nav-list').each(function() {
+        $(this).removeClass('active');
+        $('#' + this_id).addClass('active');
+    })
+});

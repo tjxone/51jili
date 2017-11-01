@@ -1,0 +1,8 @@
+#fundrecord .record-tab ul {
+    width: 640px;
+}
+
+#fundrecord .record-tab li {
+    width: 80px;
+    border-right: 0;
+}
