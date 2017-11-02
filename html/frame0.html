@@ -25,60 +25,53 @@
 		</div>
 	</header>
 	<div class="banner">
-		<div class="swiper-container">
+		<div class="swiper-container luobo">
 			<div class="swiper-wrapper">
         <div class="swiper-slide">
-					<img src="https://www.51jili.com/attachment/display/3378" alt="手机-新人专享">
+					<!-- <img src="https://www.51jili.com/attachment/display/3378" alt="手机-新人专享"> -->
 				</div>
         <div class="swiper-slide">
-					<img src="https://www.51jili.com/attachment/display/3357" alt="手机-信息披露">
+					<!-- <img src="https://www.51jili.com/attachment/display/3357" alt="手机-信息披露"> -->
 				</div>
         <div class="swiper-slide">
-					<img src="https://www.51jili.com/attachment/display/3345" alt="手机-六重保障">
+					<!-- <img src="https://www.51jili.com/attachment/display/3345" alt="手机-六重保障"> -->
 				</div>
       </div>
-			<!-- Add Pagination -->
-	        <div class="swiper-pagination"></div>
+	    <div class="swiper-pagination"></div>
+
+			<script id="indexLunbo_template" type="text/html">
+				<div class="swiper-wrapper">
+					{{each advs_one value key}}
+					<div class="swiper-slide"
+						{{if value.a_url!=''}}
+						tapmode onclick="open51Url('{{value.a_url}}','{{value.a_title}}')"
+						{{/if}}
+					style="background-image:url('{{value.a_img_url}}');"></div>
+					{{/each}}
+	      </div>
+		    <div class="swiper-pagination"></div>
+			</script>
+
 		</div>
 	</div
 		<div class="platform ">
 			<div class="platform-announcement">
 				<i><img src="../image/laba.png"></i>
-				<div class="platform-warp txtMarquee-left" id="platform-warp">
-					<div class="bd">
-						<ul class="infoList">
-              <li>
-                  <a href="/article/notices/183/398">关于集利财富乔迁新址公告</a>
-              </li>
-              <li>
-                  <a href="/article/notices/183/397">关于400客服热线电话更改公告</a>
-              </li>
-              <li>
-                  <a href="/article/notices/183/396">关于400客服电话升级的公告</a>
-              </li>
-              <li>
-                  <a href="/article/notices/183/395">集利财富2017国庆假期业务受理公告</a>
-              </li>
-              <li>
-                  <a href="/article/notices/183/394">关于平台系统服务器升级的公告</a>
-              </li>
-              <li>
-                  <a href="/article/notices/183/393">集利4周年第二波活动开启，供应链全项目期加息1%</a>
-              </li>
-              <li>
-                  <a href="/article/notices/183/392">集利4周年活动月，周年狂欢节正式开启</a>
-              </li>
-              <li>
-                  <a href="/article/notices/183/391">集利4周年系列活动：七夕之约鲜花节</a>
-              </li>
-              <li>
-                  <a href="/article/notices/183/390">安贷无忧理财周加息2.4%</a>
-              </li>
-              <li>
-                  <a href="/article/notices/183/389">关于公安对IDC机房进行IP关停演习的通知</a>
+				<div class="platform-warp txtMarquee-left swiper-container" id="platform-warp">
+						<ul class="infoList swiper-wrapper">
+              <li class="swiper-slide">
+
               </li>
           	</ul>
-					</div>
+						<script id="platform_template" type="text/html">
+							<ul class="infoList swiper-wrapper">
+								{{each notice value key}}
+								<li class="swiper-slide">
+									{{value.a_title}}
+								</li>
+								{{/each}}
+							</ul>
+						</script>
 				</div>
 			</div>
 			<div class="platform-advantage">
@@ -139,12 +132,49 @@
 <script src="../script/swiper.js"></script>
 <script src="../script/jquery.js"></script>
 <script src="../script/common.js"></script>
+<script src="../script/template-web.js"></script>
 <script src="../script/indexAnimation.js"></script>
 <script>
   apiready = function(){
-
+		indexRefresh()
     console.log(api)
   }
+
+	function indexRefresh(){
+		apiPost({
+			url:"https://www.51jili.com/Api/index",
+			values:{},
+			fun:function(ret,err){
+				if(ret.code == 1){
+					var data = ret.data;
+					console.dir(JSON.stringify(data))
+					//渲染轮播数据
+					var luoboHTML = template('indexLunbo_template',data);
+					$('.luobo').html(luoboHTML);
+					var mySwiper = new Swiper ('.luobo', {
+						direction: 'horizontal',
+						loop: true,
+						speed:300,
+						autoplay:3000,
+						pagination: '.swiper-pagination',
+					})
+
+					var platformHTML = template('platform_template' ,data);
+					$('.platform-warp').html(platformHTML);
+					var platformSwiper = new Swiper ('.platform-warp', {
+						direction: 'vertical',
+						loop: true,
+						speed:300,
+						autoplay:3000,
+					})
+				}
+			}
+		})
+	}
+
+
+
+
   function jumpToLogin(){
     api.openWin({
       name:'login',

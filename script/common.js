@@ -1,18 +1,23 @@
 
 //**自定义post函数
-//**函数参数：values（json），userAgent名称，url地址,fun（回调函数）
+//**params:
+//  values（json） string
+//  userAgent名称  string
+//  url地址  string
+//  fun（回调函数） function
 //**常量设置
 //**
 const userAgentDefalut = '51jili';
 const appid = '06wygzvDdr062rNwIXTC';
 const appkey = 'vxCdATZ76WeqjhF3ZNHu';
-const appver = '2.5.0';
+const appver = '2.6.0';
 const apptype = 'ios';
 function apiPost(params,progressSwitch){
   // url,values,fun,userAgent
   if(Object.getOwnPropertyNames(params).length<4){
     params.userAgent = userAgentDefalut;
   };
+  //引入加密模块
   var signature  = api.require('signature');
   var valuesObj = params.values,
       arr=[],
@@ -39,9 +44,11 @@ function apiPost(params,progressSwitch){
   signature.md5({
     data:str
   },function(ret,err){
+    //md5加密完成后
     if(ret.status){
       hash = ret.value;
       valuesObj.sign = hash;
+      //显示等待中准备发送请求
       showWaitingProgress();
       api.ajax({
         url: params.url,
@@ -55,18 +62,26 @@ function apiPost(params,progressSwitch){
             values:valuesObj
         },
       }, function(ret, err) {
+        //收到响应后关闭等待窗口
         api.hideProgress();
+        //关闭下拉刷新等待条
         api.refreshHeaderLoadDone();
+        //响应错误码时显示提示
         if(err&&err.code==0){
           showNetError();
         }else if(err&&err.code==1){
           showToastMsg('网络超时，请检查网络后重试哦~~')
+        }else if(err&&err.code==2){
+          showToastMsg('网络授权错误，请检查网络后重试哦~~')
+        }else if(err&&err.code==3){
+          showToastMsg('网络数据类型错误，请检查网络后重试哦~~')
         }
+        //传入ajax参数运行自定义回调函数
         params.fun(ret,err);
       })
     }else{
       //弹出转md5的错误
-      alert(JSON.stringify(err))
+      showToastMsg(JSON.stringify(err))
 
     }
   })
