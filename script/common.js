@@ -172,8 +172,6 @@ function jumpToWin(name, title, isbackvalue) {
     api.openWin({
         name: name,
         url: 'widget://html/publicHeader.html',
-        useWKWebView: true,
-        historyGestureEnabled: true,
         pageParam: {
             name: name,
             title: title,
