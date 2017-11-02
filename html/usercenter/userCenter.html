@@ -153,13 +153,13 @@
 <script type="text/javascript">
     apiready = function() {};
     (function() {
-        $('.msgRedirect').on('click', function() {
+        $('.msgRedirect').on('touchend', function() {
             jumpToWin('usercenter/msg', '信息管理');
         });
-        $('.chargeRedirect').on('click', function() {
+        $('.chargeRedirect').on('touchend', function() {
             jumpToWin('usercenter/charge', '充值');
         });
-        $('.withDrawalsRedirect').on('click', function() {
+        $('.withDrawalsRedirect').on('touchend', function() {
             jumpToWin('usercenter/withDrawals', '提现')
         });
         $('.incomeRedirect').on('click', function() {
@@ -169,7 +169,7 @@
             jumpToWin('usercenter/fundrecord', '资金记录');
         });
         $('.fcodeRedirect').on('click', function() {
-            jump('fcode', './fcode.html');
+            jumpToWin('usercenter/fcode', '邀请好友');
         });
         $('.myInvestRedirect').on('click', function() {
             jump('myInvest', './myInvest.html');

@@ -2386,7 +2386,7 @@ header {
     width: 50%
 }
 
-.invite-t li a {
+.invite-t li div {
     display: block;
     height: 40px;
     border: 1px solid #ef4646;
