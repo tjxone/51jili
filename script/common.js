@@ -114,7 +114,7 @@ function showToastMsg(content) {
 function open51Url(jumpUrl, jumpTitle) {
     api.openWin({
         name: 'urlWin',
-        url: './urlWin.html',
+        url: 'widget://html/urlWin.html',
         useWKWebView: true,
         historyGestureEnabled: true,
         pageParam: {
@@ -132,7 +132,7 @@ function open51Url(jumpUrl, jumpTitle) {
 function openUrl(jumpUrl, jumpTitle) {
     api.openWin({
         name: 'urlWin',
-        url: '../html/urlWin.html',
+        url: 'widget://html/urlWin.html',
         useWKWebView: true,
         historyGestureEnabled: true,
         pageParam: {
@@ -175,3 +175,18 @@ $('.nav-tab li').on('touchend', function() {
         $('#' + this_id).addClass('active');
     })
 });
+
+//***
+//**跳到主页指定frame
+//**params:
+//** index number 数字(必填)
+//**
+function jumpToIndex(index) {
+    api.execScript({
+        name: 'index',
+        script: "randomSwitchBtn($('.footer-nav li:eq(" + index + ")')[0])",
+    })
+    api.closeToWin({
+        name: 'index'
+    })
+}

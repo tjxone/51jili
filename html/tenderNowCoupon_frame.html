@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no,minimal-ui">
+	<meta name="keywords" content="集利财富，集利网，投资理财，网络理财，个人理财，互联网理财，互联网金融，固定收益，本息保障，个人贷款，网络贷款，网络借贷，小额贷款，信用贷款，担保贷款，网贷平台，投融资平台">
+	<meta name="description" content="集利财富：安全可信赖的投资理财平台，为大众用户提供低门槛、可信赖、有保障的投资理财服务！在集利财富，足不出户、轻点鼠标，即可便捷投资、安享收益！">
+	<meta name="apple-mobile-web-app-title" content="集利财富，点滴投资，聚集好利，安全可信赖的投资理财平台" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<link rel="stylesheet" href="../css/fontello.css">
+	<link rel="stylesheet" href="../css/swiper.min.css">
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/common.css">
+	<title>消息管理－集利财富</title>
+  <style>
+    .couponList{
+      padding:10px 30px 0px 30px;
+      background:#fff;
+    }
+
+    .couponList li{
+      position:relative;
+      padding-top:10px;
+      border-bottom:1px solid #999;
+    }
+
+    .couponList em{
+    	display:inline-block;
+    	position: absolute;
+    	right:10px;
+    	top:50%;
+    	width:20px;
+    	height:20px;
+    	background-repeat: no-repeat;
+    	background-size: contain;
+    	transform: translateY(-50%);
+    }
+
+    .couponList .active{
+    	background-image:url('../image/ok1.png')
+    }
+
+    .couponList li h3{
+      font-size:20px;
+      color:#777
+    }
+
+    .couponList li h5{
+      padding-top:5px;
+      padding-bottom:10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="couponList">
+    <ul>
+      <li tapmode onclick="changeClass(this)">
+        <h3>加息(月标可用)：1%</h3>
+        <h5>有效期：2017-11-22 15:16</h5>
+        <em class="active"></em>
+      </li>
+      <li tapmode onclick="changeClass(this)">
+        <h3>加息(月标可用)：1%</h3>
+        <h5>有效期：2017-11-22 15:16</h5>
+        <em class=""></em>
+      </li>
+    </ul>
+  </div>
+</div>
+</body>
+<script src="../script/jquery.js"></script>
+<script src="../script/common.js"></script>
+<script>
+	function changeClass(tag){
+		$('.couponList li em').removeClass('active');
+		$(tag).find('em').toggleClass('active')
+	}
+</script>
+</html>
