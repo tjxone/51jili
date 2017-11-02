@@ -1,0 +1,16 @@
+#fundrecord .record-tab ul {
+    width: 640px;
+}
+
+#fundrecord .record-tab ul li {
+    width: 80px;
+    border-right: 0px;
+}
+
+#fundrecord .reward-r {
+    padding-right: 0px;
+}
+
+#fundrecord .reward-slide {
+    padding: 10px;
+}

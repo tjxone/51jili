@@ -1,0 +1,52 @@
+#charge .login-input input {
+    font-size: 20px;
+    border: 0;
+}
+
+#charge .title {
+    color: #4f83be;
+    padding: 20px 10px;
+}
+
+#charge .re-info {
+    margin: 0 10px;
+}
+
+#charge .bankIcon,
+#withDrawals .bankIcon {
+    top: 16px;
+}
+
+#withDrawals .reward-list {
+    padding: 10px;
+}
+
+#withDrawals .reward-list-t {
+    line-height: 32px;
+}
+
+#withDrawals .reward-list-t,
+#withDrawals .reward-list-b {
+    position: relative;
+    padding: 10px 5px;
+    color: #999;
+    font-size: 16px;
+}
+
+#withDrawals .reward-list li {
+    padding: 0 5px;
+}
+
+#withDrawals .reward-list-t a.reward-list-del {
+    float: right;
+    line-height: 32px;
+    background-color: #ef4646;
+    color: #ffffff;
+    text-align: center;
+    width: 100px;
+    border-radius: 3px;
+}
+
+#withDrawals .reward-r {
+    padding-right: 0;
+}

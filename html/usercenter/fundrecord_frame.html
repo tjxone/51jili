@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no,minimal-ui">
+    <meta name="keywords" content="集利财富，集利网，投资理财，网络理财，个人理财，互联网理财，互联网金融，固定收益，本息保障，个人贷款，网络贷款，网络借贷，小额贷款，信用贷款，担保贷款，网贷平台，投融资平台">
+    <meta name="description" content="集利财富：安全可信赖的投资理财平台，为大众用户提供低门槛、可信赖、有保障的投资理财服务！在集利财富，足不出户、轻点鼠标，即可便捷投资、安享收益！">
+    <meta name="apple-mobile-web-app-title" content="集利财富，点滴投资，聚集好利，安全可信赖的投资理财平台" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="../../css/fontello.css">
+    <link rel="stylesheet" href="../../css/swiper.min.css">
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/fundrecord.css">
+    <title></title>
+</head>
+
+<body id="fundrecord">
+    <div class="record-tab attrValues1">
+        <ul class="clearfix">
+            <li class="active" tapmode>
+                <a>全部</a>
+            </li>
+            <li tapmode>
+                <a>投标</a>
+            </li>
+            <li tapmode>
+                <a>充值</a>
+            </li>
+            <li tapmode>
+                <a>提现</a>
+            </li>
+            <li tapmode>
+                <a>还款</a>
+            </li>
+            <li tapmode>
+                <a>转让</a>
+            </li>
+            <li tapmode>
+                <a>赎回</a>
+            </li>
+            <li tapmode>
+                <a>其它</a>
+            </li>
+        </ul>
+    </div>
+</body>
+<script src="../../script/jquery.js"></script>
+<script src="../../script/common.js"></script>
+<script>
+    apiready = function() {
+        var eFooterLis = $('.record-tab li');
+        eFooterLis.on('click', function() {
+            SwitchBtn(this);
+        });
+        framesGroup();
+
+        function framesGroup() {
+            var frames = [];
+            for (var i = 0, len = eFooterLis.length; i < len; i++) {
+                var url = '';
+                switch (i) {
+                    case 0:
+                        url = './fundrecord.html';
+                        name = '全部';
+                        break;
+                    case 1:
+                        url = './fundrecord.html';
+                        name = '投标';
+                        break;
+                    case 2:
+                        url = './fundrecord.html';
+                        name = '充值';
+                        break;
+                    case 3:
+                        url = './fundrecord.html';
+                        name = '提现';
+                        break;
+                    case 4:
+                        url = './fundrecord.html';
+                        name = '还款';
+                        break;
+                    case 5:
+                        url = './fundrecord.html';
+                        name = '转让';
+                        break;
+                    case 6:
+                        url = './fundrecord.html';
+                        name = '赎回';
+                        break;
+                    case 7:
+                        url = './fundrecord.html';
+                        name = '其它';
+                        break;
+                }
+                frames.push({
+                    url: url,
+                    bgColor: 'rgba(0,0,0,.2)',
+                    bounces: false,
+                    pageParam: {
+                        name: name
+                    }
+                })
+            }
+            api.openFrameGroup({
+                name: 'fundrecordGroup',
+                rect: {
+                    x: 0,
+                    y: 130,
+                    w: api.winWidth,
+                    h: api.frameHeight - $('.record-tab')[0].offsetHeight
+                },
+                scrollEnabled: false,
+                index: 0,
+                frames: frames
+            }, function(ret, err) {
+                var index = ret.index;
+                var eFootLis = $('.record-tab li');
+                var activeFootLi = $('.record-tab li.active');
+                $('.record-tab li.active').removeClass('active');
+                $(eFootLis[index]).addClass('active');
+            });
+        }
+
+        function SwitchBtn(tag) {
+            if (tag == $('.footer-nav li.active')[0]) return;
+            var index = 0;
+            for (var i = 0, len = eFooterLis.length; i < len; i++) {
+                if (tag == eFooterLis[i]) {
+                    index = i;
+                } else {
+                    $(eFooterLis[i]).removeClass('active');
+                }
+            }
+            $(eFooterLis[index]).addClass('active');
+
+            api.setFrameGroupIndex({
+                name: 'fundrecordGroup',
+                index: index
+            });
+        }
+    }
+</script>
+
+</html>
