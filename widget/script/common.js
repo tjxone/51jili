@@ -42,6 +42,8 @@ function apiPost(params,progressSwitch){
       str += temp+'&';
     }
     str += 'appid='+appid+'&appkey='+appkey;
+    console.log(str)
+
     signature.md5({
       data:str
     },function(ret,err){
@@ -49,6 +51,7 @@ function apiPost(params,progressSwitch){
       if(ret.status){
         hash = ret.value;
         valuesObj.sign = hash;
+        console.log(JSON.stringify(valuesObj))
         //显示等待中准备发送请求
         showWaitingProgress();
         api.ajax({
@@ -203,4 +206,20 @@ function jumpToIndex(index) {
     api.closeToWin({
         name: 'index'
     })
+}
+
+//***
+//**打开投资详情页
+//**params:
+//** bid number 项目id号(必填)
+//**
+function jumpToDetail(bid){
+  api.openWin({
+      name: 'investmentDetail',
+      url: './investmentDetail.html',
+      pageParam:{
+        bid:bid
+      }
+  });
+
 }

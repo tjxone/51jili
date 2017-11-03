@@ -20,19 +20,18 @@
 		<form id="login_form">
 			<ul class="login-input">
 				<li>
-					<input type="text" name="username" id="username" placeholder="请输入您的用户名或手机号码" datatype="*4-25" sucmsg="输入正确"  nullmsg="用户名为4到25个字符" errormsg="请输入正确的用户名!" autocomplete="off">
+					<input type="text" name="username" id="username" placeholder="请输入您的用户名或手机号码" datatype="*4-25"  nullmsg="用户名为4到25个字符" errormsg="请输入正确的用户名!" autocomplete="off">
 					<i><img src="../image/phone.png"></i>
 				</li>
 				<li>
-					<input type="password" name="password" id="password" placeholder="请输入您的密码" sucmsg="输入正确" datatype="*6-30,/^[a-zA-Z0-9_\.]+$/" nullmsg="请输入密码"  errormsg="密码为6到30个字符" autocomplete="off">
+					<input type="password" name="password" id="password" placeholder="请输入您的密码"  datatype="*6-30,/^[a-zA-Z0-9_\.]+$/" nullmsg="请输入密码"  errormsg="密码为6到30个字符" autocomplete="off">
 					<i><img src="../image/pwd.png"></i>
 				</li>
 			</ul>
 			<div class="form-tips" id="msgdemo">
 				<p></p>
 			</div>
-      <input type="hidden" name="mytoken" value="43dc1b749c877b2ed72ad07edac1821c" />
-			<button type="button" class="btn toubiao-btn">登录</button>
+			<button type="button" class="btn toubiao-btn" tapmode onclick="login()">登录</button>
 		</form>
 		<div class="login-other">
 			<ul class="clearfix">
@@ -44,33 +43,122 @@
 				</li>
 			</ul>
 		</div>
-
+		<div id="errorBox"></div>
 </body>
 <script src="../script/jquery.js"></script>
 <script src="../script/common.js"></script>
+<script src='../script/jquery.validate.min.js'></script>
 <script>
   apiready = function(){
     console.log(api)
   }
-  // function jumpToRegister (){
-  //   api.openWin({
-  //     name:'register',
-  //     url:'./register.html',
-  //     useWKWebView:true,
-  //     historyGestureEnabled:true,
-  //     scaleEnabled:true,
-  //     allowEdit:true
-  //   })
-  // }
-  // function jumpToFindpsw (){
-  //   api.openWin({
-  //     name:'findpsw',
-  //     url:'./findpsw.html',
-  //     useWKWebView:true,
-  //     historyGestureEnabled:true,
-  //     scaleEnabled:true,
-  //     allowEdit:true
-  //   })
-  // }
+
+	// //**
+	// //** 设置表单验证
+	// //**
+	// $('#login_form').validate({
+	//     debug: true, //调试模式取消submit的默认提交功能
+	//     errorClass: "showerror",
+	//     focusInvalid:false,
+	//     focusCleanup:true,
+	//     onblur:false,
+	//     onfocusout:false,
+	//     onkeyup:false,
+	//     rules:{
+	//         username:{
+	//             required:true,
+	//             isphone:true,
+	//             minlength:11,
+	//             maxlength:11
+	//         },
+	//         password:{
+	//             required:true,
+	//             ispsw:true
+	//         }
+	//     },
+	//     messages:{
+	//         username:{
+	//             required:"请输入手机号哦~",
+	//             isphone:'请输入正确格式手机号哦~',
+	//             maxlength:'手机长度为11位哦~',
+	// 						maxlength:'手机长度为11位哦~'
+	//         },
+	//         password:{
+	//             required:"请输入验证码哦~",
+	//             ispsw:'请输入6-30位字符',
+	//         }
+	//     },
+	//     // groups:{
+	//     //     username:"username userpwd"
+	//     // },
+	//     errorElement:'div',
+	//     errorPlacement:function(error,element){
+	//       if(element.attr('name')=="username"||
+	//       element.attr('name')=="userpwd"){
+	//         showToastMsg(error[0].textContent)
+	//       }
+	//     }
+	// });
+	// //自定义验证方法
+	// $.validator.addMethod('isphone',function(value,element){
+	//     var REG = /^1[3|4|5|8][0-9]\d{4,8}$/;
+	//     return this.optional(element) || (REG.test(value));
+	// });
+	// $.validator.addMethod('ispsw',function(value,element){
+	//     var REG = /^\w{6,30}$/;
+	//     return this.optional(element) || (REG.test(value));
+	// });
+	//
+	// $('.toubiao-btn').click(function(){
+	// 	$("#username").valid();
+	// 	$("#password").valid()
+	// })
+	function login(){
+		apiPost({
+			url:'https://www.51jili.com/Api/login',
+			values:{
+				'account':$('#username').val(),
+				'password':$('#password').val()
+			},
+			fun:function(ret,err){
+				if(ret.code == 0){
+					showToastMsg(ret.msg)
+				}else if(ret.code == 1){
+					// token存放在fs目录下，不要存放在cache目录，因为清除缓存的操作会清除掉
+	        var path = api.fsDir
+	        console.log(path)
+	        api.writeFile({
+	            path: path + '/person.txt',
+	            data: JSON.stringify(ret.data.token)
+	        }, function(ret, err) {
+	            if (ret.status) {
+	                var data = ret.data;
+	                console.log('写入a.txt到cacheFile')
+	                console.log(JSON.stringify(ret))
+	            } else {
+	                // alert(err.msg);
+	                console.log('error')
+	                console.log(err.code);
+	            }
+	        });
+	        api.readFile({
+	            path: path + '/a.txt'
+	        }, function(ret, err) {
+	            if (ret.status) {
+	                var data = JSON.parse(ret.data);
+	                console.log('读取a.txt')
+	                console.log(data.username)
+	            } else {
+	                // alert(err.msg);
+	                console.log('error')
+	                console.log(err.code);
+	            }
+	        });
+
+				}
+				console.log(JSON.stringify(ret))
+			}
+		})
+	}
 </script>
 </html>

@@ -46,39 +46,6 @@
             color: '#ef4646'
         });
         funIniGroup();
-        // token存放在fs目录下，不要存放在cache目录，因为清除缓存的操作会清除掉
-        var path = api.fsDir
-        console.log(path)
-        api.writeFile({
-            path: path + '/a.txt',
-            data: JSON.stringify({
-                username: 'tom'
-            })
-        }, function(ret, err) {
-            if (ret.status) {
-                var data = ret.data;
-                console.log('写入a.txt到cacheFile')
-                console.log(JSON.stringify(ret))
-            } else {
-                // alert(err.msg);
-                console.log('error')
-                console.log(err.code);
-            }
-        });
-        api.readFile({
-            path: path + '/a.txt'
-        }, function(ret, err) {
-            if (ret.status) {
-                var data = JSON.parse(ret.data);
-                console.log('读取a.txt')
-                console.log(data.username)
-            } else {
-                // alert(err.msg);
-                console.log('error')
-                console.log(err.code);
-            }
-        });
-
         doubleClickExit()
     }
 
