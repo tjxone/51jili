@@ -1,18 +1,18 @@
-#income .received-list li img {
+.received-list li img {
     display: block;
     height: 30px;
     margin-right: 5px;
 }
 
-#income .received-list li span {
+.received-list li span {
     top: 50%;
     margin-top: -12px;
     margin-left: -40px;
     font-size: 18px;
 }
 
-#income .received-list li small {
+.received-list li small {
     top: 50%;
     margin-top: -12px;
-    font-size: 18px;
+    font-size: 16px;
 }

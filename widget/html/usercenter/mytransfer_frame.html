@@ -15,21 +15,29 @@
     <link rel="stylesheet" href="../../css/common.css">
     <title>我的投资</title>
 </head>
+<style>
+    .tab4 li {
+        width: 20%;
+    }
+</style>
 
 <body>
     <div class="tab4 attrValues1">
         <ul>
             <li class="active" tapmode onclick="SwitchBtn(this)">
-                全部投资
+                全部
             </li>
             <li tapmode onclick="SwitchBtn(this)">
-                等待生效
+                未转让
             </li>
             <li tapmode onclick="SwitchBtn(this)">
-                正在回款
+                转让中
             </li>
             <li tapmode onclick="SwitchBtn(this)">
-                历史投资
+                已转让
+            </li>
+            <li tapmode onclick="SwitchBtn(this)">
+                已成交
             </li>
         </ul>
     </div>
@@ -47,20 +55,24 @@
                 var url = '';
                 switch (i) {
                     case 0:
-                        url = './fundrecord.html';
-                        name = '全部投资';
+                        url = './mytransfer.html';
+                        name = '全部';
                         break;
                     case 1:
-                        url = './fundrecord.html';
-                        name = '等待生效';
+                        url = './mytransfer.html';
+                        name = '未转让';
                         break;
                     case 2:
-                        url = './fundrecord.html';
-                        name = '正在回款';
+                        url = './mytransfer.html';
+                        name = '转让中';
                         break;
                     case 3:
-                        url = './fundrecord.html';
-                        name = '历史投资';
+                        url = './mytransfer.html';
+                        name = '已转让';
+                        break;
+                    case 4:
+                        url = './mytransfer.html';
+                        name = '已成交';
                         break;
                 }
                 frames.push({
