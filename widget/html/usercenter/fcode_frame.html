@@ -27,17 +27,30 @@
     <div class="invite-t">
         <ul class="clearfix">
             <li>
-                <div class="bg-red color5">已注册好友
+                <div class="bg-red color5 friend" tapmode>已注册好友
                     <em class="fs16">1</em> 人
                 </div>
             </li>
             <li>
-                <div class="color2">分红<em class="fs16 color-red">0.00</em>元</div>
+                <div class="color2 reward" tapmode>分红<em class="fs16 color-red">0.00</em>元</div>
             </li>
         </ul>
     </div>
     <h1 class="title">
         <span></span> 投资管理
-        <em href="fr color4">《奖励规则》</em>
+        <em class="fr color4">《奖励规则》</em>
     </h1>
+
 </body>
+<script src="../../script/jquery.js"></script>
+<script src="../../script/common.js"></script>
+<script>
+    apiready = function() {
+        $('.friend').on('touchend', function() {
+            jumpToWin('./fcodeFriend', '已注册好友');
+        });
+
+    }
+</script>
+
+</html>

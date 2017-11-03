@@ -117,7 +117,7 @@
     <div class="detail-style">
         <ul>
             <li>
-                <div class="certifyinfoRedirect">
+                <div class="certifyinfoRedirect" tapmode>
                     <span class="color2">安全信息</span>
                     <em>未设置<small class="color4 fs16 ml5 dpi">1</small><i class="icon-right-open-big"></i></em>
                 </div>
@@ -172,30 +172,21 @@
             jumpToWin('usercenter/fcode', '邀请好友');
         });
         $('.myInvestRedirect').on('click', function() {
-            jump('myInvest', './myInvest.html');
+            jumpToWin('usercenter/myinvest', '我的投资');
         });
         $('.myTransferRedirect').on('click', function() {
-            jump('myTransfer', './myTransfer.html');
+            jumpToWin('usercenter/mytransfer', '我的债权');
         });
         $('.paymentPlanRedirect').on('click', function() {
-            jump('paymentPlan', './paymentPlan.html');
+            jumpToWin('usercenter/paymentPlan', '回款记录');
         });
         $('.calendarRedirect').on('click', function() {
             jump('calendar', './calendar.html');
         });
 
-        function jump(name, url) {
-            var name = name;
-            var url = url;
-            api.openWin({
-                name: name,
-                url: url,
-                useWKWebView: true,
-                historyGestureEnabled: true,
-                scaleEnabled: true,
-                allowEdit: true
-            });
-        }
+        $('.certifyinfoRedirect').on('click', function() {
+            jumpToWin('usercenter/certifyinfo', '安全认证');
+        });
     })()
 </script>
 
