@@ -11,6 +11,8 @@ const appid = '06wygzvDdr062rNwIXTC';
 const appkey = 'vxCdATZ76WeqjhF3ZNHu';
 const appver = '2.6.0';
 const apptype = 'ios';
+const baseUrl = 'http://ksh.51jili.com/api/';
+// const baseUrl = 'https://www.51jili.com/api/';
 
 
 function apiPost(params,progressSwitch){
@@ -55,7 +57,7 @@ function apiPost(params,progressSwitch){
         //显示等待中准备发送请求
         showWaitingProgress();
         api.ajax({
-          url: params.url,
+          url: baseUrl+params.url,
           method: 'post',
           timeout:20,
           headers:{
