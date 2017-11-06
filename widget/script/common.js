@@ -11,78 +11,78 @@ const appid = '06wygzvDdr062rNwIXTC';
 const appkey = 'vxCdATZ76WeqjhF3ZNHu';
 const appver = '2.6.0';
 const apptype = 'ios';
+const url = 'http://ksh.51jili.com/api';
 
-
-function apiPost(params,progressSwitch){
+function apiPost(params, progressSwitch) {
     // url,values,fun,userAgent
-    if(Object.getOwnPropertyNames(params).length<4){
-      params.userAgent = userAgentDefalut;
+    if (Object.getOwnPropertyNames(params).length < 4) {
+        params.userAgent = userAgentDefalut;
     };
     //引入加密模块
-    var signature  = api.require('signature');
+    var signature = api.require('signature');
     var valuesObj = params.values,
-        arr=[],
+        arr = [],
         hash;
     valuesObj.time = Date.parse(new Date());
     valuesObj.appver = appver;
     valuesObj.apptype = apptype;
-    for(var item in valuesObj){
-      // php接受post的值若为空，则不接受这个键名，并且后台序列化加密的键名里面不出现
-      if(valuesObj[item]!=''){
-        var temp = item+':'+valuesObj[item];
-        arr.push(temp);
-      }
+    for (var item in valuesObj) {
+        // php接受post的值若为空，则不接受这个键名，并且后台序列化加密的键名里面不出现
+        if (valuesObj[item] != '') {
+            var temp = item + ':' + valuesObj[item];
+            arr.push(temp);
+        }
     }
     arr.sort();
     console.log(String(arr))
     var str = '';
-    for(var i of arr){
-      var index = i.indexOf(':');
-      var temp = i.slice(0,index)+'='+i.slice(index+1);
-      str += temp+'&';
+    for (var i of arr) {
+        var index = i.indexOf(':');
+        var temp = i.slice(0, index) + '=' + i.slice(index + 1);
+        str += temp + '&';
     }
-    str += 'appid='+appid+'&appkey='+appkey;
+    str += 'appid=' + appid + '&appkey=' + appkey;
     signature.md5({
-      data:str
-    },function(ret,err){
-      //md5加密完成后
-      if(ret.status){
-        hash = ret.value;
-        valuesObj.sign = hash;
-        //显示等待中准备发送请求
-        showWaitingProgress();
-        api.ajax({
-          url: params.url,
-          method: 'post',
-          timeout:20,
-          headers:{
-              "User-Agent":params.userAgent,
-              "Content-Type":"application/x-www-form-urlencoded; charset=UTF-8"
-          },
-          data:{
-              values:valuesObj
-          },
-        }, function(ret, err) {
-          //收到响应后关闭等待窗口
-          api.hideProgress();
-          //关闭下拉刷新等待条
-          api.refreshHeaderLoadDone();
-          //响应错误码时显示提示
-          if(err&&err.code==0){
-            showNetError();
-          }else if(err&&err.code==1){
-            showToastMsg('网络超时，请检查网络后重试哦~~')
-          }else if(err&&err.code==2){
-            showToastMsg('网络授权错误，请检查网络后重试哦~~')
-          }else if(err&&err.code==3){
-            showToastMsg('网络数据类型错误，请检查网络后重试哦~~')
-          }
-          //传入ajax参数运行自定义回调函数
-          params.fun(ret,err);
-        })
-      }else{
-        //弹出转md5的错误
-        showToastMsg(JSON.stringify(err))
+        data: str
+    }, function(ret, err) {
+        //md5加密完成后
+        if (ret.status) {
+            hash = ret.value;
+            valuesObj.sign = hash;
+            //显示等待中准备发送请求
+            showWaitingProgress();
+            api.ajax({
+                url: params.url,
+                method: 'post',
+                timeout: 20,
+                headers: {
+                    "User-Agent": params.userAgent,
+                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+                },
+                data: {
+                    values: valuesObj
+                },
+            }, function(ret, err) {
+                //收到响应后关闭等待窗口
+                api.hideProgress();
+                //关闭下拉刷新等待条
+                api.refreshHeaderLoadDone();
+                //响应错误码时显示提示
+                if (err && err.code == 0) {
+                    showNetError();
+                } else if (err && err.code == 1) {
+                    showToastMsg('网络超时，请检查网络后重试哦~~')
+                } else if (err && err.code == 2) {
+                    showToastMsg('网络授权错误，请检查网络后重试哦~~')
+                } else if (err && err.code == 3) {
+                    showToastMsg('网络数据类型错误，请检查网络后重试哦~~')
+                }
+                //传入ajax参数运行自定义回调函数
+                params.fun(ret, err);
+            })
+        } else {
+            //弹出转md5的错误
+            showToastMsg(JSON.stringify(err))
 
         }
     })

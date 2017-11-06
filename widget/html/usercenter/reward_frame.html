@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no,minimal-ui">
+    <meta name="keywords" content="集利财富，集利网，投资理财，网络理财，个人理财，互联网理财，互联网金融，固定收益，本息保障，个人贷款，网络贷款，网络借贷，小额贷款，信用贷款，担保贷款，网贷平台，投融资平台">
+    <meta name="description" content="集利财富：安全可信赖的投资理财平台，为大众用户提供低门槛、可信赖、有保障的投资理财服务！在集利财富，足不出户、轻点鼠标，即可便捷投资、安享收益！">
+    <meta name="apple-mobile-web-app-title" content="集利财富，点滴投资，聚集好利，安全可信赖的投资理财平台" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="../../css/fontello.css">
+    <link rel="stylesheet" href="../../css/swiper.min.css">
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/common.css">
+    <title>我的礼券</title>
+</head>
+
+<body>
+    <div class="tab4 attrValues1">
+        <ul>
+            <li class="active" tapmode onclick="SwitchBtn(this)">
+                加息券
+            </li>
+            <li tapmode onclick="SwitchBtn(this)">
+                代金券
+            </li>
+            <li tapmode onclick="SwitchBtn(this)">
+                礼品券
+            </li>
+            <li tapmode onclick="SwitchBtn(this)">
+                红包
+            </li>
+        </ul>
+    </div>
+</body>
+<script src="../../script/jquery.js"></script>
+<script src="../../script/common.js"></script>
+<script>
+    var eFooterLis = $('.tab4 li');
+    apiready = function() {
+        framesGroup();
+
+        function framesGroup() {
+            var frames = [];
+            for (var i = 0, len = eFooterLis.length; i < len; i++) {
+                var url = '';
+                switch (i) {
+                    case 0:
+                        url = './reward.html';
+                        name = '加息券';
+                        break;
+                    case 1:
+                        url = './cashCoupon.html';
+                        name = '代金券';
+                        break;
+                    case 2:
+                        url = './giftCoupon.html';
+                        name = '礼品券';
+                        break;
+                    case 3:
+                        url = './redPacket.html';
+                        name = '红包';
+                        break;
+                }
+                frames.push({
+                    name: 'frame' + i,
+                    url: url,
+                    bgColor: 'rgba(0,0,0,.2)',
+                    bounces: false,
+                    pageParam: {
+                        name: name
+                    }
+                })
+            }
+            api.openFrameGroup({
+                name: 'rewardGroup',
+                rect: {
+                    x: 0,
+                    y: 130,
+                    w: api.winWidth,
+                    h: api.frameHeight - $('.tab4')[0].offsetHeight
+                },
+                scrollEnabled: false,
+                index: 0,
+                frames: frames
+            }, function(ret, err) {
+                var index = ret.index;
+                var eFootLis = $('.tab4 li');
+                var activeFootLi = $('.tab4 li.active');
+                $('.tab4 li.active').removeClass('active');
+                $(eFootLis[index]).addClass('active');
+            });
+        }
+    }
+
+    function SwitchBtn(tag) {
+        if (tag == $('.tab4 li.active')[0]) return;
+        var index = 0;
+        for (var i = 0, len = eFooterLis.length; i < len; i++) {
+            if (tag == eFooterLis[i]) {
+                index = i;
+            } else {
+                $(eFooterLis[i]).removeClass('active');
+            }
+        }
+        $(eFooterLis[index]).addClass('active');
+
+        api.setFrameGroupIndex({
+            name: 'rewardGroup',
+            index: index
+        });
+    }
+</script>
+
+</html>
