@@ -44,7 +44,7 @@
    }
    var canvas = document.getElementById('canvas');
    var ctx = canvas.getContext('2d');
-   var schedule = $('#canvas').attr('data-value')
+   var schedule = $('#canvas').attr('data-value');
    var ring = new Ring(3 * Math.PI / 4, schedule); // 从3*Math.PI/4弧度开始，进度为50%的环
    var width = canvas.width,
        height = canvas.height;

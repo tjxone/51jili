@@ -3082,7 +3082,7 @@ header {
     line-height: 24px
 }
 
-.item-recommend-pay a {
+.item-recommend-pay div {
     position: relative;
     display: inline-block;
     width: 80%;
@@ -3114,7 +3114,7 @@ header {
     font-weight: bolder
 }
 
-.item-recommend.pass .item-recommend-pay a {
+.item-recommend.pass .item-recommend-pay div {
     border: 1px solid #ccc;
     background: 0 0;
     color: #999

@@ -30,6 +30,8 @@
 <script src="../script/common.js"></script>
 <script>
 	apiready = function(){
+		var params = api.pageParam;
+		var bid = params.bid;
 		api.openFrame({
 		    name: 'investmentDetail_frame',
 		    url: './investmentDetail_frame.html',
@@ -39,10 +41,7 @@
 		        w: 'auto',
 		        h: api.frameHeight-$('.footer-btn')[0].offsetHeight-$('.nei-title')[0].offsetHeight
 		    },
-		    bounces: true,
-		    bgColor: 'rgba(0,0,0,0)',
-		    vScrollBarEnabled: true,
-		    hScrollBarEnabled: true
+		    bounces: true
 		});
 
 	}

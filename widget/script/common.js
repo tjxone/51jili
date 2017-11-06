@@ -11,7 +11,8 @@ const appid = '06wygzvDdr062rNwIXTC';
 const appkey = 'vxCdATZ76WeqjhF3ZNHu';
 const appver = '2.6.0';
 const apptype = 'ios';
-const url = 'http://ksh.51jili.com/api';
+const baseUrl = 'http://ksh.51jili.com/api/';
+// const baseUrl = 'https://www.51jili.com/api/';
 
 function apiPost(params, progressSwitch) {
     // url,values,fun,userAgent
@@ -42,6 +43,8 @@ function apiPost(params, progressSwitch) {
         str += temp + '&';
     }
     str += 'appid=' + appid + '&appkey=' + appkey;
+    console.log(str)
+
     signature.md5({
         data: str
     }, function(ret, err) {
@@ -49,10 +52,11 @@ function apiPost(params, progressSwitch) {
         if (ret.status) {
             hash = ret.value;
             valuesObj.sign = hash;
-            //显示等待中准备发送请求
+            console.log(JSON.stringify(valuesObj))
+                //显示等待中准备发送请求
             showWaitingProgress();
             api.ajax({
-                url: params.url,
+                url: baseUrl + params.url,
                 method: 'post',
                 timeout: 20,
                 headers: {
@@ -203,4 +207,20 @@ function jumpToIndex(index) {
     api.closeToWin({
         name: 'index'
     })
+}
+
+//***
+//**打开投资详情页
+//**params:
+//** bid number 项目id号(必填)
+//**
+function jumpToDetail(bid) {
+    api.openWin({
+        name: 'investmentDetail',
+        url: './investmentDetail.html',
+        pageParam: {
+            bid: bid
+        }
+    });
+
 }

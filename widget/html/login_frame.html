@@ -22,19 +22,18 @@
         <form id="login_form">
             <ul class="login-input">
                 <li>
-                    <input type="text" name="username" id="username" placeholder="请输入您的用户名或手机号码" datatype="*4-25" sucmsg="输入正确" nullmsg="用户名为4到25个字符" errormsg="请输入正确的用户名!" autocomplete="off">
+                    <input type="text" name="username" id="username" placeholder="请输入您的用户名或手机号码" datatype="*4-25" nullmsg="用户名为4到25个字符" errormsg="请输入正确的用户名!" autocomplete="off">
                     <i><img src="../image/phone.png"></i>
                 </li>
                 <li>
-                    <input type="password" name="password" id="password" placeholder="请输入您的密码" sucmsg="输入正确" datatype="*6-30,/^[a-zA-Z0-9_\.]+$/" nullmsg="请输入密码" errormsg="密码为6到30个字符" autocomplete="off">
+                    <input type="password" name="password" id="password" placeholder="请输入您的密码" datatype="*6-30,/^[a-zA-Z0-9_\.]+$/" nullmsg="请输入密码" errormsg="密码为6到30个字符" autocomplete="off">
                     <i><img src="../image/pwd.png"></i>
                 </li>
             </ul>
             <div class="form-tips" id="msgdemo">
                 <p></p>
             </div>
-            <input type="hidden" name="mytoken" value="43dc1b749c877b2ed72ad07edac1821c" />
-            <button type="button" class="btn toubiao-btn" id="login">登录</button>
+            <button type="button" class="btn toubiao-btn" tapmode onclick="login()">登录</button>
         </form>
         <div class="login-other">
             <ul class="clearfix">
@@ -46,10 +45,11 @@
                 </li>
             </ul>
         </div>
-
+        <div id="errorBox"></div>
 </body>
 <script src="../script/jquery.js"></script>
 <script src="../script/common.js"></script>
+<script src='../script/jquery.validate.min.js'></script>
 <script>
     apiready = function() {
             var params = {

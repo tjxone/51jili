@@ -100,32 +100,82 @@
 			</div>
 		</div>
 		<!-- 推荐项目 -->
-    <div class="item-recommend "><!--不叠加class 为正常可投标，hot为火标，pass为其他状态标-->
-      <h1>
-        <img src="https://www.51jili.com/attachment/display/3310">GYL002858
-        <img src="../image/icon_phone.png" style="width: 60px;height: 40px;margin-right: 0;margin-left: 10px;">
-      </h1>
-			<div class="detail-b-info">
-				<canvas height="300" id="canvas" width="300" data-value="12.73"></canvas>
-				<h2>进度：<small>12.73%</small></h2>
-				<p>预期年化收益率</p>
-				<h4><i>8.8</i><em>%</em></h4>
-				<h3>期限<em>6</em>个月</h3>
-			</div>
-			<div class="item-recommend-pay">
-				<ul class="clearfix">
-					<li>
-						<h2>400,000</h2>
-						<p>借款金额（元）</p>
-					</li>
-					<li>
-						<h2>349,088</h2>
-						<p>可投金额（元）</p>
-					</li>
-				</ul>
-        <a href="/investment/detailed/21/2858">立即投标</a>
+		<div class="recommendBox">
+			<div class="item-recommend "><!--不叠加class 为正常可投标，hot为火标，pass为其他状态标-->
+	      <h1>
+	        <img src="https://www.51jili.com/attachment/display/3310">GYL002858
+	        <img src="../image/icon_phone.png" style="width: 60px;height: 40px;margin-right: 0;margin-left: 10px;">
+	      </h1>
+				<div class="detail-b-info">
+					<canvas height="300" id="canvas" width="300" data-value="12.73"></canvas>
+					<h2>进度：<small>12.73%</small></h2>
+					<p>预期年化收益率</p>
+					<h4><i>8.8</i><em>%</em></h4>
+					<h3>期限<em>6</em>个月</h3>
+				</div>
+				<div class="item-recommend-pay">
+					<ul class="clearfix">
+						<li>
+							<h2>400,000</h2>
+							<p>借款金额（元）</p>
+						</li>
+						<li>
+							<h2>349,088</h2>
+							<p>可投金额（元）</p>
+						</li>
+					</ul>
+	        <div >立即投标</div>
+				</div>
 			</div>
 		</div>
+
+
+		<script id="recommend_template" type="text/html">
+			{{set r = recommend[0]}}
+			<div class="item-recommend
+			{{if r.is_hot==1}}
+				hot
+			{{/if}}
+			{{if r.b_status_name!='投标中'}}
+				pass
+			{{/if}}
+			">
+				<h1>
+					<img src="{{r.bt_img}}">{{r.b_projecttitle}}
+					{{if r.canrsecoupon==1}}
+					<img src="../image/icon_phone.png" style="width: 60px;height: 40px;margin-right: 0;margin-left: 10px;">
+					{{/if}}
+					{{if r.b_assignbiddding==1}}
+					<img class="yu" src="../image/yu.png" style="width: 60px;height: 40px;margin-right: 0;margin-left: 10px;">
+					{{/if}}
+				</h1>
+				<div class="detail-b-info">
+					<canvas height="300" id="canvas" width="300" data-value="{{r.progress.slice(0,-1)}}"></canvas>
+					<h2>进度：<small>{{r.progress}}</small></h2>
+					<p>预期年化收益率</p>
+					<h4>
+						<i>{{r.Rate.slice(0,-1)}}</i><em>%</em>
+						{{if r.IncreasedRate != '0%'}}
+							+<i>{{r.IncreasedRate.slice(0,-1)}}</i><em>%</em>
+						{{/if}}
+					</h4>
+					<h3>期限<em>{{r.loandeadline.slice(0,-2)}}</em>个月</h3>
+				</div>
+				<div class="item-recommend-pay">
+					<ul class="clearfix">
+						<li>
+							<h2>{{r.b_need_loan}}</h2>
+							<p>借款金额（元）</p>
+						</li>
+						<li>
+							<h2>{{r.b_can_cast_loan}}</h2>
+							<p>可投金额（元）</p>
+						</li>
+					</ul>
+					<div tapmode onclick="jumpToDetail()">{{r.b_status_name}}</div>
+				</div>
+			</div>
+		</script>
 <div style="margin-bottom: 50px;"></div>
 
 </body>
@@ -142,12 +192,13 @@
 
 	function indexRefresh(){
 		apiPost({
-			url:"https://www.51jili.com/Api/index",
+			url:"index",
 			values:{},
 			fun:function(ret,err){
 				if(ret.code == 1){
-					var data = ret.data;
-					console.dir(JSON.stringify(data))
+					// var data = ret.data;
+					var json = '{"code":"1","msg":"操作成功","data":{"advs_one":[{"a_img_url":"https://www.51jili.com/attachment/display/3428","a_url":"/single/index/228/1","a_title":"手机-集车贷"},{"a_img_url":"https://www.51jili.com/attachment/display/3419","a_url":"/article/notices/183/399/1","a_title":"手机-合作"},{"a_img_url":"https://www.51jili.com/attachment/display/3378","a_url":"/giftcoupon/novice/1","a_title":"手机-新人专享"},{"a_img_url":"https://www.51jili.com/attachment/display/3357","a_url":"","a_title":"手机-信息披露"},{"a_img_url":"https://www.51jili.com/attachment/display/3345","a_url":"","a_title":"手机-六重保障"}],"recommend":[{"b_id":"2825","bt_name":"集利宝","bt_img":"https://www.51jili.com/attachment/display/3314","b_projecttitle":"JLB002825","Rate":"9.2%","IncreasedRate":"1%","b_interest_rate":"9.2%","b_need_loan":"500,000.00","b_actual_loan":"9,395.00","b_can_cast_loan":"490,605.00","progress":"1.88%","loandeadline":"12个月","b_status_name":"投标中","is_hot":"1","canrsecoupon":"1","b_assignbiddding":"0","add_i":"0%"}],"notice":[{"a_id":"399","a_title":"集利财富成为广州金融风险监测防控中心首批达成合作平台","n_id":"183","a_fileurl1":"","url":"/article/notices/183/399/1"},{"a_id":"398","a_title":"关于集利财富乔迁新址公告","n_id":"183","a_fileurl1":"","url":"/article/notices/183/398/1"},{"a_id":"397","a_title":"关于400客服热线电话更改公告","n_id":"183","a_fileurl1":"","url":"/article/notices/183/397/1"},{"a_id":"396","a_title":"关于400客服电话升级的公告","n_id":"183","a_fileurl1":"","url":"/article/notices/183/396/1"},{"a_id":"395","a_title":"集利财富2017国庆假期业务受理公告","n_id":"183","a_fileurl1":"","url":"/article/notices/183/395/1"},{"a_id":"394","a_title":"关于平台系统服务器升级的公告","n_id":"183","a_fileurl1":"","url":"/article/notices/183/394/1"},{"a_id":"393","a_title":"集利4周年第二波活动开启，供应链全项目期加息1%","n_id":"183","a_fileurl1":"","url":"/article/notices/183/393/1"},{"a_id":"392","a_title":"集利4周年活动月，周年狂欢节正式开启","n_id":"183","a_fileurl1":"","url":"/article/notices/183/392/1"},{"a_id":"391","a_title":"集利4周年系列活动：七夕之约鲜花节","n_id":"183","a_fileurl1":"","url":"/article/notices/183/391/1"},{"a_id":"390","a_title":"安贷无忧理财周加息2.4%","n_id":"183","a_fileurl1":"","url":"/article/notices/183/390/1"}]}}'
+					var data = JSON.parse(json).data;
 					//渲染轮播数据
 					var luoboHTML = template('indexLunbo_template',data);
 					$('.luobo').html(luoboHTML);
@@ -159,6 +210,7 @@
 						pagination: '.swiper-pagination',
 					})
 
+					//渲染公告数据
 					var platformHTML = template('platform_template' ,data);
 					$('.platform-warp').html(platformHTML);
 					var platformSwiper = new Swiper ('.platform-warp', {
@@ -167,24 +219,17 @@
 						speed:300,
 						autoplay:3000,
 					})
+
+					//渲染推荐标数据
+					var recommendHTML = template('recommend_template' ,data);
+					$('.recommendBox').html(recommendHTML);
+					drawCircle()
 				}
+
 			}
 		})
 	}
 
 
-
-
-  function jumpToLogin(){
-    api.openWin({
-      name:'login',
-      url:'../html/login.html',
-      useWKWebView:true,
-      historyGestureEnabled:true,
-      scaleEnabled:true,
-      allowEdit:true
-    })
-  }
-	drawCircle()
 </script>
 </html>
