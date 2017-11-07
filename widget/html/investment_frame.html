@@ -166,6 +166,8 @@
 
 </div>
 </body>
+<script src="../script/jquery.js"></script>
+<script src="../script/common.js"></script>
 <script>
 	apiread = function (){
 		console.log(api)
@@ -186,9 +188,21 @@
 					h:'auto',
 				}
 		});
-
 	}
 
-	
+	function refreshInvestmentData(){
+		apiPost({
+			url:'investment',
+			values:{
+				limit:10,
+				offset:0
+			},
+			fun:function(ret,err){
+				console.log(JSON.stringify(ret))
+			}
+		})
+	}
+
+
 </script>
 </html>

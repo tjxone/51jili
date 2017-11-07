@@ -71,8 +71,7 @@
                 name: 'frame' + i,
                 url: url,
                 bgColor: 'rgba(0,0,0,.2)',
-                bounces: false,
-                reload: true
+                bounces: false
             })
         }
         api.openFrameGroup({
@@ -115,17 +114,7 @@
         });
 
         //当index不为1时，把投标区内容隐藏，否则显示
-        if (index != 1) {
-            //ios专用
-            api.setFrameAttr({
-                    name: 'investment',
-                    hidden: true
-                })
-                // 安卓专用
-            api.sendFrameToBack({
-                from: 'investment'
-            })
-        } else {
+        if (index == 1) {
             //ios专用
             api.setFrameAttr({
                     name: 'investment',
@@ -135,6 +124,23 @@
             api.bringFrameToFront({
                 from: 'investment',
             });
+            // api.execScript({
+            //     frameName: 'investment',
+            //     script: 'refreshInvestmentData();'
+            // });
+            console.log('投资页framename' + api.frameName)
+            getToken()
+
+        } else {
+            //ios专用
+            api.setFrameAttr({
+                    name: 'investment',
+                    hidden: true
+                })
+                // 安卓专用
+            api.sendFrameToBack({
+                from: 'investment'
+            })
         }
         if (index == 2) {
             token = getToken({
