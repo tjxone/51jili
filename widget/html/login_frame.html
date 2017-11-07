@@ -52,7 +52,8 @@
 <script src='../script/jquery.validate.min.js'></script>
 <script>
     apiready = function() {
-
+			var prevPage = api.pageParam.prevPage
+			console.log(prevPage)
     }
 
     function login() {
@@ -68,10 +69,14 @@
                 var code = ret.code;
                 console.log(ret.data.token);
                 if (code == 1) {
+										// 登陆成功缓存token
                     api.setPrefs({
                         key: 'token',
                         value: ret.data.token
                     });
+										// 指定一个frame刷新页面
+										var prevPage = api.pageParam.prevPage
+										console.log(prevPage)
                     api.closeWin();
                 } else {
                     showToastMsg(ret.msg);

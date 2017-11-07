@@ -29,13 +29,13 @@ function apiPost(params, progressSwitch) {
     valuesObj.apptype = apptype;
     for (var item in valuesObj) {
         // php接受post的值若为空，则不接受这个键名，并且后台序列化加密的键名里面不出现
-        if (valuesObj[item] != '') {
+        if (valuesObj[item] != ''|| valuesObj[item]==0) {
             var temp = item + ':' + valuesObj[item];
             arr.push(temp);
         }
     }
     arr.sort();
-    console.log(String(arr))
+    console.log('排序后数组'+String(arr))
     var str = '';
     for (var i of arr) {
         var index = i.indexOf(':');
@@ -43,7 +43,7 @@ function apiPost(params, progressSwitch) {
         str += temp + '&';
     }
     str += 'appid=' + appid + '&appkey=' + appkey;
-    console.log(str)
+    console.log('序列化后字符串'+str)
 
     signature.md5({
         data: str
@@ -52,7 +52,7 @@ function apiPost(params, progressSwitch) {
         if (ret.status) {
             hash = ret.value;
             valuesObj.sign = hash;
-            console.log(JSON.stringify(valuesObj))
+            console.log('发送请求的数据'+JSON.stringify(valuesObj))
                 //显示等待中准备发送请求
             showWaitingProgress();
             api.ajax({
@@ -238,10 +238,10 @@ function jumpToDetail(bid) {
     });
 }
 
-}
 
 
-function getToken(name) {
+
+function getToken(name,newParams) {
     var token = api.getPrefs({
         key: 'token',
         sync: true
@@ -249,6 +249,6 @@ function getToken(name) {
     if (token) {
         return token;
     } else {
-        jumpToWin('login', '登陆', true);
+        jumpToWin('login','登陆',newParams);
     }
 }

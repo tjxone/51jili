@@ -42,14 +42,7 @@
             y: $('.nei-title')[0].offsetHeight,
             w: 'auto',
             h: api.frameHeight-$('.nei-title')[0].offsetHeight
-        },
-        pageParam: {
-            name: 'test'
-        },
-        bounces: true,
-        bgColor: '#edf3f8',
-        vScrollBarEnabled: true,
-        hScrollBarEnabled: true
+        }
     });
 
     //默认打开index为0的页面，把投资内容隐藏
@@ -87,9 +80,6 @@
 			api.bringFrameToFront({
 					from: 'frame1',
 			});
-      // api.sendFrameToBack({
-      //   from:'investment'
-      // })
     })
   }
 </script>

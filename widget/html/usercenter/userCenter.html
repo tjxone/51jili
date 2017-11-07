@@ -152,24 +152,8 @@
 <script src="../../script/common.js"></script>
 <script type="text/javascript">
     apiready = function() {
-        var token = getToken();
 
-        function getUserData() {
-            var params = {
-                url: 'user_center',
-                values: {
-                    token: token
-                },
-                fun: function(ret, err) {
-                    console.log(JSON.stringify(ret));
-                    if (ret.code == 0) {
-                        jumpToWin('login', '登陆');
-                    }
-                }
-            }
-            apiPost(params);
-        }
-        getUserData();
+
         (function() {
             $('.logout').on('click', function() {
                 api.removePrefs({
@@ -219,6 +203,22 @@
             });
         })()
     };
+    function getUserData() {
+        var token = getToken();
+        var params = {
+            url: 'user_center',
+            values: {
+                token: token
+            },
+            fun: function(ret, err) {
+                console.log(JSON.stringify(ret));
+                if (ret.code == 0) {
+                    jumpToWin('login', '登陆');
+                }
+            }
+        }
+        apiPost(params);
+    }
 </script>
 
 </html>
