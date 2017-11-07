@@ -67,9 +67,15 @@
             },
             fun: function(ret, err) {
                 var code = ret.code;
-                console.log(JSON.stringify(ret));
+                console.log(ret.data.token);
                 if (code == 1) {
-                    jumpToIndex('2');
+                    api.setPrefs({
+                        key: 'token',
+                        value: ret.data.token
+                    });
+                    api.closeWin();
+                } else {
+                    showToastMsg(ret.msg);
                 }
             }
         }

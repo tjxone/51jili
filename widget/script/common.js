@@ -224,3 +224,16 @@ function jumpToDetail(bid) {
     });
 
 }
+
+
+function getToken(name) {
+    var token = api.getPrefs({
+        key: 'token',
+        sync: true
+    });
+    if (token) {
+        return token;
+    } else {
+        jumpToWin('login', '登陆', true);
+    }
+}
