@@ -19,7 +19,7 @@
 <body>
     <div class="nei-title">
         <div class="back hideReplaceBack"><i class="replace"></i></div>
-        <div class="back showBack" tapmode ><i class="icon-left-open-big"></i></div>
+        <div class="back showBack" tapmode><i class="icon-left-open-big"></i></div>
         <h1></h1>
         <div class="back"><i class="replace"></i></div>
     </div>
@@ -28,8 +28,8 @@
 <script src="../script/common.js"></script>
 <script>
     apiready = function() {
-        $('.showBack').on('click',function(){
-          api.closeWin();
+        $('.showBack').on('click', function() {
+            api.closeWin();
         })
 
         //接收参数
@@ -37,25 +37,25 @@
         console.log(JSON.stringify(param))
 
         //是否需要返回键
-        if (typeof(param.backEnable)!='undefined' && !param.backEnable) {
+        if (typeof(param.backEnable) != 'undefined' && !param.backEnable) {
             $('.showBack').addClass('hideBack').removeClass('showBack');
             $('.hideReplaceBack').addClass('showReplaceBack').removeClass('hideReplaceBack');
             api.addEventListener({
-                name : 'keyback'
-            }, function (ret, err) {
-              return false
+                name: 'keyback'
+            }, function(ret, err) {
+                return false
             });
         }
 
         //返回键是否需要返回到首页,默认是关闭窗口
-        if (typeof(param.isbackToIndex)!='undefined' && param.isbackToIndex){
-            $('.showBack').unbind().on('click',function(){
-              jumpToIndex(0)
+        if (typeof(param.isbackToIndex) != 'undefined' && param.isbackToIndex) {
+            $('.showBack').unbind().on('click', function() {
+                jumpToIndex(0)
             })
             api.addEventListener({
-                name : 'keyback'
-            }, function (ret, err) {
-              jumpToIndex(0)
+                name: 'keyback'
+            }, function(ret, err) {
+                jumpToIndex(0)
             });
         }
 
@@ -64,7 +64,7 @@
 
         // 打开新窗口
         api.openFrame({
-            name: param.name+'_frame',
+            name: param.name + '_frame',
             url: './' + param.name + '_frame.html',
             rect: {
                 x: 0,
@@ -72,8 +72,9 @@
                 w: 'auto',
                 h: 'auto'
             },
-            pageParam:{
-              prevPage:param.prevPage
+            pageParam: {
+                prevPage: param.prevPage,
+                prevWin: param.prevWin
             }
         })
     }

@@ -191,7 +191,8 @@ function jumpToWin(name, title, newParams) {
             title: title,
             backEnable: params.backEnable,
             isbackToIndex: params.isbackToIndex,
-            prevPage: api.frameName
+            prevPage: api.frameName,
+            prevWin: api.winName
         },
         slidBackEnabled: params.slidBackEnabled
     })
@@ -238,10 +239,8 @@ function jumpToDetail(bid) {
     });
 }
 
-}
 
-
-function getToken(name) {
+function getToken(newParams) {
     var token = api.getPrefs({
         key: 'token',
         sync: true
@@ -249,6 +248,6 @@ function getToken(name) {
     if (token) {
         return token;
     } else {
-        jumpToWin('login', '登陆', true);
+        jumpToWin('login', '登陆', newParams);
     }
 }

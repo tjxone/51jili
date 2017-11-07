@@ -51,9 +51,12 @@
 <script src="../script/common.js"></script>
 <script src='../script/jquery.validate.min.js'></script>
 <script>
+    var params;
     apiready = function() {
+        params = api.pageParam;
 
     }
+
 
     function login() {
         var username = $('#username').val();
@@ -80,7 +83,6 @@
         }
         apiPost(params);
     }
-
 </script>
 
 </html>
