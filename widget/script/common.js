@@ -223,5 +223,24 @@ function jumpToDetail(bid){
         bid:bid
       }
   });
+}
+
+//***
+//**获取缓存的token，有则返回数值，没则返回false
+//**params:
+//** bid number 项目id号(必填)
+//**
+function getToken(){
+  var token = '';
+  api.getPrefs({
+    key:'token'
+  },function(ret,err){
+    if(ret.token!=''){
+      token = ret.token
+      return token
+    }else{
+      return false
+    }
+  })
 
 }
