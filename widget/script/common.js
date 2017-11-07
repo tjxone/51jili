@@ -174,17 +174,26 @@ function openUrl(jumpUrl, jumpTitle) {
 //** backEnable boolen 是否有后退键 默认有，取值boolean(可选)
 //** isbackToIndex boolen 后退键是否跳转到首页，默认不跳转，取值boolean(可选)
 //**
-function jumpToWin(name, title,slidBackEnabled,backEnable,isbackToIndex) {
+function jumpToWin(name, title , newParams) {
+    // 默认设置
+    var defaultParams = {
+      slidBackEnabled:true,
+      backEnable:true,
+      isbackToIndex:false
+    };
+    //继承新设置
+    var params = Object.assign(defaultParams,newParams)
     api.openWin({
         name: name,
         url: 'widget://html/publicHeader.html',
         pageParam: {
             name: name,
             title: title,
-            backEnable: backEnable,
-            isbackToIndex: isbackToIndex
+            backEnable: params.backEnable,
+            isbackToIndex: params.isbackToIndex,
+            prevPage:api.frameName
         },
-        slidBackEnabled:slidBackEnabled
+        slidBackEnabled:params.slidBackEnabled
     })
 }
 

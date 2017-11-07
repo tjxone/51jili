@@ -31,21 +31,35 @@
         $('.showBack').on('click',function(){
           api.closeWin();
         })
-        var slidBackEnabledDefault = true;
+
         //接收参数
         var param = api.pageParam;
         console.log(JSON.stringify(param))
+
         //是否需要返回键
         if (typeof(param.backEnable)!='undefined' && !param.backEnable) {
             $('.showBack').addClass('hideBack').removeClass('showBack');
             $('.hideReplaceBack').addClass('showReplaceBack').removeClass('hideReplaceBack');
+            api.addEventListener({
+                name : 'keyback'
+            }, function (ret, err) {
+              return false
+            });
         }
+
         //返回键是否需要返回到首页,默认是关闭窗口
         if (typeof(param.isbackToIndex)!='undefined' && param.isbackToIndex){
             $('.showBack').unbind().on('click',function(){
               jumpToIndex(0)
             })
+            api.addEventListener({
+                name : 'keyback'
+            }, function (ret, err) {
+              jumpToIndex(0)
+            });
         }
+
+        //传入标题
         $('.nei-title > h1').html(param.title);
 
         // 打开新窗口
@@ -57,6 +71,9 @@
                 y: $('.nei-title')[0].offsetHeight,
                 w: 'auto',
                 h: 'auto'
+            },
+            pageParam:{
+              prevPage:param.prevPage
             }
         })
     }
