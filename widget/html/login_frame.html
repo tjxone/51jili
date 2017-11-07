@@ -52,51 +52,50 @@
 <script src='../script/jquery.validate.min.js'></script>
 <script>
     apiready = function() {
-            var params = {
-                url: url + '/index',
-                values: {},
-                fun: function(ret, err) {
-                    api.alert({
-                        msg: JSON.stringify(ret)
-                    });
+        console.log(api);
+    }
+
+
+    function login() {
+        var username = $('#username').val();
+        var password = $('#password').val();
+        var params = {
+            url: 'login',
+            values: {
+                'account': username,
+                'password': password
+            },
+            fun: function(ret, err) {
+                var code = ret.code;
+                console.log(JSON.stringify(ret));
+                if (code == 1) {
+                    jumpToIndex('2');
                 }
             }
-            apiPost(params);
-            // api.ajax({
-            //     url: url + '/index',
-            //     method: 'post'
-            // }, function(ret, err) {
-            //     if (ret) {
-            //         api.alert({
-            //             msg: JSON.stringify(ret)
-            //         });
-            //     } else {
-            //         api.alert({
-            //             msg: JSON.stringify(err)
-            //         });
-            //     }
-            // });
         }
-        // function jumpToRegister (){
-        //   api.openWin({
-        //     name:'register',
-        //     url:'./register.html',
-        //     useWKWebView:true,
-        //     historyGestureEnabled:true,
-        //     scaleEnabled:true,
-        //     allowEdit:true
-        //   })
-        // }
-        // function jumpToFindpsw (){
-        //   api.openWin({
-        //     name:'findpsw',
-        //     url:'./findpsw.html',
-        //     useWKWebView:true,
-        //     historyGestureEnabled:true,
-        //     scaleEnabled:true,
-        //     allowEdit:true
-        //   })
-        // }
+        apiPost(params);
+    }
+
+    // function jumpToRegister (){
+    //   api.openWin({
+    //     name:'register',
+    //     url:'./register.html',
+    //     useWKWebView:true,
+    //     historyGestureEnabled:true,
+    //     scaleEnabled:true,
+    //     allowEdit:true
+    //   })
+    // }
+    // function jumpToFindpsw (){
+    //   api.openWin({
+    //     name:'findpsw',
+    //     url:'./findpsw.html',
+    //     useWKWebView:true,
+    //     historyGestureEnabled:true,
+    //     scaleEnabled:true,
+    //     allowEdit:true
+    //   })
+    // }
 </script>
 
 </html>
