@@ -170,19 +170,24 @@ function openUrl(jumpUrl, jumpTitle) {
 //**params:
 //** name string 名字(必填)
 //** title  string 标题（必填）
-//** isback boolen 是否后退(可选)
+//** slidBackEnabled boolen 是否允许活动后退IOS，默认允许，取值boolean (可选)
+//** backEnable boolen 是否有后退键 默认有，取值boolean(可选)
+//** isbackToIndex boolen 后退键是否跳转到首页，默认不跳转，取值boolean(可选)
 //**
-function jumpToWin(name, title, isbackvalue) {
+function jumpToWin(name, title, slidBackEnabled, backEnable, isbackToIndex) {
     api.openWin({
         name: name,
         url: 'widget://html/publicHeader.html',
         pageParam: {
             name: name,
             title: title,
-            isback: !isbackvalue ? true : false
-        }
+            backEnable: backEnable,
+            isbackToIndex: isbackToIndex
+        },
+        slidBackEnabled: slidBackEnabled
     })
 }
+
 //导航栏共用事件
 $('.nav-tab li').on('touchend', function() {
     var $this = $(this);
@@ -222,6 +227,7 @@ function jumpToDetail(bid) {
             bid: bid
         }
     });
+}
 
 }
 
