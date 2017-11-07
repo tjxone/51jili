@@ -1,138 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-<head >
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no,minimal-ui">
-	<meta name="keywords" content="集利财富，集利网，投资理财，网络理财，个人理财，互联网理财，互联网金融，固定收益，本息保障，个人贷款，网络贷款，网络借贷，小额贷款，信用贷款，担保贷款，网贷平台，投融资平台">
-	<meta name="description" content="集利财富：安全可信赖的投资理财平台，为大众用户提供低门槛、可信赖、有保障的投资理财服务！在集利财富，足不出户、轻点鼠标，即可便捷投资、安享收益！">
-	<meta name="apple-mobile-web-app-title" content="集利财富，点滴投资，聚集好利，安全可信赖的投资理财平台" />
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<link rel="stylesheet" href="../css/fontello.css">
-	<link rel="stylesheet" href="../css/swiper.min.css">
-	<link rel="stylesheet" href="../css/bootstrap.min.css">
-	<link rel="stylesheet" href="../css/common.css">
-<title>会员登录－集利财富</title>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no,minimal-ui">
+    <meta name="keywords" content="集利财富，集利网，投资理财，网络理财，个人理财，互联网理财，互联网金融，固定收益，本息保障，个人贷款，网络贷款，网络借贷，小额贷款，信用贷款，担保贷款，网贷平台，投融资平台">
+    <meta name="description" content="集利财富：安全可信赖的投资理财平台，为大众用户提供低门槛、可信赖、有保障的投资理财服务！在集利财富，足不出户、轻点鼠标，即可便捷投资、安享收益！">
+    <meta name="apple-mobile-web-app-title" content="集利财富，点滴投资，聚集好利，安全可信赖的投资理财平台" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="../css/fontello.css">
+    <link rel="stylesheet" href="../css/swiper.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <title>会员登录－集利财富</title>
 </head>
+
 <body>
-	<div class="login" style="padding-top: 20px;">
-		<img src="../image/logo1.png" style="width: 200px;">
-		<form id="login_form">
-			<ul class="login-input">
-				<li>
-					<input type="text" name="username" id="username" placeholder="请输入您的用户名或手机号码" datatype="*4-25"  nullmsg="用户名为4到25个字符" errormsg="请输入正确的用户名!" autocomplete="off">
-					<i><img src="../image/phone.png"></i>
-				</li>
-				<li>
-					<input type="password" name="password" id="password" placeholder="请输入您的密码"  datatype="*6-30,/^[a-zA-Z0-9_\.]+$/" nullmsg="请输入密码"  errormsg="密码为6到30个字符" autocomplete="off">
-					<i><img src="../image/pwd.png"></i>
-				</li>
-			</ul>
-			<div class="form-tips" id="msgdemo">
-				<p></p>
-			</div>
-			<button type="button" class="btn toubiao-btn" tapmode onclick="login()">登录</button>
-		</form>
-		<div class="login-other">
-			<ul class="clearfix">
-				<li>
-					<div tapmode onclick="jumpToWin('register','注册')">没有账号？马上注册！</div>
-				</li>
-				<li>
-					<div tapmode onclick="jumpToWin('findpsw','找回密码')">忘记密码？找回密码！</div>
-				</li>
-			</ul>
-		</div>
-		<div id="errorBox"></div>
+    <div class="login" style="padding-top: 20px;">
+        <img src="../image/logo1.png" style="width: 200px;">
+        <form id="login_form">
+            <ul class="login-input">
+                <li>
+                    <input type="text" name="username" id="username" placeholder="请输入您的用户名或手机号码" datatype="*4-25" nullmsg="用户名为4到25个字符" errormsg="请输入正确的用户名!" autocomplete="off">
+                    <i><img src="../image/phone.png"></i>
+                </li>
+                <li>
+                    <input type="password" name="password" id="password" placeholder="请输入您的密码" datatype="*6-30,/^[a-zA-Z0-9_\.]+$/" nullmsg="请输入密码" errormsg="密码为6到30个字符" autocomplete="off">
+                    <i><img src="../image/pwd.png"></i>
+                </li>
+            </ul>
+            <div class="form-tips" id="msgdemo">
+                <p></p>
+            </div>
+            <button type="button" class="btn toubiao-btn" tapmode onclick="login()">登录</button>
+        </form>
+        <div class="login-other">
+            <ul class="clearfix">
+                <li>
+                    <div tapmode onclick="jumpToWin('register','注册')">没有账号？马上注册！</div>
+                </li>
+                <li>
+                    <div tapmode onclick="jumpToWin('findpsw','找回密码')">忘记密码？找回密码！</div>
+                </li>
+            </ul>
+        </div>
+        <div id="errorBox"></div>
 </body>
 <script src="../script/jquery.js"></script>
 <script src="../script/common.js"></script>
 <script src='../script/jquery.validate.min.js'></script>
 <script>
-  apiready = function(){
-    console.log(api)
-  }
+    apiready = function() {
+        
+    }
 
-	// //**
-	// //** 设置表单验证
-	// //**
-	// $('#login_form').validate({
-	//     debug: true, //调试模式取消submit的默认提交功能
-	//     errorClass: "showerror",
-	//     focusInvalid:false,
-	//     focusCleanup:true,
-	//     onblur:false,
-	//     onfocusout:false,
-	//     onkeyup:false,
-	//     rules:{
-	//         username:{
-	//             required:true,
-	//             isphone:true,
-	//             minlength:11,
-	//             maxlength:11
-	//         },
-	//         password:{
-	//             required:true,
-	//             ispsw:true
-	//         }
-	//     },
-	//     messages:{
-	//         username:{
-	//             required:"请输入手机号哦~",
-	//             isphone:'请输入正确格式手机号哦~',
-	//             maxlength:'手机长度为11位哦~',
-	// 						maxlength:'手机长度为11位哦~'
-	//         },
-	//         password:{
-	//             required:"请输入验证码哦~",
-	//             ispsw:'请输入6-30位字符',
-	//         }
-	//     },
-	//     // groups:{
-	//     //     username:"username userpwd"
-	//     // },
-	//     errorElement:'div',
-	//     errorPlacement:function(error,element){
-	//       if(element.attr('name')=="username"||
-	//       element.attr('name')=="userpwd"){
-	//         showToastMsg(error[0].textContent)
-	//       }
-	//     }
-	// });
-	// //自定义验证方法
-	// $.validator.addMethod('isphone',function(value,element){
-	//     var REG = /^1[3|4|5|8][0-9]\d{4,8}$/;
-	//     return this.optional(element) || (REG.test(value));
-	// });
-	// $.validator.addMethod('ispsw',function(value,element){
-	//     var REG = /^\w{6,30}$/;
-	//     return this.optional(element) || (REG.test(value));
-	// });
-	//
-	// $('.toubiao-btn').click(function(){
-	// 	$("#username").valid();
-	// 	$("#password").valid()
-	// })
-	function login(){
-		apiPost({
-			url:'login',
-			values:{
-				'account':$('#username').val(),
-				'password':$('#password').val()
-			},
-			fun:function(ret,err){
-				if(ret.code == 0){
-					showToastMsg(ret.msg)
-				}else if(ret.code == 1){
-					api.setPrefs({
-						key:'token',
-						value:ret.data.token
-					})
-				}
-				console.log(JSON.stringify(ret))
-			}
-		})
-	}
+
+    function login() {
+        var username = $('#username').val();
+        var password = $('#password').val();
+        var params = {
+            url: 'login',
+            values: {
+                'account': username,
+                'password': password
+            },
+            fun: function(ret, err) {
+                var code = ret.code;
+                console.log(JSON.stringify(ret));
+                if (code == 1) {
+                    jumpToIndex('2');
+                }
+            }
+        }
+        apiPost(params);
+    }
 
 </script>
+
 </html>
