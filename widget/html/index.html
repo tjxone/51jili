@@ -75,7 +75,7 @@
             frames.push({
                 name: 'frame' + i,
                 url: url,
-                bgColor: 'rgba(0,0,0,.2)',
+                bgColor: '#edf3f8',
                 bounces: bounces
             })
         }
@@ -119,6 +119,17 @@
             index: index
         });
 
+
+        // 当index为0时，点击主页键，显示或隐藏headtop
+        if (index == 0) {
+          api.execScript({
+              name:'index',
+              frameName: 'frame0',
+              script: 'isShowNavBar()'
+          });
+        }
+
+
         //当index为1时，把投标区内容隐藏，否则显示
         // 并且刷新投标信息(暂定)
         if (index == 1) {
@@ -151,12 +162,6 @@
         }
         //当index为2时，点击用户中心，刷新用户中心数据
         if (index == 2) {
-            // token = getToken({
-            //     isbackToIndex: true,
-            //     slidBackEnabled: false
-            // });
-            // getUserData();
-
             api.execScript({
                 name:'index',
                 frameName: 'frame2',
@@ -165,24 +170,7 @@
         }
     }
 
-    function getUserData() {
-        var params = {
-            url: 'user_center',
-            values: {
-                token: token
-            },
-            fun: function(ret, err) {
-                console.log(JSON.stringify(ret));
-                if (ret.code == 0) {
-                    jumpToWin('login', '登陆', {
-                        isbackToIndex: true,
-                        slidBackEnabled: false
-                    });
-                }
-            }
-        }
-        apiPost(params);
-    }
+
     //双击退出应用
     function doubleClickExit() {
         var closeApp = {

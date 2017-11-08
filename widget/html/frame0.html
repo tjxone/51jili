@@ -103,8 +103,8 @@
 		<div class="recommendBox">
 			<div class="item-recommend "><!--不叠加class 为正常可投标，hot为火标，pass为其他状态标-->
 	      <h1>
-	        <img src="https://www.51jili.com/attachment/display/3310">GYL002858
-	        <img src="../image/icon_phone.png" style="width: 60px;height: 40px;margin-right: 0;margin-left: 10px;">
+	        <img src="https://www.51jili.com/attachment/display/3310" >GYL002858
+	        <img src="../image/icon_phone.png" style="width: 60px;height: 40px;">
 	      </h1>
 				<div class="detail-b-info">
 					<canvas height="300" id="canvas" width="300" data-value="12.73"></canvas>
@@ -143,10 +143,10 @@
 				<h1>
 					<img src="{{r.bt_img}}">{{r.b_projecttitle}}
 					{{if r.canrsecoupon==1}}
-					<img src="../image/icon_phone.png" style="width: 60px;height: 40px;margin-right: 0;margin-left: 10px;">
+					<img src="../image/icon_phone.png" >
 					{{/if}}
 					{{if r.b_assignbiddding==1}}
-					<img class="yu" src="../image/yu.png" style="width: 60px;height: 40px;margin-right: 0;margin-left: 10px;">
+					<img class="yu" src="../image/yu.png">
 					{{/if}}
 				</h1>
 				<div class="detail-b-info">
@@ -159,7 +159,11 @@
 							+<i>{{r.IncreasedRate.slice(0,-1)}}</i><em>%</em>
 						{{/if}}
 					</h4>
+					{{if r.loandeadline.indexOf('月')}}
 					<h3>期限<em>{{r.loandeadline.slice(0,-2)}}</em>个月</h3>
+					{{else if r.loandeadline.indexOf('天')}}
+					<h3>期限<em>{{r.loandeadline.slice(0,-1)}}</em>天</h3>
+					{{/if}}
 				</div>
 				<div class="item-recommend-pay">
 					<ul class="clearfix">
@@ -186,18 +190,30 @@
 <script src="../script/indexAnimation.js"></script>
 <script>
   apiready = function(){
-		indexRefresh()
+		isShowNavBar()
+		refreshFrameData()
+		api.setRefreshHeaderInfo({
+				visible: true,
+				loadingImg: '../image/refresh.jpg',
+				bgColor: '#fff',
+				textColor: '#333',
+				textDown: '下拉刷新...',
+				textUp: '松开刷新...',
+				showTime: true
+		}, function(ret, err){
+				refreshFrameData();
+		});
   }
 
-	function indexRefresh(){
-		apiPost({
+	function refreshFrameData(){
+		refreshData({
 			url:"index",
 			values:{},
 			fun:function(ret,err){
 				if(ret.code == 1){
-					// var data = ret.data;
-					var json = '{"code":"1","msg":"操作成功","data":{"advs_one":[{"a_img_url":"https://www.51jili.com/attachment/display/3428","a_url":"/single/index/228/1","a_title":"手机-集车贷"},{"a_img_url":"https://www.51jili.com/attachment/display/3419","a_url":"/article/notices/183/399/1","a_title":"手机-合作"},{"a_img_url":"https://www.51jili.com/attachment/display/3378","a_url":"/giftcoupon/novice/1","a_title":"手机-新人专享"},{"a_img_url":"https://www.51jili.com/attachment/display/3357","a_url":"","a_title":"手机-信息披露"},{"a_img_url":"https://www.51jili.com/attachment/display/3345","a_url":"","a_title":"手机-六重保障"}],"recommend":[{"b_id":"2825","bt_name":"集利宝","bt_img":"https://www.51jili.com/attachment/display/3314","b_projecttitle":"JLB002825","Rate":"9.2%","IncreasedRate":"1%","b_interest_rate":"9.2%","b_need_loan":"500,000.00","b_actual_loan":"9,395.00","b_can_cast_loan":"490,605.00","progress":"1.88%","loandeadline":"12个月","b_status_name":"投标中","is_hot":"1","canrsecoupon":"1","b_assignbiddding":"0","add_i":"0%"}],"notice":[{"a_id":"399","a_title":"集利财富成为广州金融风险监测防控中心首批达成合作平台","n_id":"183","a_fileurl1":"","url":"/article/notices/183/399/1"},{"a_id":"398","a_title":"关于集利财富乔迁新址公告","n_id":"183","a_fileurl1":"","url":"/article/notices/183/398/1"},{"a_id":"397","a_title":"关于400客服热线电话更改公告","n_id":"183","a_fileurl1":"","url":"/article/notices/183/397/1"},{"a_id":"396","a_title":"关于400客服电话升级的公告","n_id":"183","a_fileurl1":"","url":"/article/notices/183/396/1"},{"a_id":"395","a_title":"集利财富2017国庆假期业务受理公告","n_id":"183","a_fileurl1":"","url":"/article/notices/183/395/1"},{"a_id":"394","a_title":"关于平台系统服务器升级的公告","n_id":"183","a_fileurl1":"","url":"/article/notices/183/394/1"},{"a_id":"393","a_title":"集利4周年第二波活动开启，供应链全项目期加息1%","n_id":"183","a_fileurl1":"","url":"/article/notices/183/393/1"},{"a_id":"392","a_title":"集利4周年活动月，周年狂欢节正式开启","n_id":"183","a_fileurl1":"","url":"/article/notices/183/392/1"},{"a_id":"391","a_title":"集利4周年系列活动：七夕之约鲜花节","n_id":"183","a_fileurl1":"","url":"/article/notices/183/391/1"},{"a_id":"390","a_title":"安贷无忧理财周加息2.4%","n_id":"183","a_fileurl1":"","url":"/article/notices/183/390/1"}]}}'
-					var data = JSON.parse(json).data;
+					var data = ret.data;
+					// var json = '{"code":"1","msg":"操作成功","data":{"advs_one":[{"a_img_url":"https://www.51jili.com/attachment/display/3428","a_url":"/single/index/228/1","a_title":"手机-集车贷"},{"a_img_url":"https://www.51jili.com/attachment/display/3419","a_url":"/article/notices/183/399/1","a_title":"手机-合作"},{"a_img_url":"https://www.51jili.com/attachment/display/3378","a_url":"/giftcoupon/novice/1","a_title":"手机-新人专享"},{"a_img_url":"https://www.51jili.com/attachment/display/3357","a_url":"","a_title":"手机-信息披露"},{"a_img_url":"https://www.51jili.com/attachment/display/3345","a_url":"","a_title":"手机-六重保障"}],"recommend":[{"b_id":"2825","bt_name":"集利宝","bt_img":"https://www.51jili.com/attachment/display/3314","b_projecttitle":"JLB002825","Rate":"9.2%","IncreasedRate":"1%","b_interest_rate":"9.2%","b_need_loan":"500,000.00","b_actual_loan":"9,395.00","b_can_cast_loan":"490,605.00","progress":"1.88%","loandeadline":"12个月","b_status_name":"投标中","is_hot":"1","canrsecoupon":"1","b_assignbiddding":"0","add_i":"0%"}],"notice":[{"a_id":"399","a_title":"集利财富成为广州金融风险监测防控中心首批达成合作平台","n_id":"183","a_fileurl1":"","url":"/article/notices/183/399/1"},{"a_id":"398","a_title":"关于集利财富乔迁新址公告","n_id":"183","a_fileurl1":"","url":"/article/notices/183/398/1"},{"a_id":"397","a_title":"关于400客服热线电话更改公告","n_id":"183","a_fileurl1":"","url":"/article/notices/183/397/1"},{"a_id":"396","a_title":"关于400客服电话升级的公告","n_id":"183","a_fileurl1":"","url":"/article/notices/183/396/1"},{"a_id":"395","a_title":"集利财富2017国庆假期业务受理公告","n_id":"183","a_fileurl1":"","url":"/article/notices/183/395/1"},{"a_id":"394","a_title":"关于平台系统服务器升级的公告","n_id":"183","a_fileurl1":"","url":"/article/notices/183/394/1"},{"a_id":"393","a_title":"集利4周年第二波活动开启，供应链全项目期加息1%","n_id":"183","a_fileurl1":"","url":"/article/notices/183/393/1"},{"a_id":"392","a_title":"集利4周年活动月，周年狂欢节正式开启","n_id":"183","a_fileurl1":"","url":"/article/notices/183/392/1"},{"a_id":"391","a_title":"集利4周年系列活动：七夕之约鲜花节","n_id":"183","a_fileurl1":"","url":"/article/notices/183/391/1"},{"a_id":"390","a_title":"安贷无忧理财周加息2.4%","n_id":"183","a_fileurl1":"","url":"/article/notices/183/390/1"}]}}'
+					// var data = JSON.parse(json).data;
 					//渲染轮播数据
 					var luoboHTML = template('indexLunbo_template',data);
 					$('.luobo').html(luoboHTML);
@@ -227,6 +243,21 @@
 
 			}
 		})
+	}
+
+	function isShowNavBar(){
+		// 判断有无token
+		api.getPrefs({
+				key: 'token'
+		}, function(ret, err){
+				var token = ret.value;
+				console.log('token'+token)
+				if(token != ''){
+						$('.logo-header').css('display','none')
+				}else{
+						$('.logo-header').css('display','block')
+				}
+		});
 	}
 
 

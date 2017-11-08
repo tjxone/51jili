@@ -89,7 +89,7 @@ function apiPost(params) {
                     //显示错误信息
                     showToastMsg(ret.msg)
                     //检查是否登陆过期，过期则跳转登陆页面
-                    if(ret.msg == '登陆过期'){
+                    if(ret.msg == '登录过期'){
                         jumpToWin('login','登陆',params.loginParams)
                     }
                 }else{
