@@ -40,8 +40,10 @@
 <script src="../script/common.js"></script>
 <script>
     var footHeight = $('.footer-nav')[0].offsetHeight;
-    var token;
+    var clickTimesforFrame1 = 0
+    var clickTimesforFrame2 = 0
     apiready = function() {
+
         api.setStatusBarStyle({
             style: 'light',
             color: '#ef4646'
@@ -56,22 +58,25 @@
         var frames = [];
         for (var i = 0, len = eFooterLis.length; i < len; i++) {
             var url = '';
+            var bounces = true;
             switch (i) {
                 case 0:
                     url = './frame0.html';
                     break;
                 case 1:
                     url = './investment.html';
+                    bounces = false
                     break;
                 case 2:
                     url = './usercenter/userCenter.html';
+                    bounces = false
                     break;
             }
             frames.push({
                 name: 'frame' + i,
                 url: url,
                 bgColor: 'rgba(0,0,0,.2)',
-                bounces: false
+                bounces: bounces
             })
         }
         api.openFrameGroup({
@@ -83,6 +88,7 @@
                 w: api.winWidth,
                 h: api.frameHeight - $('.footer-nav')[0].offsetHeight
             },
+            preload:2,
             index: 0,
             frames: frames
         }, function(ret, err) {
@@ -113,7 +119,8 @@
             index: index
         });
 
-        //当index不为1时，把投标区内容隐藏，否则显示
+        //当index为1时，把投标区内容隐藏，否则显示
+        // 并且刷新投标信息(暂定)
         if (index == 1) {
             //ios专用
             api.setFrameAttr({
@@ -124,30 +131,37 @@
             api.bringFrameToFront({
                 from: 'investment',
             });
-            // api.execScript({
-            //     frameName: 'investment',
-            //     script: 'refreshInvestmentData();'
-            // });
-            console.log('投资页framename' + api.frameName)
-            getToken()
+
+            api.execScript({
+                name:'index',
+                frameName: 'investment',
+                script: 'refreshFrameData();'
+            });
 
         } else {
             //ios专用
             api.setFrameAttr({
-                    name: 'investment',
-                    hidden: true
-                })
+                name: 'investment',
+                hidden: true
+            })
                 // 安卓专用
             api.sendFrameToBack({
                 from: 'investment'
             })
         }
+        //当index为2时，点击用户中心，刷新用户中心数据
         if (index == 2) {
-            token = getToken({
-                isbackToIndex: true,
-                slidBackEnabled: false
+            // token = getToken({
+            //     isbackToIndex: true,
+            //     slidBackEnabled: false
+            // });
+            // getUserData();
+
+            api.execScript({
+                name:'index',
+                frameName: 'frame2',
+                script: 'refreshFrameData();'
             });
-            getUserData();
         }
     }
 

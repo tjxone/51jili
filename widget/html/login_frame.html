@@ -68,20 +68,40 @@
                 'password': password
             },
             fun: function(ret, err) {
-                var code = ret.code;
-                console.log(ret.data.token);
-                if (code == 1) {
+								// 如果登陆成功
+                if (ret.code == 1) {
                     // 登陆成功缓存token
                     api.setPrefs({
                         key: 'token',
                         value: ret.data.token
                     });
-                    // 指定一个frame刷新页面
-                    var prevPage = api.pageParam.prevPage
-                    console.log(prevPage)
-                    api.closeWin();
-                } else {
-                    showToastMsg(ret.msg);
+
+										var preWin = api.pageParam.prevWin
+										var prevPage = api.pageParam.prevPage
+										// 如果有frameName
+										if(prevPage != ''){
+												// 指定一个frame刷新页面
+												alert('指定刷新页面'+preWin+prevPage)
+												api.execScript({
+														name:preWin,
+												    frameName: prevPage,
+												    script: 'refreshFrameData()'
+												});
+												// 关闭登陆窗口，返回上一个页面
+												api.closeWin()
+										}else{
+											//如果没有frameName，但是有prevWin==index则刷新用户中心数据
+											if(preWin == 'index'){
+													// 指定用户中心刷新页面
+													api.execScript({
+															name:preWin,
+													    frameName: 'frame2',
+													    script: 'refreshFrameData()'
+													});
+													// 返回用户中心页面
+													jumpToIndex(2)
+											}
+										}
                 }
             }
         }

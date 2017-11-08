@@ -170,7 +170,7 @@
 <script src="../script/common.js"></script>
 <script>
 	apiread = function (){
-		console.log(api)
+
 	}
 	function openSlidFrame (){
 		api.openFrame({
@@ -190,12 +190,16 @@
 		});
 	}
 
-	function refreshInvestmentData(){
-		apiPost({
-			url:'investment',
+	function refreshFrameData(){
+		refreshData({
+			url:"investment_details",
 			values:{
-				limit:10,
-				offset:0
+				token:'F5643134-03FD-25CD-DE00-8697B6E1CEBF',
+				b_id:'386'
+			},
+			loginParams:{
+				slidBackEnabled:false,
+				isbackToIndex:true
 			},
 			fun:function(ret,err){
 				console.log(JSON.stringify(ret))
