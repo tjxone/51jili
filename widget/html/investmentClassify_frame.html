@@ -63,24 +63,27 @@
 		<div class="left" tapmode onclick="closeFrames()"></div>
 		<div class="right">
 				<ul class="rightBox">
-					<li>
-						<h3>期限</h3>
-						<ul class="clearfix">
-							<li tapmode onclick="changeStatus(this)">15-29天</li>
-							<li tapmode onclick="changeStatus(this)">15-29天</li>
-							<li tapmode onclick="changeStatus(this)">15-29天</li>
-							<li tapmode onclick="changeStatus(this)">15-29天</li>
-						</ul>
-					</li>
-					<li>
-						<h3>期限</h3>
-						<ul class="clearfix">
-							<li tapmode onclick="changeStatus(this)">15-29天</li>
-							<li tapmode onclick="changeStatus(this)">15-29天</li>
-							<li tapmode onclick="changeStatus(this)">15-29天</li>
-							<li tapmode onclick="changeStatus(this)">15-29天</li>
-						</ul>
-					</li>
+					<script id="investCondition_template" type="text/html">
+							{{set d = $data}}
+							{{each d classes key}}
+							<li class="{{key}}">
+								<h3>{{key | classifyFormat}}</h3>
+								<ul class="clearfix">
+									{{if key=='pubtime'|key=='rate'}}
+										<li tapmode onclick="changeStatus(this)" data-id=' '>全部</li>
+										{{each classes v k }}
+										<li tapmode onclick="changeStatus(this)" data-id={{v.id}}>{{v.name}}</li>
+										{{/each}}
+									{{else if key=='bdtype'}}
+										<li tapmode onclick="changeStatus(this)" data-btCode=' '>全部</li>
+										{{each classes v k }}
+										<li tapmode onclick="changeStatus(this)" data-btCode={{v.bt_code}}>{{v.bt_name}}</li>
+										{{/each}}
+									{{/if}}
+								</ul>
+							</li>
+							{{/each}}
+					</script>
 					<li>
 						<h3>期限</h3>
 						<ul class="clearfix">
@@ -102,16 +105,53 @@
 </body>
 <script src="../script/jquery.js"></script>
 <script src="../script/common.js"></script>
+<script src="../script/template-web.js"></script>
+<script src="../script/template-filter.js"></script>
 <script>
-// apiready = function(){
-// 	console.log(api)
-//
-// }
+apiready = function(){
+		refreshFrameData()
+}
 window.onload = function(){
 	//加载后确定高度
 	$('.slidBox').height(screen.height)
+	//重置按键
+	$('.classifyReset').click(function(){
+		$('.rightBox').find('li').removeClass('active')
+	})
+	//确定按键
+	$('.classifyOk').click(function(){
+		//请选择至少一个选项
+		var activeNumber = $('.rightBox .active').length;
+		if(activeNumber >= 1){
+				var pubtimeData = $('.pubtime').find('li.active').attr('data-id')
+				var rateData = $('.rate').find('li.active').attr('data-id')
+				var bt_codeData = $('.bdtype').find('li.active').attr('data-btCode')
+				alert('期限'+pubtimeData+'利率'+rateData+'项目'+bt_codeData)
+				//指定investment_frame更新渲染数据
+				api.sendEvent({
+				    name: 'refreshClassifyData',
+				    extra: {
+				        pubtimeData : pubtimeData != undefined ? pubtimeData : ' ',
+				        rateData : rateData != undefined ? rateData : ' ',
+								bt_codeData : bt_codeData != undefined ? bt_codeData : ' ',
+								offset : 0
+				    }
+				});
 
+				// api.execScript({
+				//     name: 'index',
+				//     frameName: 'investment',
+				//     script: 'refreshClassifyData("'+pubtimeData+'","'+rateData+'","'+bt_codeData+'",0)'
+				// 		// script: 'refreshClassifyData(" "," "," ")'
+				// });
+				closeFrames();
+		}else{
+				showToastMsg('亲，请至少选择一个选项哟~~')
+		}
+	})
 }
+
+//改变选项状态
 function changeStatus(el){
 		if($(el).hasClass('active')){
 			$(el).removeClass('active')
@@ -121,12 +161,27 @@ function changeStatus(el){
 		}
 }
 
+//关闭frame组
 function closeFrames(){
 	api.closeFrame({
 		name:'investmentClassify'
 	})
 	api.closeFrame()
+}
 
+
+function refreshFrameData(){
+	refreshData({
+		url:'investment_condition',
+		fun:function(ret,err){
+			console.log(JSON.stringify(ret));
+			if(ret.code == 1){
+				var data = ret.data;
+				investConditionHTML = template('investCondition_template',data);
+				$('.rightBox').html(investConditionHTML);
+			}
+		}
+	})
 }
 </script>
 

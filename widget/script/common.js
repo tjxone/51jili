@@ -12,20 +12,25 @@ const appid = '06wygzvDdr062rNwIXTC';
 const appkey = 'vxCdATZ76WeqjhF3ZNHu';
 const appver = '2.6.0';
 const apptype = 'ios';
-const baseUrl = 'http://ksh.51jili.com/api/';
-// const baseUrl = 'https://www.51jili.com/api/';
+// const baseUrl = 'http://ksh.51jili.com/api/';
+const baseUrl = 'https://www.51jili.com/api/';
 
 function apiPost(params) {
-    // url,values,fun,userAgent,loginParams
+    //引入加密模块
+    var signature = api.require('signature');
+    var valuesObj,
+        hash,
+        arr = [];
     // 如果userAgent不存在
     if (typeof(params.userAgent)=='undefined' && !params.hasOwnProperty('userAgent')) {
         params.userAgent = userAgentDefalut;
     };
-    //引入加密模块
-    var signature = api.require('signature');
-    var valuesObj = params.values,
-        arr = [],
-        hash;
+    if (typeof(params.values)=='undefined' && !params.hasOwnProperty('values')) {
+        valuesObj = {};
+    }else{
+        valuesObj = params.values;
+    }
+
     valuesObj.time = Date.parse(new Date());
     valuesObj.appver = appver;
     valuesObj.apptype = apptype;
@@ -266,6 +271,19 @@ function jumpToDetail(bid) {
     });
 }
 
+function refreshHeader(){
+  api.setRefreshHeaderInfo({
+      visible: true,
+      loadingImg: 'widget://image/refresh.jpg',
+      bgColor: '#fff',
+      textColor: '#333',
+      textDown: '下拉刷新...',
+      textUp: '松开刷新...',
+      showTime: true
+  }, function(ret, err){
+      refreshFrameData();
+  });
+}
 
 function getToken(newParams) {
     var token = api.getPrefs({

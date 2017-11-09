@@ -31,7 +31,7 @@
 </div>
 </body>
 <script src="../script/jquery.js"></script>
-<script src="../common.js"></script>
+<script src="../script/common.js"></script>
 <script>
   apiready = function(){
     api.openFrame({
@@ -42,7 +42,8 @@
             y: $('.nei-title')[0].offsetHeight,
             w: 'auto',
             h: api.frameHeight-$('.nei-title')[0].offsetHeight
-        }
+        },
+				bounces:true
     });
 
     //默认打开index为0的页面，把投资内容隐藏
@@ -56,31 +57,6 @@
       from:'investment'
     })
 
-    //点击筛选以外地方设置investment的背景色为rgba(255,255,255,1)，并且把内容区移到上层
-    $('.nei-title .active').click(function(){
-      alert(1)
-      api.bringFrameToFront({
-          from: 'investment',
-      });
-			api.bringFrameToFront({
-					from: 'investment',
-			});
-      api.setFrameAttr({
-          name: 'investment',
-          bgColor: 'rgba(255,255,255,1)',
-      });
-    })
-
-    //点击筛选后设置investment的透明度为0.5黑色，并且把内容区移到下层
-    $('.nav-list-screen li').click(function(){
-      api.setFrameAttr({
-          name: 'investment',
-          bgColor: 'rgba(0,0,0.5)',
-      });
-			api.bringFrameToFront({
-					from: 'frame1',
-			});
-    })
   }
 </script>
 </html>
