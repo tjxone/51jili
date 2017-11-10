@@ -51,7 +51,7 @@
 						{{if value.is_hot==1}}
 							hot
 						{{/if}}
-						" tapmode onclick="jumpToDetail({{value.b_id}})">
+						" tapmode onclick="jumpToWin('investmentDetail','{{value.b_projecttitle}}',{bid:{{value.b_id}}})">
 							<div class="target_tou_t">
 								<h1><img src="{{value.bt_img}}">{{value.b_projecttitle}}
 									{{if value.canrsecoupon==1}}
@@ -159,25 +159,25 @@
 			var button = api.require('UIButton');
 			button.open({
 		    rect: {
-		        x: 100,
-		        y: 100,
+		        x: api.frameWidth*0.8,
+		        y: api.frameHeight*0.8,
 		        w: 80,
 		        h: 50
 		    },
 		    corner: 5,
 		    bg: {
-		        normal: '#000000',
+		        normal: '#ff0000',
 		        highlight: '#ff0000',
-		        active: '#adf000'
+		        active: '#ff0000'
 		    },
 		    title: {
 		        size: 14,
-		        highlight: '高亮状态标题',
-		        active: '选中后标题',
-		        normal: '常态标题',
-		        highlightColor: '#000000',
+		        highlight: '回到顶部',
+		        active: '回到顶部',
+		        normal: '回到顶部',
+		        highlightColor: '#000adf',
 		        activeColor: '#000adf',
-		        normalColor: '#ff0000',
+		        normalColor: '#000adf',
 		        alignment: 'center'
 		    },
 		    fixedOn: api.frameName,
@@ -287,8 +287,8 @@
 						threshold:100
 					}
 			}, function(ret, err){
+				//页数加1，然后刷新分类数据
 					offset++
-					alert(offset)
 					refreshClassifyData(pubtimeData,rateData,bt_codeData,offset,true)
 
 			});

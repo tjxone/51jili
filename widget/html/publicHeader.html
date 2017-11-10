@@ -20,21 +20,76 @@
     <div class="nei-title">
         <div class="back hideReplaceBack"><i class="replace"></i></div>
         <div class="back showBack" tapmode><i class="icon-left-open-big"></i></div>
-        <h1></h1>
+        <h2></h2>
         <div class="back"><i class="replace"></i></div>
+    </div>
+
+    <div class="footer-btn" tapmode onclick="jumpToWin('tenderNow','我要投标')">
+      <div>立即投标</div>
     </div>
 </body>
 <script src="../script/jquery.js"></script>
 <script src="../script/common.js"></script>
 <script>
     apiready = function() {
-        $('.showBack').on('click', function() {
-            api.closeWin();
-        })
-
         //接收参数
         var param = api.pageParam;
         console.log(JSON.stringify(param))
+
+        //如果当前窗口是登陆窗口
+        if(api.winName == 'login'){
+            if(param.prevWin == 'index'){
+              $('.showBack').on('click', function() {
+                api.closeWin();
+              })
+            }else{
+              //检查有无token
+              api.getPrefs({
+                  key: 'token'
+              }, function(ret, err){
+                  //无token（登陆过期也会删除token）则后退键返回两页
+                  if(ret.token == undefined){
+                    // 点击返回键操作
+                    $('.showBack').on('click', function() {
+                      // token没有和上一页不是首页
+                      console.log('返回前两页')
+                      // 关闭前两页
+                      api.closeWin({
+                        name:param.prevWin
+                      })
+                      api.closeWin();
+                    })
+
+                    //安卓返回键操作
+                    api.addEventListener({
+                        name: 'keyback'
+                    }, function(ret, err) {
+                        api.closeWin({
+                          name:param.prevWin
+                        })
+                        api.closeWin();
+                    });
+                  }else{
+                    // 关闭一页
+                    console.log('关闭一页')
+                    $('.showBack').on('click', function() {
+                      api.closeWin();
+                    })
+                  }
+              });
+            }
+        }else{
+          $('.showBack').on('click', function() {
+            api.closeWin();
+          })
+        }
+
+        //如果不是投标详情页，隐藏立即投标按钮
+        if(api.winName == 'investmentDetail'){
+          //渲染投标数据
+        }else{
+          $('.footer-btn').hide()
+        }
 
         //是否需要返回键
         if (typeof(param.backEnable) != 'undefined' && !param.backEnable) {
@@ -60,7 +115,7 @@
         }
 
         //传入标题
-        $('.nei-title > h1').html(param.title);
+        $('.nei-title > h2').html(param.title);
 
         // 打开新窗口
         api.openFrame({
@@ -70,12 +125,9 @@
                 x: 0,
                 y: $('.nei-title')[0].offsetHeight,
                 w: 'auto',
-                h: 'auto'
+                h: api.winName == 'investmentDetail' ? (api.frameHeight-$('.footer-btn')[0].offsetHeight-$('.nei-title')[0].offsetHeight) : 'auto'
             },
-            pageParam: {
-                prevPage: param.prevPage,
-                prevWin: param.prevWin
-            }
+            pageParam: param
         })
     }
 </script>

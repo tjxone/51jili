@@ -138,7 +138,7 @@
                     name: 'investment',
                     hidden: false
                 })
-                // 安卓专用
+            // 安卓专用
             api.bringFrameToFront({
                 from: 'investment',
             });
@@ -155,11 +155,13 @@
                 name: 'investment',
                 hidden: true
             })
-                // 安卓专用
+            // 安卓专用
             api.sendFrameToBack({
                 from: 'investment'
             })
         }
+
+
         //当index为2时，点击用户中心，刷新用户中心数据
         if (index == 2) {
             api.execScript({

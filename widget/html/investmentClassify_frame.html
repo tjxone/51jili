@@ -51,8 +51,12 @@
 			display: flex;
 			justify-content: space-around;;
 		}
-		.rightBoxBtn > li{
-
+		.rightBoxBtn li{
+			width: 45%;
+			padding: 2%;
+			text-align:center;
+			border:1px solid #F08686;
+			border-radius:5px;
 		}
 	</style>
 	<title>侧边栏</title>
@@ -84,7 +88,7 @@
 							</li>
 							{{/each}}
 					</script>
-					<li>
+					<!-- <li>
 						<h3>期限</h3>
 						<ul class="clearfix">
 							<li tapmode onclick="changeStatus(this)">15-29天</li>
@@ -92,9 +96,9 @@
 							<li tapmode onclick="changeStatus(this)">15-29天</li>
 							<li tapmode onclick="changeStatus(this)">15-29天</li>
 						</ul>
-					</li>
+					</li> -->
 				</ul>
-				<div class="rightBoxBtn clearfix">
+				<div class="rightBoxBtn clearfix" style="margin-top:20px;">
 					<ul>
 						<li tapmode class="classifyReset">重置</li>
 						<li tapmode class="classifyOk">确认</li>
@@ -113,7 +117,7 @@ apiready = function(){
 }
 window.onload = function(){
 	//加载后确定高度
-	$('.slidBox').height(screen.height)
+	$('.right').css('minHeight',screen.height)
 	//重置按键
 	$('.classifyReset').click(function(){
 		$('.rightBox').find('li').removeClass('active')
@@ -179,6 +183,8 @@ function refreshFrameData(){
 				var data = ret.data;
 				investConditionHTML = template('investCondition_template',data);
 				$('.rightBox').html(investConditionHTML);
+				api.parseTapmode();
+
 			}
 		}
 	})
