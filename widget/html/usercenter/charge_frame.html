@@ -112,15 +112,22 @@
             trader_password:$('#tpsw').val()
           },
           fun:function(ret,err){
-            // console.log(JSON.stringify(ret))
-            // console.log(JSON.stringify(err))
-            var unPay = api.require('unionPay');
-            unPay.pay({
-                 tn: '710362879932831793800',
-                 devMode: true
-             }, function(ret, err){
-                api.alert({msg:JSON.stringify(ret)});
-             });
+            console.log(JSON.stringify(ret))
+            console.log(JSON.stringify(err))
+            if(ret.code == 1){
+              var tn = ret.data.tn
+              alert(tn)
+            }
+
+              var unPay = api.require('unionPay');
+              unPay.pay({
+                   tn: tn,
+                   devMode: true
+               }, function(ret, err){
+                  api.alert({msg:JSON.stringify(ret)});
+               });
+
+
           }
         })
       })
