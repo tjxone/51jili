@@ -59,5 +59,8 @@
 	<permission name="bootCompleted" />
 
 	<permission name="hardware" />
+  <feature name="unionPay">
+    <param name="urlScheme" value="unionPayA6052214405912" />
+  </feature>
 
 </widget>

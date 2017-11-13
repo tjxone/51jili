@@ -40,7 +40,7 @@
                 </h1>
                 <ul class="login-input">
                     <li>
-                        <input type="text" placeholder="请输入充值金额">
+                        <input type="text" id="changeNum" placeholder="请输入充值金额">
                         <i>
                           <img src="../../image/icon7.png" alt="">
                         </i>
@@ -53,7 +53,7 @@
                         <small class="icon-down-open-big"></small>
                     </li>
                     <li>
-                        <input type="text" placeholder="请输入您的交易密码">
+                        <input type="text" id="tpsw" placeholder="请输入您的交易密码">
                         <i>
                           <img src="../../image/pwd.png" alt="">
                         </i>
@@ -101,5 +101,29 @@
     <script src="../../script/jquery.js"></script>
     <script src="../../script/common.js"></script>
 </body>
-
+<script>
+  apiready=function(){
+      $('.toubiao-btn').on('click',function(){
+        refreshData({
+          url:'unionpay',
+          values:{
+            token:'',
+            Amount:$('#changeNum').val(),
+            trader_password:$('#tpsw').val()
+          },
+          fun:function(ret,err){
+            // console.log(JSON.stringify(ret))
+            // console.log(JSON.stringify(err))
+            var unPay = api.require('unionPay');
+            unPay.pay({
+                 tn: '710362879932831793800',
+                 devMode: true
+             }, function(ret, err){
+                api.alert({msg:JSON.stringify(ret)});
+             });
+          }
+        })
+      })
+  }
+</script>
 </html>

@@ -18,6 +18,7 @@
 	<div class="detail-b ">
     <h3 style=""><img src="https://www.51jili.com/attachment/display/3310" >GYL002858
       <img src="../image/icon_phone.png" style="width: 60px;height: 40px;margin-right: 0;margin-left: 10px;">
+			<!-- <em style="background: url(../image/hot.png) no-repeat;background-size: 100% 100%;"></em> -->
     </h3>
 		<div class="detail-b-info">
 			<canvas height="300" id="canvas" width="300" data-value="57.68"></canvas>
@@ -26,7 +27,7 @@
       </h1>
 			<p>预期年化收益率</p>
 			<i>8.8%</i>
-			<h2>期限<em>6</em>个月</h2>
+			<h2>期限<em>12</em>个月</h2>
 		</div>
 	</div>
 	<div class="detail-num ">
@@ -117,28 +118,165 @@
 			</li>
     </ul>
   </div>
+	<script id="investmentDetail_template" type="text/html">
+		{{ set d = $data}}
+		<div class="detail-b ">
+			<h3 style=""><img src="{{d.bt_img}}" >{{d.b_projecttitle}}
+				{{if d.canrsecoupon==1}}
+				<img src="../image/icon_phone.png" >
+				{{/if}}
+				{{if d.b_assignbiddding==1}}
+				<img class="yu" src="../image/yu.png">
+				{{/if}}
+			</h3>
+			<div class="detail-b-info">
+				<canvas height="300" id="canvas" width="300" data-value="{{d.progress.slice(0,-1)}}"></canvas>
+				<h1>
+					进度：<small>{{d.progress}}</small>
+				</h1>
+				<p>预期年化收益率</p>
+				<i>{{d.Rate}}
+					{{if d.IncreasedRate.slice(0,-1)>0}}
+            <i style="display: inline-block;color: #ef4646;font-size: 18px;font-style: normal;padding-left: 5px;">+{{d.IncreasedRate}}</i>
+					{{/if}}
+					{{if d.add_i.slice(0,-1)>0}}
+            <i style="display: inline-block;color: #fff;font-size: 14px;font-style: normal;padding:0px 3px;border-radius: 3px;background: #ef4646;line-height: 20px">+{{d.add_i}}</i>
+					{{/if}}
+        </i>
+				{{if d.loandeadline.indexOf('月')}}
+				<h2>期限<em>{{d.loandeadline.slice(0,-2)}}</em>个月</h2>
+				{{else if d.loandeadline.indexOf('天')}}
+				<h2>期限<em>{{d.loandeadline.slice(0,-1)}}</em>天</h2>
+				{{/if}}
+			</div>
+		</div>
+		<div class="detail-num ">
+			<ul class="clearfix">
+				<li>
+					<p><span>{{d.b_need_loan}}</span>元</p>
+					<p>借款金额</p>
+				</li>
+				<li>
+					<p><span>{{d.b_can_cast_loan}}</span>元</p>
+					<p>可投金额</p>
+				</li>
+			</ul>
+		</div>
+		<div class="detail-style">
+			<ul>
+				<li>
+					<div>
+						<span>还款方式：</span>
+							<em>{{d.b_repayment_way}}</em>
+					</div>
+				</li>
+				<li>
+					<div>
+						<span>项目名称：</span>
+						<em>{{d.b_projecttitle}}</em>
+					</div>
+				</li>
+				<li>
+					<div>
+						<span>预计起息日：</span>
+						<em>{{d.yuji_qixiri}}</em>
+					</div>
+				</li>
+				<li>
+					<div>
+						<span>剩余募集时间：</span>
+						<em>
+							<span class="time day">00</span><span>天 </span><span class="time hour">00</span><span>:</span><span class="time minute">00</span><span>:</span><span class="time second">00</span>
+						</em>
+					</div>
+				</li>
+				<li>
+					<div tapmode onclick="open51Url('{{d.fx_url}}','{{d.fx_tip}}')">
+						<span>风险提示：</span>
+						<em class="color4">风险提示书<i class="icon-right-open-big"></i></em>
+					</div>
+				</li>
+				<li>
+					<div tapmode onclick="jumpToWin('agency','推荐机构')">
+						<span>推荐机构：</span>
+						<em class="color4 tjjg">佛山市城城区集成小额贷款有限公司</em>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="detail-style">
+			<ul>
+				<li tapmode onclick="jumpToWin('investmentDescription','项目描述')">
+					<div>
+						<span>项目描述：</span>
+						<em class="color1"><i class="icon-right-open-big"></i></em>
+					</div>
+				</li>
+				<li tapmode onclick="jumpToWin('borrowerInfo','借款人信息')">
+					<div>
+						<span>借贷方信息：</span>
+						<em class="color1"><i class="icon-right-open-big"></i></em>
+					</div>
+				</li>
+				<li tapmode onclick="jumpToWin('safeGuard','保障措施')">
+					<div>
+						<span>保障措施：</span>
+						<em class="color1"><i class="icon-right-open-big"></i></em>
+					</div>
+				</li>
+				<li tapmode onclick="jumpToWin('bidRecord','购标记录')">
+					<div>
+						<span>投标记录：</span>
+						<em class="color1"><i class="icon-right-open-big"></i></em>
+					</div>
+				</li>
+				<li tapmode onclick="open51Url('investment/fy/21/1','相关费用')">
+					<div href="/investment/fy/21">
+						<span>相关费用：</span>
+						<em class="color4">相关费用<i class="icon-right-open-big"></i></em>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</script>
 </body>
 <script src="../script/jquery.js"></script>
 <script src="../script/common.js"></script>
 <script src="../script/indexAnimation.js"></script>
+<script src="../script/template-web.js"></script>
 <script>
 	apiready = function(){
-			refreshHeader()
-			drawCircle()
-			var bid = api.pageParam.bid
-			alert(bid)
+					refreshFrameData();
+			// refreshHeader()
+			// drawCircle()
+
 	}
 
 	function refreshFrameData(){
+
 			var bid = api.pageParam.bid
-			alert(bid)
 			refreshData({
 					url:'investment_details',
 					values:{
 						b_id:bid,
 						token:''
 					},
-					loginParams:{
+					fun:function(ret,err){
+						var json = '{"code":"1","msg":"操作成功","data":{"ac_balances":"0.00","bt_name":"供应链","bt_img":"http://ksh.51jili.com/attachment/display/3310","b_projecttitle":"GYL002886","b_minimum":"100","Rate":"9%","IncreasedRate":"1%","b_interest_rate":"9%","loandeadline":"3个月","b_need_loan":"10,000","b_actual_loan":"1,200","b_can_cast_loan":"8,800.00","progress":"12.00%","b_status_name":"立即投标","db_id":"","db_title":"","b_repayment_way":"每期还息到期还本","expected_income":"225.00","b_assignbiddding":"1","b_assignpwd":"","is_hot":"0","canrsecoupon":"0","add_i":"1%","yuji_qixiri":"募集满T+1工作日","fx_url":"/investment/fx/21/1","fx_tip":"风险提示书","p_qixiri":"募集完毕后下一工作日起息","is_graceperiod":"","ispen_sing":true,"grant":0}}'
+						var data = JSON.parse(json).data;
+						// var data = ret.data
+
+						if(ret.code==1){
+								//渲染立即投标按钮
+								api.execScript({
+								    name: 'investmentDetail',
+								    script: "changeBtn('"+data.bt_name+data.b_status_name+"')"
+								});
+
+								var investmentDetailHTML = template('investmentDetail_template' ,data);
+								$('body').html(investmentDetailHTML);
+								drawCircle()
+						}
 
 					}
 			})

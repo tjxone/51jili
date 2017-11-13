@@ -12,8 +12,8 @@ const appid = '06wygzvDdr062rNwIXTC';
 const appkey = 'vxCdATZ76WeqjhF3ZNHu';
 const appver = '2.6.0';
 const apptype = 'ios';
-// const baseUrl = 'http://ksh.51jili.com/api/';
-const baseUrl = 'https://www.51jili.com/api/';
+const baseUrl = 'http://ksh.51jili.com/api/';
+// const baseUrl = 'https://www.51jili.com/api/';
 
 function apiPost(params) {
     //引入加密模块
@@ -68,7 +68,8 @@ function apiPost(params) {
                 timeout: 20,
                 headers: {
                     "User-Agent": params.userAgent,
-                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                    'authorization':getToken()
                 },
                 data: {
                     values: valuesObj
@@ -129,7 +130,10 @@ function refreshData(params){
                 apiPost(params)
             }else{
                 // 如果没有token，则跳转登陆页重新登陆
-                jumpToWin('login','登陆',params.loginParams)
+                setTimeout(function(){
+                  jumpToWin('login','登陆',params.loginParams)
+                },150)
+
             }
         });
     }else{
@@ -156,10 +160,14 @@ function showWaitingProgress() {
 //**消息提醒toast
 //**
 function showToastMsg(content) {
+    var duration = 2000;
+    if(content.length>30){
+      duration = 5000
+    }
     api.toast({
         msg: content,
-        duration: 2000,
-        location: 'center',
+        duration: duration,
+        location: 'middle',
         global: false
     })
 }
@@ -177,7 +185,7 @@ function open51Url(jumpUrl, jumpTitle) {
             title: jumpTitle
         },
         animation:{
-            duration:250
+            duration:500
         },
         scaleEnabled: true,
         allowEdit: true
@@ -228,12 +236,12 @@ function jumpToWin(name, title, newParams) {
     //继承新设置
     var params = Object.assign(defaultParams, newParams)
     api.openWin({
-        name: name,
+        name: params.name,
         url: 'widget://html/publicHeader.html',
         pageParam: params,
         slidBackEnabled: params.slidBackEnabled,
         animation:{
-            duration:250
+            duration:300
         }
     })
 }
@@ -291,4 +299,11 @@ function refreshHeader(){
   }, function(ret, err){
       refreshFrameData();
   });
+}
+
+function getToken (){
+    return api.getPrefs({
+        key: 'token',
+        sync:true
+    });
 }
