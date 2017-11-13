@@ -158,8 +158,7 @@
         refreshData({
             url: "user_center",
             values: {
-                token: '',
-                b_id: '386'
+                token: ''
             },
             loginParams: {
                 slidBackEnabled: false,
@@ -169,6 +168,7 @@
                 var data = ret.data;
                 var html = template('usercenter', data);
                 $('body').html(html);
+                api.parseTapmode();
                 $('.logout').on('click', function() {
                     var token = getToken();
                     apiPost({
@@ -221,7 +221,6 @@
                 $('.calendarRedirect').on('click', function() {
                     jump('calendar', './calendar.html');
                 });
-
                 $('.certifyinfoRedirect').on('click', function() {
                     jumpToWin('usercenter/certifyinfo', '安全认证');
                 });

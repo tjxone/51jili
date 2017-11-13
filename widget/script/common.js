@@ -16,16 +16,21 @@ const baseUrl = 'http://ksh.51jili.com/api/';
 // const baseUrl = 'https://www.51jili.com/api/';
 
 function apiPost(params) {
-    // url,values,fun,userAgent,loginParams
+    //引入加密模块
+    var signature = api.require('signature');
+    var valuesObj,
+        hash,
+        arr = [];
     // 如果userAgent不存在
     if (typeof(params.userAgent) == 'undefined' && !params.hasOwnProperty('userAgent')) {
         params.userAgent = userAgentDefalut;
     };
-    //引入加密模块
-    var signature = api.require('signature');
-    var valuesObj = params.values,
-        arr = [],
-        hash;
+    if (typeof(params.values) == 'undefined' && !params.hasOwnProperty('values')) {
+        valuesObj = {};
+    } else {
+        valuesObj = params.values;
+    }
+
     valuesObj.time = Date.parse(new Date());
     valuesObj.appver = appver;
     valuesObj.apptype = apptype;
@@ -74,7 +79,6 @@ function apiPost(params) {
                 //关闭下拉刷新等待条
                 api.refreshHeaderLoadDone();
                 //响应错误码时显示提示
-                console.log(JSON.stringify(err));
                 if (err && err.code == 0) {
                     showToastMsg('网络异常，请检查网络哦~');
                 } else if (err && err.code == 1) {
@@ -90,7 +94,12 @@ function apiPost(params) {
                     showToastMsg(ret.msg);
                     //检查是否登陆过期，过期则跳转登陆页面
                     if (ret.msg == '登录过期') {
-                        jumpToWin('login', '登录', params.loginParams)
+                        // 登陆过期删除token
+                        api.removePrefs({
+                            key: 'token'
+                        });
+                        //跳转登陆界面
+                        jumpToWin('login', '登陆', params.loginParams)
                     }
                 } else {
                     //传入ajax参数运行自定义回调函数
@@ -162,11 +171,13 @@ function open51Url(jumpUrl, jumpTitle) {
     api.openWin({
         name: 'urlWin',
         url: 'widget://html/urlWin.html',
-        useWKWebView: true,
         historyGestureEnabled: true,
         pageParam: {
             url: 'https://www.51jili.com/' + jumpUrl,
             title: jumpTitle
+        },
+        animation: {
+            duration: 250
         },
         scaleEnabled: true,
         allowEdit: true
@@ -180,11 +191,13 @@ function openUrl(jumpUrl, jumpTitle) {
     api.openWin({
         name: 'urlWin',
         url: 'widget://html/urlWin.html',
-        useWKWebView: true,
         historyGestureEnabled: true,
         pageParam: {
             url: jumpUrl,
             title: jumpTitle
+        },
+        animation: {
+            duration: 250
         },
         scaleEnabled: true,
         allowEdit: true
@@ -204,24 +217,24 @@ function openUrl(jumpUrl, jumpTitle) {
 function jumpToWin(name, title, newParams) {
     // 默认设置
     var defaultParams = {
+        name: name,
+        title: title,
         slidBackEnabled: true,
         backEnable: true,
-        isbackToIndex: false
+        isbackToIndex: false,
+        prevPage: api.frameName,
+        prevWin: api.winName
     };
     //继承新设置
     var params = Object.assign(defaultParams, newParams)
     api.openWin({
         name: name,
         url: 'widget://html/publicHeader.html',
-        pageParam: {
-            name: name,
-            title: title,
-            backEnable: params.backEnable,
-            isbackToIndex: params.isbackToIndex,
-            prevPage: api.frameName,
-            prevWin: api.winName
-        },
-        slidBackEnabled: params.slidBackEnabled
+        pageParam: params,
+        slidBackEnabled: params.slidBackEnabled,
+        animation: {
+            duration: 250
+        }
     })
 }
 
@@ -259,7 +272,7 @@ function jumpToIndex(index) {
 function jumpToDetail(bid) {
     api.openWin({
         name: 'investmentDetail',
-        url: './investmentDetail.html',
+        url: 'widget://html/investmentDetail.html',
         pageParam: {
             bid: bid
         }
@@ -277,4 +290,18 @@ function getToken(newParams) {
     } else {
         jumpToWin('login', '登陆', newParams);
     }
+}
+
+function refreshHeader() {
+    api.setRefreshHeaderInfo({
+        visible: true,
+        loadingImg: 'widget://image/refresh.jpg',
+        bgColor: '#fff',
+        textColor: '#333',
+        textDown: '下拉刷新...',
+        textUp: '松开刷新...',
+        showTime: true
+    }, function(ret, err) {
+        refreshFrameData();
+    });
 }

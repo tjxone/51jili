@@ -122,6 +122,26 @@
 <script src="../script/common.js"></script>
 <script src="../script/indexAnimation.js"></script>
 <script>
-	drawCircle()
+	apiready = function(){
+			refreshHeader()
+			drawCircle()
+			var bid = api.pageParam.bid
+			alert(bid)
+	}
+
+	function refreshFrameData(){
+			var bid = api.pageParam.bid
+			alert(bid)
+			refreshData({
+					url:'investment_details',
+					values:{
+						b_id:bid,
+						token:''
+					},
+					loginParams:{
+
+					}
+			})
+	}
 </script>
 </html>

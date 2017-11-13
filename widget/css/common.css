@@ -241,7 +241,6 @@ header {
 .login-icon {
     float: right;
     display: inline-block;
-    padding-top: 3px
 }
 
 .login-icon div {
@@ -579,7 +578,20 @@ header {
     color: #fff;
     text-align: center;
     font-size: 1pc;
-    line-height: 30px
+    line-height: 30px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.nei-title h2 {
+    color: #fff;
+    text-align: center;
+    font-size: 1pc;
+    line-height: 30px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .nei-title a {
@@ -3174,6 +3186,16 @@ header {
     line-height: 20px
 }
 
+.target_tou_s {
+    width: 100%;
+    background: #e5e5e5;
+    display: inline-block;
+    height: 10px;
+    border-radius: 10px;
+    position: relative;
+    margin-bottom: 15px;
+}
+
 .target_tou_s i {
     position: absolute;
     top: 0;
@@ -3182,7 +3204,10 @@ header {
     width: 0;
     height: 10px;
     border-radius: 10px;
-    background: #f88d25
+    background: #f88d25;
+    transform-origin: 0% 0%;
+    animation: progress 1s linear;
+    -webkit-animation: progress 0.5s linear;
 }
 
 .target_tou_b {
@@ -3253,7 +3278,7 @@ header {
     color: #999
 }
 
-.target_tou li.pass a {
+.target_tou li.pass div.toubiao-btn {
     border: 1px solid #ccc;
     background: 0 0;
     color: #999
@@ -4051,11 +4076,6 @@ header {
     }
 }
 
-.logoDown {
-    animation: logoDown .4s 1;
-    -webkit-animation: logoDown .4s 1
-}
-
 .uc_risk-tips {
     position: relative;
     padding: 10px 30px;
@@ -4107,4 +4127,22 @@ header {
     background-color: #fff;
     background-size: 100% 100%;
     background-repeat: no-repeat;
+}
+
+@keyframes progress {
+    from {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(1);
+    }
+}
+
+@-webkit-keyframes progress {
+    from {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(1);
+    }
 }
