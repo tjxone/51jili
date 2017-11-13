@@ -206,13 +206,13 @@
 		</div>
 		<div class="detail-style">
 			<ul>
-				<li tapmode onclick="jumpToWin('investmentDescription','项目描述')">
+				<li tapmode onclick="jumpToWinAfterJudggingLogin('investmentDescription','项目描述')">
 					<div>
 						<span>项目描述：</span>
 						<em class="color1"><i class="icon-right-open-big"></i></em>
 					</div>
 				</li>
-				<li tapmode onclick="jumpToWin('borrowerInfo','借款人信息')">
+				<li tapmode onclick="jumpToWinAfterJudggingLogin('borrowerInfo','借款人信息')">
 					<div>
 						<span>借贷方信息：</span>
 						<em class="color1"><i class="icon-right-open-big"></i></em>
@@ -224,7 +224,7 @@
 						<em class="color1"><i class="icon-right-open-big"></i></em>
 					</div>
 				</li>
-				<li tapmode onclick="jumpToWin('bidRecord','购标记录')">
+				<li tapmode onclick="jumpToWinAfterJudggingLogin('bidRecord','购标记录')">
 					<div>
 						<span>投标记录：</span>
 						<em class="color1"><i class="icon-right-open-big"></i></em>
@@ -247,7 +247,7 @@
 <script>
 	apiready = function(){
 					refreshFrameData();
-			// refreshHeader()
+			refreshHeader()
 			// drawCircle()
 
 	}
@@ -270,7 +270,7 @@
 								//渲染立即投标按钮
 								api.execScript({
 								    name: 'investmentDetail',
-								    script: "changeBtn('"+data.bt_name+data.b_status_name+"')"
+								    script: "changeBtn('"+data.b_status_name+"')"
 								});
 
 								var investmentDetailHTML = template('investmentDetail_template' ,data);
@@ -279,7 +279,7 @@
 						}
 
 					}
-			})
+			},false)
 	}
 </script>
 </html>

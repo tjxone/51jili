@@ -163,6 +163,11 @@
                   api.removePrefs({
                       key: 'token'
                   });
+                  //登出后登陆状态设置false
+                  api.setPrefs({
+                      key: 'islogin',
+                      value: false
+                  });
                   // 跳转index页面
                   api.execScript({
                       name: 'index',
