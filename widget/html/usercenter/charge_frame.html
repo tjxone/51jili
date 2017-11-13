@@ -16,6 +16,12 @@
     <link rel="stylesheet" href="../../css/charge.css">
     <title>充值</title>
 </head>
+<style>
+    .bank-ch-info img {
+        width: 30px;
+        height: 30px;
+    }
+</style>
 
 <body id="charge">
     <div class="nav-tab">
@@ -35,31 +41,35 @@
                     我的可用余额
                     <span class="color4">
                     ¥
-                    <i class="fs20">5.04</i>
+                    <i class="fs20 balances">
+                        <script id="balances" type="text/html">
+                            {{ac_balances}}
+                        </script>
+                    </i>
                   </span>
                 </h1>
                 <ul class="login-input">
                     <li>
-                        <input type="text" placeholder="请输入充值金额">
+                        <input type="number" placeholder="请输入充值金额" class="amount">
                         <i>
                           <img src="../../image/icon7.png" alt="">
                         </i>
                     </li>
-                    <li>
-                        <input type="text" placeholder="请输入银行卡">
-                        <i>
+                    <li id="card" tapmode onclick="bankModal('show')">
+                        <input type="text" placeholder="请输入银行卡" readonly>
+                        <i style="top:15px;">
                           <img src="../../image/icon8.png" alt="">
                         </i>
                         <small class="icon-down-open-big"></small>
                     </li>
                     <li>
-                        <input type="text" placeholder="请输入您的交易密码">
+                        <input type="password" placeholder="请输入您的交易密码" class="trader">
                         <i>
                           <img src="../../image/pwd.png" alt="">
                         </i>
                     </li>
                 </ul>
-                <button class="btn toubiao-btn">确认充值</button>
+                <button class="btn toubiao-btn" tapmode onclick="charge()">确认充值</button>
             </div>
             <h1 class="color4 tip-h">
                 <img src="../../image/icon9.png" alt=""> 温馨提示
@@ -97,9 +107,256 @@
                 </p>
             </div>
         </div>
-    </div>
-    <script src="../../script/jquery.js"></script>
-    <script src="../../script/common.js"></script>
+        <!-- Modal 选择银行卡-->
+        <div class="modal fade" id="bankModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="background: #eeeeee;">
+                        <p class="color3 fs18"><img src="../../image/icon10.png" style="width:30px;vertical-align:sub;margin-right:10px;">选择银行卡</p>
+                    </div>
+                    <div class="modal-body" style="padding: 0;">
+                        <div class="bank-ch">
+                            <ul style="height: 300px;overflow-y: scroll;">
+                                <li tapmode onclick="bankList(this)">
+                                    <div class="bank-ch-info">
+                                        <h1>
+                                            <img src="../../image/banklog/1.png">中国工商银行
+                                        </h1>
+                                        <p>单笔限额最高100万</p>
+                                        <i class="no-ok"></i>
+                                        <input type="radio" name="bank" data-num="0005">
+                                    </div>
+                                </li>
+                                <li tapmode onclick="bankList(this)">
+                                    <div class="bank-ch-info">
+                                        <h1>
+                                            <img src="../../image/banklog/2.png"> 中国建设银行
+                                        </h1>
+                                        <p>单笔限额最高50万</p>
+                                        <i class="no-ok"></i>
+                                        <input type="radio" name="bank" checked data-num="5010">
+                                    </div>
+                                </li>
+                                <li tapmode onclick="bankList(this)">
+                                    <div class="bank-ch-info">
+                                        <h1>
+                                            <img src="../../image/banklog/3.png"> 中国农业银行
+                                        </h1>
+                                        <p>无限额</p>
+                                        <i class="no-ok"></i>
+                                        <input type="radio" name="bank" data-num="4008">
+                                    </div>
+                                </li>
+                                <li tapmode onclick="bankList(this)">
+                                    <div class="bank-ch-info">
+                                        <h1>
+                                            <img src="../../image/banklog/4.png"> 中国银行
+                                        </h1>
+                                        <p>单笔限额最高10万</p>
+                                        <i class="no-ok"></i>
+                                        <input type="radio" name="bank" data-num="8608">
+                                    </div>
+                                </li>
+                                <li tapmode onclick="bankList(this)">
+                                    <div class="bank-ch-info">
+                                        <h1>
+                                            <img src="../../image/banklog/5.png"> 中国邮政储蓄银行
+                                        </h1>
+                                        <p>单笔限额最高100万</p>
+                                        <i class="no-ok"></i>
+                                        <input type="radio" name="bank" data-num="0028">
+                                    </div>
+                                </li>
+                                <li tapmode onclick="bankList(this)">
+                                    <div class="bank-ch-info">
+                                        <h1>
+                                            <img src="../../image/banklog/6.png"> 招商银行
+                                        </h1>
+                                        <p>无限额</p>
+                                        <i class="no-ok"></i>
+                                        <input type="radio" name="bank" data-num="6007">
+                                    </div>
+                                </li>
+                                <li tapmode onclick="bankList(this)">
+                                    <div class="bank-ch-info">
+                                        <h1>
+                                            <img src="../../image/banklog/7.png"> 中信银行
+                                        </h1>
+                                        <p>无限额</p>
+                                        <i class="no-ok"></i>
+                                        <input type="radio" name="bank" data-num="0004">
+                                    </div>
+                                </li>
+                                <li tapmode onclick="bankList(this)">
+                                    <div class="bank-ch-info">
+                                        <h1>
+                                            <img src="../../image/banklog/8.png"> 交通银行
+                                        </h1>
+                                        <p>单笔限额最高5万</p>
+                                        <i class="no-ok"></i>
+                                        <input type="radio" name="bank" data-num="1025">
+                                    </div>
+                                </li>
+                                <li tapmode onclick="bankList(this)">
+                                    <div class="bank-ch-info">
+                                        <h1>
+                                            <img src="../../image/banklog/9.png"> 浦发银行
+                                        </h1>
+                                        <p>单笔限额最高5万</p>
+                                        <i class="no-ok"></i>
+                                        <input type="radio" name="bank" data-num="1022">
+                                    </div>
+                                </li>
+                                <li tapmode onclick="bankList(this)">
+                                    <div class="bank-ch-info">
+                                        <h1>
+                                            <img src="../../image/banklog/10.png"> 广发银行
+                                        </h1>
+                                        <p>无限额</p>
+                                        <i class="no-ok"></i>
+                                        <input type="radio" name="bank" data-num="1026">
+                                    </div>
+                                </li>
+                                <li tapmode onclick="bankList(this)">
+                                    <div class="bank-ch-info">
+                                        <h1>
+                                            <img src="../../image/banklog/11.png"> 中国民生银行
+                                        </h1>
+                                        <p>单笔限额最高50万</p>
+                                        <i class="no-ok"></i>
+                                        <input type="radio" name="bank" data-num="0015">
+                                    </div>
+                                </li>
+                                <li tapmode onclick="bankList(this)">
+                                    <div class="bank-ch-info">
+                                        <h1>
+                                            <img src="../../image/banklog/12.png"> 中国光大银行
+                                        </h1>
+                                        <p>单笔限额最高50万</p>
+                                        <i class="no-ok"></i>
+                                        <input type="radio" name="bank" data-num="0027">
+                                    </div>
+                                </li>
+                                <li tapmode onclick="bankList(this)">
+                                    <div class="bank-ch-info">
+                                        <h1>
+                                            <img src="../../image/banklog/13.png"> 兴业银行
+                                        </h1>
+                                        <p>单笔限额最高100万</p>
+                                        <i class="no-ok"></i>
+                                        <input type="radio" name="bank" data-num="0009">
+                                    </div>
+                                </li>
+                                <li tapmode onclick="bankList(this)">
+                                    <div class="bank-ch-info">
+                                        <h1>
+                                            <img src="../../image/banklog/14.png"> 平安银行
+                                        </h1>
+                                        <p>单笔限额最高5万</p>
+                                        <i class="no-ok"></i>
+                                        <input type="radio" name="bank" data-num="0031">
+                                    </div>
+                                </li>
+                                <li tapmode onclick="bankList(this)">
+                                    <div class="bank-ch-info">
+                                        <h1>
+                                            <img src="../../image/banklog/15.png"> 华夏银行
+                                        </h1>
+                                        <p>单笔限额最高5万</p>
+                                        <i class="no-ok"></i>
+                                        <input type="radio" name="bank" data-num="1021">
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="agreement-btn clearfix">
+                        <a href="javascript:;" class="no-use" tapmode onclick="bankModal('hide')">取消</a>
+                        <a href="javascript:;" class="use" tapmode onclick="use()">确认</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="../../script/jquery.js"></script>
+        <script src="../../script/bootstrap.min.js"></script>
+        <script src="../../script/common.js"></script>
+        <script src="../../script/template-web.js"></script>
 </body>
+<script>
+    apiready = function() {
+        refreshFrameData();
+    }
+
+    function bankModal(method) {
+        // console.log('123');
+        $('#bankModal').modal(method);
+    }
+    $('.bank-ch li').each(function() {
+        if ($(this).find('i').hasClass('ok1')) {
+            var num = $(this).find('input').attr('data-num');
+            var text = $(this).find('input').siblings('h1').text();
+            $('#card input').val(text);
+            $('#card input').attr('data-value', num);
+            $('input[name=BankID]').val(num);
+        }
+    });
+
+    function use() {
+        $('#bankModal').modal('hide');
+        var num = $('input[name=bank]:checked').attr('data-num');
+        var text = $('input[name=bank]:checked').siblings('h1').text();
+        $('#card input').val($.trim(text));
+        $('#card input').attr('data-value', num);
+        $('input[name=BankID]').val(num);
+    }
+    // $('.bank-ch li').click(function() {})
+
+    function bankList(tag) {
+        var $this = $(tag);
+        var obj_input = $this.find('input[name=bank]');
+        var obj_i = $this.find('.bank-ch-info i');
+        // if (obj_input.is(':checked')) {
+        obj_input.prop("checked", true);
+        $('.bank-ch-info i').removeClass().addClass('no-ok');
+        obj_i.removeClass().addClass('ok1');
+        // };
+    }
+
+    function refreshFrameData() {
+        refreshData({
+            url: "charge",
+            values: {
+                token: ''
+            },
+            loginParams: {
+                slidBackEnabled: false,
+                isbackToIndex: true
+            },
+            fun: function(ret, err) {
+                var data = ret.data;
+                var html = template('balances', data);
+                $('.balances').html(html);
+            }
+        });
+    }
+
+    function charge() {
+        var token = getToken();
+        var amount = $('.amount').val();
+        var trader = $('.trader').val();
+        apiPost({
+            url: 'unionpay',
+            values: {
+                token: token,
+                Amount: amount,
+                trader_password: trader
+            },
+            fun: function(ret, err) {
+                console.log(JSON.stringify(ret) + 123);
+                console.log(err);
+            }
+        });
+    }
+</script>
 
 </html>

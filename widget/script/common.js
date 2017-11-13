@@ -18,7 +18,7 @@ const baseUrl = 'http://ksh.51jili.com/api/';
 function apiPost(params) {
     // url,values,fun,userAgent,loginParams
     // 如果userAgent不存在
-    if (typeof(params.userAgent)=='undefined' && !params.hasOwnProperty('userAgent')) {
+    if (typeof(params.userAgent) == 'undefined' && !params.hasOwnProperty('userAgent')) {
         params.userAgent = userAgentDefalut;
     };
     //引入加密模块
@@ -74,7 +74,7 @@ function apiPost(params) {
                 //关闭下拉刷新等待条
                 api.refreshHeaderLoadDone();
                 //响应错误码时显示提示
-                console.log(JSON.stringify(err))
+                console.log(JSON.stringify(err));
                 if (err && err.code == 0) {
                     showToastMsg('网络异常，请检查网络哦~');
                 } else if (err && err.code == 1) {
@@ -85,16 +85,16 @@ function apiPost(params) {
                     showToastMsg('网络数据类型错误，请检查网络后重试哦~~')
                 }
                 //服务器返回错误代码0时
-                if(ret.code == 0){
+                if (ret.code == 0) {
                     //显示错误信息
-                    showToastMsg(ret.msg)
+                    showToastMsg(ret.msg);
                     //检查是否登陆过期，过期则跳转登陆页面
-                    if(ret.msg == '登陆过期'){
-                        jumpToWin('login','登陆',params.loginParams)
+                    if (ret.msg == '登录过期') {
+                        jumpToWin('login', '登录', params.loginParams)
                     }
-                }else{
-                  //传入ajax参数运行自定义回调函数
-                  params.fun(ret, err);
+                } else {
+                    //传入ajax参数运行自定义回调函数
+                    params.fun(ret, err);
                 }
             })
         } else {
@@ -106,25 +106,25 @@ function apiPost(params) {
 }
 
 // 刷新数据公用函数
-function refreshData(params){
+function refreshData(params) {
     // 如果请求需要token
-    if(typeof(params.values) != 'undefined'&&typeof(params.values.token) != 'undefined'){
+    if (typeof(params.values) != 'undefined' && typeof(params.values.token) != 'undefined') {
         api.getPrefs({
             key: 'token'
-        },function(ret,err){
+        }, function(ret, err) {
             var token = ret.value;
-            if(token != ''){
+            if (token != '') {
                 //如果有token，则发送请求取数据
                 // token过期写在了apiPost里面，过期则跳转登陆页
                 params.values.token = token;
                 apiPost(params)
-            }else{
+            } else {
                 // 如果没有token，则跳转登陆页重新登陆
-                jumpToWin('login','登陆',params.loginParams)
+                jumpToWin('login', '登陆', params.loginParams)
             }
         });
-    }else{
-    // 不需要token
+    } else {
+        // 不需要token
         apiPost(params)
     }
 
