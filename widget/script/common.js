@@ -105,11 +105,7 @@ function apiPost(params) {
                             value: false
                         });
                         //跳转登陆界面
-<<<<<<< HEAD
                         jumpToWin('login','登陆',params)
-=======
-                        jumpToWin('login', '登陆', params.loginParams)
->>>>>>> ba2658367e209c29b5ab7da9a8c0d3c09131c311
                     }
                 } else {
                     //传入ajax参数运行自定义回调函数
@@ -143,19 +139,11 @@ function refreshData(params, isNeedToJumpLogin) {
                 if (isNeedToJumpLogin == false) {
                     //如果不跳转登陆，则直接发请求
                     apiPost(params)
-<<<<<<< HEAD
                 }else{
                   // 如果需要跳转登陆，则跳转登陆页登陆
                   setTimeout(function(){
                     jumpToWin('login','登陆',params)
                   },150)
-=======
-                } else {
-                    // 如果需要跳转登陆，则跳转登陆页登陆
-                    setTimeout(function() {
-                        jumpToWin('login', '登陆', params.loginParams)
-                    }, 150)
->>>>>>> ba2658367e209c29b5ab7da9a8c0d3c09131c311
                 }
             }
         });
@@ -307,7 +295,6 @@ function jumpToIndex(index) {
 function jumpToWinAfterJudggingLogin(name, title, newParams) {
     api.getPrefs({
         key: 'islogin'
-<<<<<<< HEAD
     }, function(ret, err){
       alert( 'islogin状态'+JSON.stringify( ret ) );
         if( ret.value == 'true' ){
@@ -350,27 +337,7 @@ function jumpToWinAfterJudggingLogin(name, title, newParams) {
                     var params = Object.assign(defaultParams, newParams)
                     jumpToWin('login','登陆',params)
                 }
-                // if( ret ){
-                //      alert( JSON.stringify( ret ) );
-                // }else{
-                //      alert( JSON.stringify( err ) );
-                // }
             });
-
-            //  alert('未登录，询问是否登陆，或者再逛逛')
-=======
-    }, function(ret, err) {
-        if (ret.value == true) {
-            api.openWin({
-                name: 'investmentDetail',
-                url: 'widget://html/investmentDetail.html',
-                pageParam: {
-                    bid: bid
-                }
-            });
-        } else {
-            alert('未登录，询问是否登陆，或者再逛逛')
->>>>>>> ba2658367e209c29b5ab7da9a8c0d3c09131c311
         }
     });
 

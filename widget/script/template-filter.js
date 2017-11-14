@@ -19,10 +19,15 @@ template.defaults.imports.effectiveDateFormat = function(value){
     var timeStamp = value*1000-Date.parse(new Date())
     var remainTime = new Date(timeStamp)
     alert(remainTime)
-    var day = remainTime.getDay();
-    var hour = remainTime.getHours();
-    var minute = remainTime.getMinutes();
-    var second = remainTime.getSeconds();
+    var day = parseInt(remainTime/1000/60/60/24)
+    var hour = parseInt((remainTime/1000/60/60)%24)
+    var minute = parseInt((remainTime/1000/60)%60)
+    var second = (remainTime/1000)%60
+
+    var day = day<10? ('0'+day):day
+    var hour = hour<10? ('0'+hour):hour
+    var minute = minute<10? ('0'+minute):minute
+    var second = second<10? ('0'+second):second
 
     return `<span class="time day">${day}</span><span>天 </span>
     <span class="time hour">${hour}</span><span>:</span>
