@@ -38,7 +38,17 @@
 
         //如果当前窗口是登陆窗口
         if(api.winName == 'login'){
+            //它上一页是主页或者详情页
             if(param.prevWin == 'index'){
+              $('.showBack').on('click', function() {
+                jumpToIndex(0)
+              })
+              api.addEventListener({
+                  name: 'keyback'
+              }, function(ret, err) {
+                  jumpToIndex(0)
+              });
+            }else if(param.prevWin == 'investmentDetail'){
               $('.showBack').on('click', function() {
                 api.closeWin();
               })

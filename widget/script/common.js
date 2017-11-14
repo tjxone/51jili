@@ -12,8 +12,8 @@ const appid = '06wygzvDdr062rNwIXTC';
 const appkey = 'vxCdATZ76WeqjhF3ZNHu';
 const appver = '2.6.0';
 const apptype = 'ios';
-// const baseUrl = 'http://ksh.51jili.com/api/';
-const baseUrl = 'https://www.51jili.com/api/';
+const baseUrl = 'http://ksh.51jili.com/api/';
+// const baseUrl = 'https://www.51jili.com/api/';
 
 function apiPost(params) {
     //引入加密模块
@@ -105,7 +105,7 @@ function apiPost(params) {
                             value: false
                         });
                         //跳转登陆界面
-                        jumpToWin('login','登陆',params.loginParams)
+                        jumpToWin('login','登陆',params)
                     }
                 }else{
                   //传入ajax参数运行自定义回调函数
@@ -142,7 +142,7 @@ function refreshData(params,isNeedToJumpLogin){
                 }else{
                   // 如果需要跳转登陆，则跳转登陆页登陆
                   setTimeout(function(){
-                    jumpToWin('login','登陆',params.loginParams)
+                    jumpToWin('login','登陆',params)
                   },150)
                 }
             }
@@ -281,6 +281,7 @@ function jumpToIndex(index) {
         name: 'index',
         script: "randomSwitchBtn($('.footer-nav li:eq(" + index + ")')[0])",
     })
+    alert('stop')
     api.closeToWin({
         name: 'index'
     })
@@ -291,20 +292,59 @@ function jumpToIndex(index) {
 //**params:
 //** bid number 项目id号(必填)
 //**
-function jumpToWinAfterJudggingLogin(bid) {
+function jumpToWinAfterJudggingLogin(name, title, newParams) {
     api.getPrefs({
         key: 'islogin'
     }, function(ret, err){
-        if( ret.value == true ){
-             api.openWin({
-                 name: 'investmentDetail',
-                 url: 'widget://html/investmentDetail.html',
-                 pageParam: {
-                     bid: bid
-                 }
-             });
+      alert( 'islogin状态'+JSON.stringify( ret ) );
+        if( ret.value == 'true' ){
+          // 默认设置
+          var defaultParams = {
+              name: name,
+              title: title,
+              slidBackEnabled: true,
+              backEnable: true,
+              isbackToIndex: false,
+              prevPage: api.frameName,
+              prevWin: api.winName
+          };
+          //继承新设置
+          var params = Object.assign(defaultParams, newParams)
+          api.openWin({
+              name: params.name,
+              url: 'widget://html/publicHeader.html',
+              pageParam: params,
+              slidBackEnabled: params.slidBackEnabled,
+              animation:{
+                  type:'movein',
+                  duration:200
+              }
+          })
         }else{
-             alert('未登录，询问是否登陆，或者再逛逛')
+            api.confirm({
+                title: '未登录',
+                msg: '系统检测到您未登录',
+                buttons: ['登陆', '再逛逛']
+            }, function(ret, err){
+                if(ret.buttonIndex == 1){
+                    var defaultParams = {
+                        slidBackEnabled: true,
+                        backEnable: true,
+                        isbackToIndex: false,
+                        prevPage: api.frameName,
+                        prevWin: api.winName
+                    };
+                    var params = Object.assign(defaultParams, newParams)
+                    jumpToWin('login','登陆',params)
+                }
+                // if( ret ){
+                //      alert( JSON.stringify( ret ) );
+                // }else{
+                //      alert( JSON.stringify( err ) );
+                // }
+            });
+
+            //  alert('未登录，询问是否登陆，或者再逛逛')
         }
     });
 
