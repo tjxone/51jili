@@ -883,6 +883,22 @@ header {
     line-height: 50px
 }
 
+.agreement-btn .withdraw {
+    float: left;
+    display: inline-block;
+    width: 50%;
+    height: 50px;
+    background: #eee;
+    color: #999;
+    text-align: center;
+    line-height: 50px
+}
+
+.agreement-btn .withdraw.use {
+    background: #ef4646;
+    color: #fff;
+}
+
 .agreement-btn a.agree,
 .agreement-btn a.money-ch,
 .agreement-btn a.use {

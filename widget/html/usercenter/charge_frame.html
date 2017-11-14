@@ -55,13 +55,13 @@
                           <img src="../../image/icon7.png" alt="">
                         </i>
                     </li>
-                    <li id="card" tapmode onclick="bankModal('show')">
+                    <!-- <li id="card" tapmode onclick="bankModal('show')">
                         <input type="text" placeholder="请输入银行卡" readonly>
                         <i style="top:15px;">
                           <img src="../../image/icon8.png" alt="">
                         </i>
                         <small class="icon-down-open-big"></small>
-                    </li>
+                    </li> -->
                     <li>
                         <input type="password" placeholder="请输入您的交易密码" class="trader">
                         <i>
@@ -108,7 +108,7 @@
             </div>
         </div>
         <!-- Modal 选择银行卡-->
-        <div class="modal fade" id="bankModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <!-- <div class="modal fade" id="bankModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header" style="background: #eeeeee;">
@@ -276,9 +276,8 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <script src="../../script/jquery.js"></script>
-        <script src="../../script/bootstrap.min.js"></script>
         <script src="../../script/common.js"></script>
         <script src="../../script/template-web.js"></script>
 </body>
@@ -289,40 +288,40 @@
         unPay = api.require('unionPay');
     }
 
-    function bankModal(method) {
-        // console.log('123');
-        $('#bankModal').modal(method);
-    }
-    $('.bank-ch li').each(function() {
-        if ($(this).find('i').hasClass('ok1')) {
-            var num = $(this).find('input').attr('data-num');
-            var text = $(this).find('input').siblings('h1').text();
-            $('#card input').val(text);
-            $('#card input').attr('data-value', num);
-            $('input[name=BankID]').val(num);
-        }
-    });
+    // function bankModal(method) {
+    //     // console.log('123');
+    //     $('#bankModal').modal(method);
+    // }
+    // $('.bank-ch li').each(function() {
+    //     if ($(this).find('i').hasClass('ok1')) {
+    //         var num = $(this).find('input').attr('data-num');
+    //         var text = $(this).find('input').siblings('h1').text();
+    //         $('#card input').val(text);
+    //         $('#card input').attr('data-value', num);
+    //         $('input[name=BankID]').val(num);
+    //     }
+    // });
 
-    function use() {
-        $('#bankModal').modal('hide');
-        var num = $('input[name=bank]:checked').attr('data-num');
-        var text = $('input[name=bank]:checked').siblings('h1').text();
-        $('#card input').val($.trim(text));
-        $('#card input').attr('data-value', num);
-        $('input[name=BankID]').val(num);
-    }
-    // $('.bank-ch li').click(function() {})
+    // function use() {
+    //     $('#bankModal').modal('hide');
+    //     var num = $('input[name=bank]:checked').attr('data-num');
+    //     var text = $('input[name=bank]:checked').siblings('h1').text();
+    //     $('#card input').val($.trim(text));
+    //     $('#card input').attr('data-value', num);
+    //     $('input[name=BankID]').val(num);
+    // }
+    // // $('.bank-ch li').click(function() {})
 
-    function bankList(tag) {
-        var $this = $(tag);
-        var obj_input = $this.find('input[name=bank]');
-        var obj_i = $this.find('.bank-ch-info i');
-        // if (obj_input.is(':checked')) {
-        obj_input.prop("checked", true);
-        $('.bank-ch-info i').removeClass().addClass('no-ok');
-        obj_i.removeClass().addClass('ok1');
-        // };
-    }
+    // function bankList(tag) {
+    //     var $this = $(tag);
+    //     var obj_input = $this.find('input[name=bank]');
+    //     var obj_i = $this.find('.bank-ch-info i');
+    //     // if (obj_input.is(':checked')) {
+    //     obj_input.prop("checked", true);
+    //     $('.bank-ch-info i').removeClass().addClass('no-ok');
+    //     obj_i.removeClass().addClass('ok1');
+    //     // };
+    // }
 
     function refreshFrameData() {
         refreshData({
@@ -338,6 +337,7 @@
                 var data = ret.data;
                 var html = template('balances', data);
                 $('.balances').html(html);
+                api.parseTapmode();
             }
         });
     }
@@ -357,7 +357,7 @@
                 if (ret.code == 1) {
                     unPay.pay({
                         tn: ret.data.tn,
-                        devMode: true
+                        devMode: false
                     }, function(ret, err) {
                         api.alert({
                             msg: JSON.stringify(ret)
