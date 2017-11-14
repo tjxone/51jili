@@ -24,8 +24,8 @@
         <div class="back"><i class="replace"></i></div>
     </div>
 
-    <div class="footer-btn" tapmode onclick="jumpToWin('tenderNow','我要投标')">
-      <div>立即投标</div>
+    <div class="footer-btn" style="display:none" tapmode >
+      <div style="background:#ccc">- - - -</div>
     </div>
 </body>
 <script src="../script/jquery.js"></script>
@@ -87,8 +87,7 @@
         //如果不是投标详情页，隐藏立即投标按钮
         if(api.winName == 'investmentDetail'){
           //渲染投标数据
-        }else{
-          $('.footer-btn').hide()
+          $('.footer-btn').show()
         }
 
         //是否需要返回键
@@ -129,6 +128,16 @@
             },
             pageParam: param
         })
+    }
+
+    function changeBtn(statusName){
+        if(statusName=='立即投标'){
+          $('.footer-btn > div').css('background','#ef4646').html(statusName).on('click',function(){
+            jumpToWin('tenderNow','立即投标')
+          })
+        }else{
+          $('.footer-btn > div').html(statusName)
+        }
     }
 </script>
 

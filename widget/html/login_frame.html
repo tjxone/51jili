@@ -74,6 +74,11 @@
                         value: ret.data.token
                     });
 
+                    api.setPrefs({
+                        key: 'islogin',
+                        value: true
+                    });
+
 										var preWin = api.pageParam.prevWin
 										var prevPage = api.pageParam.prevPage
 										// 如果有frameName

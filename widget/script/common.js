@@ -68,7 +68,8 @@ function apiPost(params) {
                 timeout: 20,
                 headers: {
                     "User-Agent": params.userAgent,
-                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                    'authorization': getToken()
                 },
                 data: {
                     values: valuesObj
@@ -98,6 +99,11 @@ function apiPost(params) {
                         api.removePrefs({
                             key: 'token'
                         });
+                        //登陆过期后登陆状态设置false
+                        api.setPrefs({
+                            key: 'islogin',
+                            value: false
+                        });
                         //跳转登陆界面
                         jumpToWin('login', '登陆', params.loginParams)
                     }
@@ -115,7 +121,7 @@ function apiPost(params) {
 }
 
 // 刷新数据公用函数
-function refreshData(params) {
+function refreshData(params, isNeedToJumpLogin) {
     // 如果请求需要token
     if (typeof(params.values) != 'undefined' && typeof(params.values.token) != 'undefined') {
         api.getPrefs({
@@ -128,8 +134,17 @@ function refreshData(params) {
                 params.values.token = token;
                 apiPost(params)
             } else {
-                // 如果没有token，则跳转登陆页重新登陆
-                jumpToWin('login', '登陆', params.loginParams)
+                // 如果没有token，删除token属性
+                delete params.values.token
+                if (isNeedToJumpLogin == false) {
+                    //如果不跳转登陆，则直接发请求
+                    apiPost(params)
+                } else {
+                    // 如果需要跳转登陆，则跳转登陆页登陆
+                    setTimeout(function() {
+                        jumpToWin('login', '登陆', params.loginParams)
+                    }, 150)
+                }
             }
         });
     } else {
@@ -156,10 +171,14 @@ function showWaitingProgress() {
 //**消息提醒toast
 //**
 function showToastMsg(content) {
+    var duration = 2000;
+    if (content.length > 30) {
+        duration = 5000
+    }
     api.toast({
         msg: content,
-        duration: 2000,
-        location: 'center',
+        duration: duration,
+        location: 'middle',
         global: false
     })
 }
@@ -177,7 +196,8 @@ function open51Url(jumpUrl, jumpTitle) {
             title: jumpTitle
         },
         animation: {
-            duration: 250
+            type: 'movein',
+            duration: 200
         },
         scaleEnabled: true,
         allowEdit: true
@@ -197,7 +217,8 @@ function openUrl(jumpUrl, jumpTitle) {
             title: jumpTitle
         },
         animation: {
-            duration: 250
+            type: 'movein',
+            duration: 200
         },
         scaleEnabled: true,
         allowEdit: true
@@ -228,12 +249,13 @@ function jumpToWin(name, title, newParams) {
     //继承新设置
     var params = Object.assign(defaultParams, newParams)
     api.openWin({
-        name: name,
+        name: params.name,
         url: 'widget://html/publicHeader.html',
         pageParam: params,
         slidBackEnabled: params.slidBackEnabled,
         animation: {
-            duration: 250
+            type: 'movein',
+            duration: 200
         }
     })
 }
@@ -269,14 +291,24 @@ function jumpToIndex(index) {
 //**params:
 //** bid number 项目id号(必填)
 //**
-function jumpToDetail(bid) {
-    api.openWin({
-        name: 'investmentDetail',
-        url: 'widget://html/investmentDetail.html',
-        pageParam: {
-            bid: bid
+function jumpToWinAfterJudggingLogin(bid) {
+    api.getPrefs({
+        key: 'islogin'
+    }, function(ret, err) {
+        if (ret.value == true) {
+            api.openWin({
+                name: 'investmentDetail',
+                url: 'widget://html/investmentDetail.html',
+                pageParam: {
+                    bid: bid
+                }
+            });
+        } else {
+            alert('未登录，询问是否登陆，或者再逛逛')
         }
     });
+
+
 }
 
 
@@ -303,5 +335,12 @@ function refreshHeader() {
         showTime: true
     }, function(ret, err) {
         refreshFrameData();
+    });
+}
+
+function getToken() {
+    return api.getPrefs({
+        key: 'token',
+        sync: true
     });
 }
