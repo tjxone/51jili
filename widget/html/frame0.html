@@ -245,10 +245,10 @@
 	function isShowNavBar(){
 		// 判断有无token
 		api.getPrefs({
-				key: 'token'
+				key: 'islogin'
 		}, function(ret, err){
-				var token = ret.value;
-				if(token != ''){
+				var islogin = ret.value;
+				if(islogin == 'true'){
 						$('.logo-header').css('display','none')
 				}else{
 						$('.logo-header').css('display','block')
