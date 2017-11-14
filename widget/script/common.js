@@ -22,12 +22,12 @@ function apiPost(params) {
         hash,
         arr = [];
     // 如果userAgent不存在
-    if (typeof(params.userAgent)=='undefined' && !params.hasOwnProperty('userAgent')) {
+    if (typeof(params.userAgent) == 'undefined' && !params.hasOwnProperty('userAgent')) {
         params.userAgent = userAgentDefalut;
     };
-    if (typeof(params.values)=='undefined' && !params.hasOwnProperty('values')) {
+    if (typeof(params.values) == 'undefined' && !params.hasOwnProperty('values')) {
         valuesObj = {};
-    }else{
+    } else {
         valuesObj = params.values;
     }
 
@@ -69,7 +69,7 @@ function apiPost(params) {
                 headers: {
                     "User-Agent": params.userAgent,
                     "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-                    'authorization':getToken()
+                    'authorization': getToken()
                 },
                 data: {
                     values: valuesObj
@@ -90,11 +90,11 @@ function apiPost(params) {
                     showToastMsg('网络数据类型错误，请检查网络后重试哦~~')
                 }
                 //服务器返回错误代码0时
-                if(ret.code == 0){
+                if (ret.code == 0) {
                     //显示错误信息
-                    showToastMsg(ret.msg)
+                    showToastMsg(ret.msg);
                     //检查是否登陆过期，过期则跳转登陆页面
-                    if(ret.msg == '登录过期'){
+                    if (ret.msg == '登录过期') {
                         // 登陆过期删除token
                         api.removePrefs({
                             key: 'token'
@@ -105,11 +105,15 @@ function apiPost(params) {
                             value: false
                         });
                         //跳转登陆界面
+<<<<<<< HEAD
                         jumpToWin('login','登陆',params)
+=======
+                        jumpToWin('login', '登陆', params.loginParams)
+>>>>>>> ba2658367e209c29b5ab7da9a8c0d3c09131c311
                     }
-                }else{
-                  //传入ajax参数运行自定义回调函数
-                  params.fun(ret, err);
+                } else {
+                    //传入ajax参数运行自定义回调函数
+                    params.fun(ret, err);
                 }
             })
         } else {
@@ -121,34 +125,42 @@ function apiPost(params) {
 }
 
 // 刷新数据公用函数
-function refreshData(params,isNeedToJumpLogin){
+function refreshData(params, isNeedToJumpLogin) {
     // 如果请求需要token
-    if(typeof(params.values) != 'undefined'&&typeof(params.values.token) != 'undefined'){
+    if (typeof(params.values) != 'undefined' && typeof(params.values.token) != 'undefined') {
         api.getPrefs({
             key: 'token'
-        },function(ret,err){
+        }, function(ret, err) {
             var token = ret.value;
-            if(token != ''){
+            if (token != '') {
                 //如果有token，则发送请求取数据
                 // token过期写在了apiPost里面，过期则跳转登陆页
                 params.values.token = token;
                 apiPost(params)
-            }else{
+            } else {
                 // 如果没有token，删除token属性
                 delete params.values.token
-                if(isNeedToJumpLogin==false){
+                if (isNeedToJumpLogin == false) {
                     //如果不跳转登陆，则直接发请求
                     apiPost(params)
+<<<<<<< HEAD
                 }else{
                   // 如果需要跳转登陆，则跳转登陆页登陆
                   setTimeout(function(){
                     jumpToWin('login','登陆',params)
                   },150)
+=======
+                } else {
+                    // 如果需要跳转登陆，则跳转登陆页登陆
+                    setTimeout(function() {
+                        jumpToWin('login', '登陆', params.loginParams)
+                    }, 150)
+>>>>>>> ba2658367e209c29b5ab7da9a8c0d3c09131c311
                 }
             }
         });
-    }else{
-    // 不需要token
+    } else {
+        // 不需要token
         apiPost(params)
     }
 
@@ -172,8 +184,8 @@ function showWaitingProgress() {
 //**
 function showToastMsg(content) {
     var duration = 2000;
-    if(content.length>30){
-      duration = 5000
+    if (content.length > 30) {
+        duration = 5000
     }
     api.toast({
         msg: content,
@@ -195,9 +207,9 @@ function open51Url(jumpUrl, jumpTitle) {
             url: 'https://www.51jili.com/' + jumpUrl,
             title: jumpTitle
         },
-        animation:{
-            type:'movein',
-            duration:200
+        animation: {
+            type: 'movein',
+            duration: 200
         },
         scaleEnabled: true,
         allowEdit: true
@@ -216,9 +228,9 @@ function openUrl(jumpUrl, jumpTitle) {
             url: jumpUrl,
             title: jumpTitle
         },
-        animation:{
-            type:'movein',
-            duration:200
+        animation: {
+            type: 'movein',
+            duration: 200
         },
         scaleEnabled: true,
         allowEdit: true
@@ -253,9 +265,9 @@ function jumpToWin(name, title, newParams) {
         url: 'widget://html/publicHeader.html',
         pageParam: params,
         slidBackEnabled: params.slidBackEnabled,
-        animation:{
-            type:'movein',
-            duration:200
+        animation: {
+            type: 'movein',
+            duration: 200
         }
     })
 }
@@ -295,6 +307,7 @@ function jumpToIndex(index) {
 function jumpToWinAfterJudggingLogin(name, title, newParams) {
     api.getPrefs({
         key: 'islogin'
+<<<<<<< HEAD
     }, function(ret, err){
       alert( 'islogin状态'+JSON.stringify( ret ) );
         if( ret.value == 'true' ){
@@ -345,29 +358,55 @@ function jumpToWinAfterJudggingLogin(name, title, newParams) {
             });
 
             //  alert('未登录，询问是否登陆，或者再逛逛')
+=======
+    }, function(ret, err) {
+        if (ret.value == true) {
+            api.openWin({
+                name: 'investmentDetail',
+                url: 'widget://html/investmentDetail.html',
+                pageParam: {
+                    bid: bid
+                }
+            });
+        } else {
+            alert('未登录，询问是否登陆，或者再逛逛')
+>>>>>>> ba2658367e209c29b5ab7da9a8c0d3c09131c311
         }
     });
 
 
 }
 
-function refreshHeader(){
-  api.setRefreshHeaderInfo({
-      visible: true,
-      loadingImg: 'widget://image/refresh.jpg',
-      bgColor: '#fff',
-      textColor: '#333',
-      textDown: '下拉刷新...',
-      textUp: '松开刷新...',
-      showTime: true
-  }, function(ret, err){
-      refreshFrameData();
-  });
+
+function getToken(newParams) {
+    var token = api.getPrefs({
+        key: 'token',
+        sync: true
+    });
+    if (token) {
+        return token;
+    } else {
+        jumpToWin('login', '登陆', newParams);
+    }
 }
 
-function getToken (){
+function refreshHeader() {
+    api.setRefreshHeaderInfo({
+        visible: true,
+        loadingImg: 'widget://image/refresh.jpg',
+        bgColor: '#fff',
+        textColor: '#333',
+        textDown: '下拉刷新...',
+        textUp: '松开刷新...',
+        showTime: true
+    }, function(ret, err) {
+        refreshFrameData();
+    });
+}
+
+function getToken() {
     return api.getPrefs({
         key: 'token',
-        sync:true
+        sync: true
     });
 }

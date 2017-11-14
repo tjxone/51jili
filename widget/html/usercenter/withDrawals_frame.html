@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no,minimal-ui">
+    <meta name="format-detection" content="telephone=no" />
     <meta name="keywords" content="集利财富，集利网，投资理财，网络理财，个人理财，互联网理财，互联网金融，固定收益，本息保障，个人贷款，网络贷款，网络借贷，小额贷款，信用贷款，担保贷款，网贷平台，投融资平台">
     <meta name="description" content="集利财富：安全可信赖的投资理财平台，为大众用户提供低门槛、可信赖、有保障的投资理财服务！在集利财富，足不出户、轻点鼠标，即可便捷投资、安享收益！">
     <meta name="apple-mobile-web-app-title" content="集利财富，点滴投资，聚集好利，安全可信赖的投资理财平台" />
@@ -30,35 +31,38 @@
     </div>
     <div class="nav-content">
         <div class="nav-list active" id="nav-list1">
-            <div class="rechar-b">
-                <h1>
-                    我的可用余额
-                    <span class="color4">￥
-                        <i class="fs20">5.04</i>
-                    </span>
-                </h1>
-                <ul class="login-input">
-                    <li>
-                        <input type="text" placeholder="请输入银行卡">
-                        <i class="bankIcon">
-                          <img src="../../image/icon8.png" alt="">
-                        </i>
-                        <small class="icon-down-open-big"></small>
-                    </li>
-                    <li>
-                        <input type="text" placeholder="请确认提现金额">
-                        <i>
-                          <img src="../../image/icon7.png" alt="">
-                        </i>
-                    </li>
-                    <li>
-                        <input type="text" placeholder="请输入您的交易密码">
-                        <i>
-                          <img src="../../image/pwd.png" alt="">
-                        </i>
-                    </li>
-                </ul>
-                <button class="btn toubiao-btn">申请提现</button>
+            <div class="rechar-b withDrawBox">
+                <script id="withDraw" type="text/html">
+                    <h1>
+                        我的可用余额
+                        <span class="color4">￥
+                            <i class="fs20">{{ac_balances.ac_balances}}</i>
+                        </span>
+                    </h1>
+                    <ul class="login-input">
+                        <li tapmode onclick="cardModal('show')">
+                            {{each list}} {{if $value.is_use==1}}
+                            <input type="text" placeholder="请输入银行卡" value="{{$value.a_the_depositary_bank}}" data-num="{{$value.a_id}}" id="cardInput"> {{/if}} {{/each}}
+                            <i class="bankIcon">
+                              <img src="../../image/icon8.png" alt="">
+                            </i>
+                            <small class="icon-down-open-big"></small>
+                        </li>
+                        <li>
+                            <input type="text" placeholder="请确认提现金额" id="amount">
+                            <i>
+                              <img src="../../image/icon7.png" alt="">
+                            </i>
+                        </li>
+                        <li>
+                            <input type="text" placeholder="请输入您的交易密码" id="trader">
+                            <i>
+                              <img src="../../image/pwd.png" alt="">
+                            </i>
+                        </li>
+                    </ul>
+                </script>
+                <button class="btn toubiao-btn" tapmode onclick="action()">申请提现</button>
             </div>
             <h1 class="color4 tip-h">
                 <img src="../../image/icon9.png" alt=""> 温馨提示
@@ -101,8 +105,103 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="bankModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #eeeeee;">
+                    <p class="color3 fs18"><img src="../../image/icon10.png">选择银行卡</p>
+                </div>
+                <div class="modal-body" style="padding: 0;">
+                    <div class="bank-ch">
+                        <ul style="height: 300px;overflow-y: scroll;" class="bankcard">
+                            <script type="text/html" id="bankcard">
+                                {{each list}}
+                                <li tapmode onclick="use(this)">
+                                    <div class="bank-ch-info">
+                                        <h1>{{$value.a_the_depositary_bank}}</h1>
+                                        <p>{{$value.a_account}} {{$value.a_account_user}}</p>
+                                        {{if $value.is_use==1}}
+                                        <i class="ok1"></i> {{else}}
+                                        <i class="no-ok"></i> {{/if}}
+                                        <input type="radio" name="bank" checked="" data-num="{{$value.a_id}}">
+                                        <!--data-value为银行卡尾号-->
+                                    </div>
+                                </li>
+                                {{/each}}
+                                <li>
+                                    <a href="/user_center/bankmg/143">
+                                        <img src="../../image/icon25.png">添加银行卡
+                                    </a>
+                                </li>
+                            </script>
+                        </ul>
+                    </div>
+                </div>
+                <div class="agreement-btn clearfix">
+                    <div href="javascript:;" class="no-use withdraw" tapmode onclick="cardModal('hide')">取消</div>
+                    <div href="javascript:;" class="use withdraw" tapmode onclick="sure()">确认</div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="../../script/jquery.js"></script>
+    <script src="../../script/bootstrap.min.js"></script>
     <script src="../../script/common.js"></script>
+    <script src="../../script/template-web.js"></script>
 </body>
+<script>
+    apiready = function() {
+        refreshFrameData();
+    }
+
+    function refreshFrameData() {
+        refreshData({
+            url: "withdrawals",
+            values: {
+                token: ''
+            },
+            loginParams: {
+                slidBackEnabled: false,
+                isbackToIndex: true
+            },
+            fun: function(ret, err) {
+                var data = ret.data;
+                console.log(JSON.stringify(ret));
+                var html = template('withDraw', data);
+                $('.withDrawBox').html(html);
+                var bankcard = template('bankcard', data);
+                $('.bankcard').html(bankcard);
+                api.parseTapmode();
+            }
+        });
+    }
+
+    function use(tap) {
+        var $that = $(tap);
+        if ($that.find('.no-ok')) {
+            $that.find('.no-ok').removeClass('no-ok').addClass('ok1');
+            $that.siblings().find('.ok1').removeClass('ok1').addClass('no-ok');
+        }
+    }
+
+    function sure() {
+        var cardInput = $('#cardInput');
+        var cardName = $('.ok1').siblings('h1').text();
+        var num = $('.ok1').siblings('input').data('num');
+        cardInput.val(cardName);
+        cardInput.data('num', num);
+        $('#bankModal').modal('hide');
+    }
+
+    function action() {
+        apiPost({
+
+        })
+    }
+
+    function cardModal(type) {
+        $('#bankModal').modal(type);
+    }
+</script>
 
 </html>

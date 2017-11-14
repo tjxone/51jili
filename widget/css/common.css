@@ -883,6 +883,22 @@ header {
     line-height: 50px
 }
 
+.agreement-btn .withdraw {
+    float: left;
+    display: inline-block;
+    width: 50%;
+    height: 50px;
+    background: #eee;
+    color: #999;
+    text-align: center;
+    line-height: 50px
+}
+
+.agreement-btn .withdraw.use {
+    background: #ef4646;
+    color: #fff;
+}
+
 .agreement-btn a.agree,
 .agreement-btn a.money-ch,
 .agreement-btn a.use {
@@ -3185,6 +3201,7 @@ header {
 .target_tou_t p .badge {
     line-height: 20px
 }
+
 .target_tou_s {
     width: 100%;
     background: #e5e5e5;
@@ -3194,6 +3211,7 @@ header {
     position: relative;
     margin-bottom: 15px;
 }
+
 .target_tou_s i {
     position: absolute;
     top: 0;
@@ -3203,7 +3221,7 @@ header {
     height: 10px;
     border-radius: 10px;
     background: #f88d25;
-    transform-origin:0% 0%;
+    transform-origin: 0% 0%;
     animation: progress 1s linear;
     -webkit-animation: progress 0.5s linear;
 }
@@ -4074,7 +4092,6 @@ header {
     }
 }
 
-
 .uc_risk-tips {
     position: relative;
     padding: 10px 30px;
@@ -4127,11 +4144,21 @@ header {
     background-size: 100% 100%;
     background-repeat: no-repeat;
 }
+
 @keyframes progress {
-    from {transform:scaleX(0);}
-    to {transform:scaleX(1);}
+    from {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(1);
+    }
 }
+
 @-webkit-keyframes progress {
-    from {transform:scaleX(0);}
-    to {transform:scaleX(1);}
+    from {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(1);
+    }
 }

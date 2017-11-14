@@ -17,225 +17,222 @@
 </head>
 
 <body>
-    <div class="user-t">
-        <div class="user-t-up">
-            <div class="user-t-up-l">
-                <div>
-                    <span></span>
-                    <i>JL13425718756</i>
+    <script type="text/html" id="usercenter">
+        <div class="user-t">
+            <div class="user-t-up">
+                <div class="user-t-up-l">
+                    <div>
+                        <span></span>
+                        <i>{{username}}</i>
+                    </div>
+                </div>
+                <div class="user-t-up-r">
+                    <div class="setting icon-cog-5">
+                    </div>
+                    <div class="msgRedirect">
+                        <span></span>
+                        <i>33</i>
+                    </div>
                 </div>
             </div>
-            <div class="user-t-up-r">
-                <div class="setting icon-cog-5">
-                </div>
-                <div class="msgRedirect">
-                    <span></span>
-                    <i>33</i>
-                </div>
+            <div class="user-t-b">
+                <h1>可用余额</h1>
+                <p><span>{{ac_balances}}</span>元</p>
+            </div>
+            <div class="user-t-num">
+                <ul class="clearfix">
+                    <li style="cursor: pointer;" onclick="location.href='/user_center/fundtotal/137'">
+                        <p>资产总计></p>
+                        <h1><span>{{total_account}}</span>元</h1>
+                    </li>
+                    <li style="cursor: pointer;" onclick="location.href='/user_center/waitpay/137'">
+                        <p>待收本息></p>
+                        <h1><span>{{ac_collect_interest_principal}}</span>元</h1>
+                    </li>
+                </ul>
+            </div>
+            <div class="user-btn">
+                <ul class="clearfix">
+                    <li>
+                        <div tapmode class="chargeRedirect">充值</div>
+                    </li>
+                    <li>
+                        <div tapmode class="withDrawalsRedirect">提现</div>
+                    </li>
+                </ul>
             </div>
         </div>
-        <div class="user-t-b">
-            <h1>可用余额</h1>
-            <p><span>0.00</span>元</p>
-        </div>
-        <div class="user-t-num">
-            <ul class="clearfix">
-                <li style="cursor: pointer;" onclick="location.href='/user_center/fundtotal/137'">
-                    <p>资产总计></p>
-                    <h1><span>100.60</span>元</h1>
-                </li>
-                <li style="cursor: pointer;" onclick="location.href='/user_center/waitpay/137'">
-                    <p>待收本息></p>
-                    <h1><span>100.60</span>元</h1>
-                </li>
-            </ul>
-        </div>
-        <div class="user-btn">
-            <ul class="clearfix">
-                <li>
-                    <div tapmode class="chargeRedirect">充值</div>
-                </li>
-                <li>
-                    <div tapmode class="withDrawalsRedirect">提现</div>
-                </li>
-            </ul>
-        </div>
-    </div>
 
-    <div class="user-b">
-        <ul class="clearfix">
-            <li>
-                <div tapmode class="incomeRedirect">
-                    <h1>收益概况</h1>
-                    <p>本月收益<span class="color-red">0.00</span></p>
-                </div>
-            </li>
-            <li>
-                <div tapmode class="fundrecordRedirect">
-                    <h1>资金记录</h1>
-                    <p>本月记录数<span class="color-red">2</span></p>
-                </div>
-            </li>
-            <li>
-                <div tapmode class="fcodeRedirect">
-                    <h1>邀请好友</h1>
-                    <p>好友数量<span class="color-red">0</span></p>
-                </div>
-            </li>
-        </ul>
-    </div>
-    <h1 class="title" style="padding:20px 10px 10px; "><span></span>投资管理</h1>
-    <div class="detail-style">
-        <ul>
-            <li>
-                <div tapmode class="myInvestRedirect">
-                    <span class="color2">我的投资</span>
-                    <em>全部投资<small class="color4 fs16 ml5 dpi">1</small><i class="icon-right-open-big"></i></em>
-                </div>
-            </li>
-            <li>
-                <div tapmode class="myTransferRedirect">
-                    <span class="color2">债权转让</span>
-                    <em>全部债权<small class="color4 fs16 ml5 dpi">0</small><i class="icon-right-open-big"></i></em>
-                </div>
-            </li>
-            <li>
-                <div tapmode class="paymentPlanRedirect">
-                    <span class="color2">回款记录</span>
-                    <em>全部回款<small class="color4 fs16 ml5 dpi">1</small><i class="icon-right-open-big"></i></em>
-                </div>
-            </li>
-            <li>
-                <div tapmode class="calendarRedirect">
-                    <span class="color2">回款日历</span>
-                    <em>本月待回款<small class="color4 fs16 ml5 dpi">0笔</small><i class="icon-right-open-big"></i></em>
-                </div>
-            </li>
-        </ul>
-    </div>
-    <h1 class="title" style="padding:20px 10px 10px; "><span></span>账户管理</h1>
-    <div class="detail-style">
-        <ul>
-            <li>
-                <div class="certifyinfoRedirect" tapmode>
-                    <span class="color2">安全信息</span>
-                    <em>未设置<small class="color4 fs16 ml5 dpi">1</small><i class="icon-right-open-big"></i></em>
-                </div>
-            </li>
-            <li>
-                <div class="bankmgRedirect">
-                    <span class="color2">银行卡管理</span>
-                    <em>已增加<small class="color4 fs16 ml5 dpi">2</small><i class="icon-right-open-big"></i></em>
-                </div>
-            </li>
-            <li>
-                <div class="rewardRedirect">
-                    <span class="color2">我的礼券</span>
-                    <em>可用礼券<small class="color4 fs16 ml5 dpi">2</small><i class="icon-right-open-big"></i></em>
-                </div>
-            </li>
-        </ul>
-    </div>
-    <div class="main">
-        <div class="user-layout">
-            <div class="logout">退出</div>
+        <div class="user-b">
+            <ul class="clearfix">
+                <li>
+                    <div tapmode class="incomeRedirect">
+                        <h1>收益概况</h1>
+                        <p>本月收益<span class="color-red">{{this_month_income}}</span></p>
+                    </div>
+                </li>
+                <li>
+                    <div tapmode class="fundrecordRedirect">
+                        <h1>资金记录</h1>
+                        <p>本月记录数<span class="color-red">{{charge_record_count}}</span></p>
+                    </div>
+                </li>
+                <li>
+                    <div tapmode class="fcodeRedirect">
+                        <h1>邀请好友</h1>
+                        <p>好友数量<span class="color-red">{{fcode_count}}</span></p>
+                    </div>
+                </li>
+            </ul>
         </div>
-        <div class="company-info">
-            <p><img src="../../image/icon6.png">更多内容功能请登录电脑版官网 www.51jili.com</p>
+        <h1 class="title" style="padding:20px 10px 10px; "><span></span>投资管理</h1>
+        <div class="detail-style">
+            <ul>
+                <li>
+                    <div tapmode class="myInvestRedirect">
+                        <span class="color2">我的投资</span>
+                        <em>全部投资<small class="color4 fs16 ml5 dpi">{{tenders_count}}</small><i class="icon-right-open-big"></i></em>
+                    </div>
+                </li>
+                <li>
+                    <div tapmode class="myTransferRedirect">
+                        <span class="color2">债权转让</span>
+                        <em>全部债权<small class="color4 fs16 ml5 dpi">{{transfer_count}}</small><i class="icon-right-open-big"></i></em>
+                    </div>
+                </li>
+                <li>
+                    <div tapmode class="paymentPlanRedirect">
+                        <span class="color2">回款记录</span>
+                        <em>全部回款<small class="color4 fs16 ml5 dpi">{{repayment_count}}</small><i class="icon-right-open-big"></i></em>
+                    </div>
+                </li>
+                <li>
+                    <div tapmode class="calendarRedirect">
+                        <span class="color2">回款日历</span>
+                        <em>本月待回款<small class="color4 fs16 ml5 dpi">0笔</small><i class="icon-right-open-big"></i></em>
+                    </div>
+                </li>
+            </ul>
         </div>
-    </div>
-    <div tapmode onclick="refreshFrameData()">测试</div>
+        <h1 class="title" style="padding:20px 10px 10px; "><span></span>账户管理</h1>
+        <div class="detail-style">
+            <ul>
+                <li>
+                    <div class="certifyinfoRedirect" tapmode>
+                        <span class="color2">安全信息</span>
+                        <em>未设置<small class="color4 fs16 ml5 dpi">{{safe_count}}</small><i class="icon-right-open-big"></i></em>
+                    </div>
+                </li>
+                <li>
+                    <div class="bankmgRedirect">
+                        <span class="color2">银行卡管理</span>
+                        <em>已增加<small class="color4 fs16 ml5 dpi">{{bank_count}}</small><i class="icon-right-open-big"></i></em>
+                    </div>
+                </li>
+                <li>
+                    <div class="rewardRedirect">
+                        <span class="color2">我的礼券</span>
+                        <em>可用礼券<small class="color4 fs16 ml5 dpi">{{gift_count}}</small><i class="icon-right-open-big"></i></em>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="main">
+            <div class="user-layout">
+                <div class="logout">退出</div>
+            </div>
+            <div class="company-info">
+                <p><img src="../../image/icon6.png">更多内容功能请登录电脑版官网 www.51jili.com</p>
+            </div>
+        </div>
+        <div tapmode onclick="refreshFrameData()">测试</div>
+    </script>
 </body>
 <script src="../../script/jquery.js"></script>
 <script src="../../script/common.js"></script>
+<script src="../../script/template-web.js"></script>
 <script type="text/javascript">
-    apiready = function() {
-        $('.logout').on('click', function() {
-            var token = getToken();
-            apiPost({
-              url:'logout',
-              values:{
-                token:token
-              },
-              fun:function(ret,err){
-                if(ret.code == 1){
-                  //登出成功后删除token
-                  api.removePrefs({
-                      key: 'token'
-                  });
-                  //登出后登陆状态设置false
-                  api.setPrefs({
-                      key: 'islogin',
-                      value: false
-                  });
-                  // 跳转index页面
-                  api.execScript({
-                      name: 'index',
-                      script: "randomSwitchBtn($('.footer-nav li:eq(0)')[0])",
-                  });
-                }
-              }
-            })
-        });
-        $('.msgRedirect').on('touchend', function() {
-            jumpToWin('usercenter/msg', '信息管理');
-        });
-        $('.chargeRedirect').on('touchend', function() {
-            jumpToWin('usercenter/charge', '充值');
-        });
-        $('.withDrawalsRedirect').on('touchend', function() {
-            jumpToWin('usercenter/withDrawals', '提现')
-        });
-        $('.incomeRedirect').on('click', function() {
-            jumpToWin('usercenter/income', '收益概况');
-        });
-        $('.fundrecordRedirect').on('click', function() {
-            jumpToWin('usercenter/fundrecord', '资金记录');
-        });
-        $('.fcodeRedirect').on('click', function() {
-            jumpToWin('usercenter/fcode', '邀请好友');
-        });
-        $('.myInvestRedirect').on('click', function() {
-            jumpToWin('usercenter/myinvest', '我的投资');
-        });
-        $('.myTransferRedirect').on('click', function() {
-            jumpToWin('usercenter/mytransfer', '我的债权');
-        });
-        $('.paymentPlanRedirect').on('click', function() {
-            jumpToWin('usercenter/paymentPlan', '回款记录');
-        });
-        $('.calendarRedirect').on('click', function() {
-            jump('calendar', './calendar.html');
-        });
+    apiready = function() {};
 
-        $('.certifyinfoRedirect').on('click', function() {
-            jumpToWin('usercenter/certifyinfo', '安全认证');
-        });
-        $('.bankmgRedirect').on('click', function() {
-            jumpToWin('usercenter/bankmg', '银行卡管理');
-        });
-        $('.rewardRedirect').on('click', function() {
-            jumpToWin('usercenter/reward', '我的礼券');
-        });
-    };
-
-    function refreshFrameData(){
-  		refreshData({
-  			url:"user_center",
-  			values:{
-  				token:'',
-  			},
-  			loginParams:{
-  				slidBackEnabled:false,
-  				isbackToIndex:true
-  			},
-  			fun:function(ret,err){
-  				console.log(JSON.stringify(ret))
-  			}
-  		})
-  	}
-
-
+    function refreshFrameData() {
+        refreshData({
+            url: "user_center",
+            values: {
+                token: ''
+            },
+            loginParams: {
+                slidBackEnabled: false,
+                isbackToIndex: true
+            },
+            fun: function(ret, err) {
+                var data = ret.data;
+                var html = template('usercenter', data);
+                $('body').html(html);
+                api.parseTapmode();
+                $('.logout').on('click', function() {
+                    var token = getToken();
+                    apiPost({
+                        url: 'logout',
+                        values: {
+                            token: token
+                        },
+                        fun: function(ret, err) {
+                            if (ret.code == 1) {
+                                //登出成功后删除token
+                                api.removePrefs({
+                                    key: 'token'
+                                });
+                                // 跳转index页面
+                                api.execScript({
+                                    name: 'index',
+                                    script: "randomSwitchBtn($('.footer-nav li:eq(0)')[0])",
+                                });
+                            }
+                        }
+                    });
+                });
+                $('.msgRedirect').on('touchend', function() {
+                    jumpToWin('usercenter/msg', '信息管理');
+                });
+                $('.chargeRedirect').on('touchend', function() {
+                    jumpToWin('usercenter/charge', '充值');
+                });
+                $('.withDrawalsRedirect').on('touchend', function() {
+                    jumpToWin('usercenter/withDrawals', '提现')
+                });
+                $('.incomeRedirect').on('click', function() {
+                    jumpToWin('usercenter/income', '收益概况');
+                });
+                $('.fundrecordRedirect').on('click', function() {
+                    jumpToWin('usercenter/fundrecord', '资金记录');
+                });
+                $('.fcodeRedirect').on('click', function() {
+                    jumpToWin('usercenter/fcode', '邀请好友');
+                });
+                $('.myInvestRedirect').on('click', function() {
+                    jumpToWin('usercenter/myinvest', '我的投资');
+                });
+                $('.myTransferRedirect').on('click', function() {
+                    jumpToWin('usercenter/mytransfer', '我的债权');
+                });
+                $('.paymentPlanRedirect').on('click', function() {
+                    jumpToWin('usercenter/paymentPlan', '回款记录');
+                });
+                $('.calendarRedirect').on('click', function() {
+                    jump('calendar', './calendar.html');
+                });
+                $('.certifyinfoRedirect').on('click', function() {
+                    jumpToWin('usercenter/certifyinfo', '安全认证');
+                });
+                $('.bankmgRedirect').on('click', function() {
+                    jumpToWin('usercenter/bankmg', '银行卡管理');
+                });
+                $('.rewardRedirect').on('click', function() {
+                    jumpToWin('usercenter/reward', '我的礼券');
+                });
+            }
+        })
+    }
 </script>
 
 </html>
