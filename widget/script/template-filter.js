@@ -16,18 +16,17 @@ template.defaults.imports.classifyFormat = function(value){
 }
 template.defaults.imports.effectiveDateFormat = function(value){
     // var date = new Date(parseInt(value*1000));
-    var timeStamp = value*1000-Date.parse(new Date())
-    var remainTime = new Date(timeStamp)
-    alert(remainTime)
+    var remainTime = value*1000-Date.parse(new Date())
+    // var remainTime = new Date(timeStamp)
     var day = parseInt(remainTime/1000/60/60/24)
     var hour = parseInt((remainTime/1000/60/60)%24)
     var minute = parseInt((remainTime/1000/60)%60)
     var second = (remainTime/1000)%60
 
-    var day = day<10? ('0'+day):day
-    var hour = hour<10? ('0'+hour):hour
-    var minute = minute<10? ('0'+minute):minute
-    var second = second<10? ('0'+second):second
+    var day = numFormat(day)
+    var hour = numFormat(hour)
+    var minute = numFormat(minute)
+    var second = numFormat(second)
 
     return `<span class="time day">${day}</span><span>天 </span>
     <span class="time hour">${hour}</span><span>:</span>

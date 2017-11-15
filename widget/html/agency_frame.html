@@ -15,27 +15,42 @@
 	<title>推荐机构</title>
 </head>
 <body>
-	<div class="agreement-b" style="padding: 20px 10px;background: #fff;">
-    <h4 style="text-align:center">推荐机构</h4>
-    <p >尊敬的投资人/出借人：</p>
-    <p style="text-indent:2em;">在您通过集利财富平台进行资金出借的过程中，您应已充分确认自身对网贷存在的风险性完全知悉。您应充分了解通过本平台进行交易的风险及收益特征，您应对自己的资金状况、收益预期、风险承受能力和风险偏好做出客观合理的评估后，再做出是否进行交易的决定。一旦您在本平台进行交易，即视为您对在本平台进行交易的风险有合理预期及承受能力，您应自行承担全部的风险。本平台不能也没有义务为您在本平台交易而导致的包括但不限于如下损失负责：</p>
-    <p style="text-indent:2em;">一、政策风险</p>
-    <p style="text-indent:2em;">因国家宏观政策、相关行业法律法规的调整、变化，可能对您的交易及投资收益产生影响。</p>
-    <p style="text-indent:2em;">二、市场风险</p>
-    <p style="text-indent:2em;">因市场供求关系、利率波动、行业不景气、企业效益下滑等不确定的未来市场变化，考虑最坏影响时，可能不利于您实现项目的预期收益甚至遭受本金损失。</p>
-    <p style="text-indent:2em;">三、借款人信用风险</p>
-    <p style="text-indent:2em;">集利财富网作为网络借贷中介平台，不对投资项目本金和收益提供任何保证或承诺，集利财富网在项目上线前虽已对借款人信用进行了必要的审核，但仍不能排除借款人可能会短期或长期的丧失还款能力（包括但不限于借款人收入情况、财产情况发生变化，发生人身意外等），从而导致您的预期收益甚至本金遭受损失。</p>
-    <p style="text-indent:2em;">四、资金流动性风险</p>
-    <p style="text-indent:2em;">若您欲中止在集利财富网的某项或全部项目的投资或提前提现，您可以通过集利财富网的债权转让方式实现，但集利财富网不对债权转让完成时间及债权转让能否全部成功实现做任何承诺，您因未成功进行债权转让将面临资金不能及时变现、丧失其他投资机会的风险。</p>
-    <p style="text-indent:2em;">五、不可抗力及意外事件风险</p>
-    <p style="text-indent:2em;">包括但不限于自然灾害、金融市场危机、战争、黑客攻击、病毒感染等不能预见、不能避免、不能克服的不可抗力事件，由此引起的任何损失，投资人须自行承担。</p>
-</div>
+	<div class="tab1-content">
+		<div class="tab1-list active" id="tab1-list1">
+	    <h1 class="title"><span></span>推荐机构</h1>
+			<div class="detail-zone">
+			</div>
+			<script id="db_template" type="text/html">
+					<h3 style="text-align:center">{{db_title}}</h3>
+					<p style="text-indent:2em">{{db_remark}}</p>
+			</script>
+	  </div>
+	</div>
 </body>
 <script src="../script/jquery.js"></script>
 <script src="../script/common.js"></script>
+<script src="../script/template-web.js"></script>
 <script>
   apiready = function(){
+			refreshFrameData()
   }
+	function refreshFrameData(){
+			var dbId = api.pageParam.db_id
+			refreshData({
+					url:'investment_db',
+					values:{
+							db_id:dbId
+					},
+					fun:function(ret,err){
+							console.log(JSON.stringify(ret))
+							var data = ret.data;
+							if(ret.code == 1){
+									var dblHTML = template('db_template' ,data);
+									$('.detail-zone').html(dblHTML);
+							}
+					}
+			})
+	}
 </script>
 
 </html>

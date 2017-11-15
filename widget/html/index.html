@@ -129,7 +129,6 @@
           api.setFrameGroupIndex({
               name: 'indexFrameGroup',
               index: index,
-              scroll:true
           });
         }
 
@@ -155,7 +154,6 @@
             api.setFrameGroupIndex({
                 name: 'indexFrameGroup',
                 index: index,
-                scroll:true
             });
 
         } else {
@@ -176,13 +174,15 @@
             api.getPrefs({
                 key: 'islogin'
             }, function(ret, err){
-                if(ret.value=='false'){
-                    jumpToWin('login','登陆')
+                // alert(ret.value)
+                if(ret.value=='notlogin'){
+                    // alert('未登录')
+                    jumpToWin('login','登陆',{slidBackEnabled:false})
                 }else{
+                    // alert('已登录')
                     api.setFrameGroupIndex({
                         name: 'indexFrameGroup',
                         index: index,
-                        scroll:true
                     });
                     api.execScript({
                         name:'index',

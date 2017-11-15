@@ -4,7 +4,9 @@
 //**  userAgent名称  string
 //**  url地址  string
 //**  fun（回调函数） function
-//**  loginParams 登陆页面后退键参数 object
+//**  slidBackEnabled(是否滑动关闭)
+//**  backEnable(是否允许后退)
+//**  isbackToIndex(是否后退键后退到主页)
 //**常量设置
 //**
 const userAgentDefalut = '51jili';
@@ -75,6 +77,7 @@ function apiPost(params) {
                     values: valuesObj
                 },
             }, function(ret, err) {
+                console.log(JSON.stringify(ret))
                 //收到响应后关闭等待窗口
                 api.hideProgress();
                 //关闭下拉刷新等待条
@@ -102,7 +105,7 @@ function apiPost(params) {
                         //登陆过期后登陆状态设置false
                         api.setPrefs({
                             key: 'islogin',
-                            value: false
+                            value: 'notlogin'
                         });
                         //跳转登陆界面
                         jumpToWin('login','登陆',params)
@@ -281,7 +284,6 @@ function jumpToIndex(index) {
         name: 'index',
         script: "randomSwitchBtn($('.footer-nav li:eq(" + index + ")')[0])",
     })
-    alert('stop')
     api.closeToWin({
         name: 'index'
     })
@@ -297,7 +299,7 @@ function jumpToWinAfterJudggingLogin(name, title, newParams) {
         key: 'islogin'
     }, function(ret, err){
       alert( 'islogin状态'+JSON.stringify( ret ) );
-        if( ret.value == 'true' ){
+        if( ret.value == 'logined' ){
           // 默认设置
           var defaultParams = {
               name: name,
@@ -320,7 +322,7 @@ function jumpToWinAfterJudggingLogin(name, title, newParams) {
                   duration:200
               }
           })
-        }else{
+        }else if(ret.value == 'notlogin'){
             api.confirm({
                 title: '未登录',
                 msg: '系统检测到您未登录',

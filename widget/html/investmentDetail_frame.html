@@ -13,6 +13,11 @@
 	<link rel="stylesheet" href="../css/bootstrap.min.css">
 	<link rel="stylesheet" href="../css/common.css">
 	<title>供应链GYL002858－集利财富</title>
+	<style>
+		.day,.hour,.minute,.second{
+				color:#f00;
+		}
+	</style>
 </head>
 <body>
 	<div class="detail-b ">
@@ -183,7 +188,7 @@
 					</div>
 				</li>
 				{{if d.b_status_name == '立即投标'}}
-				<li>
+				<li class="countdown">
 					<div>
 						<span>剩余募集时间：</span>
 						<em>
@@ -198,12 +203,14 @@
 						<em class="color4">风险提示书<i class="icon-right-open-big"></i></em>
 					</div>
 				</li>
+				{{if d.investment_db!=''}}
 				<li>
-					<div tapmode onclick="jumpToWin('agency','推荐机构')">
+					<div tapmode onclick="jumpToWin('agency','{{d.db_title}}',{db_id:{{d.db_id}} })">
 						<span>推荐机构：</span>
-						<em class="color4 tjjg">佛山市城城区集成小额贷款有限公司</em>
+						<em class="color4 tjjg">{{d.db_title}}</em>
 					</div>
 				</li>
+				{{/if}}
 			</ul>
 		</div>
 		<div class="detail-style">
@@ -251,7 +258,6 @@
 	apiready = function(){
 			refreshFrameData();
 			refreshHeader()
-			// drawCircle()
 
 	}
 
@@ -266,24 +272,90 @@
 					},
 					fun:function(ret,err){
 						console.log(JSON.stringify(ret.data))
-						// var json = '{"code":"1","msg":"操作成功","data":{"ac_balances":"0.00","bt_name":"供应链","bt_img":"http://ksh.51jili.com/attachment/display/3310","b_projecttitle":"GYL002886","b_minimum":"100","Rate":"9%","IncreasedRate":"1%","b_interest_rate":"9%","loandeadline":"3个月","b_need_loan":"10,000","b_actual_loan":"1,200","b_can_cast_loan":"8,800.00","b_effective_date":"1510646207","progress":"12.00%","b_status_name":"立即投标","db_id":"","db_title":"","b_repayment_way":"每期还息到期还本","expected_income":"225.00","b_assignbiddding":"1","b_assignpwd":"","is_hot":"0","canrsecoupon":"0","add_i":"1%","yuji_qixiri":"募集满T+1工作日","fx_url":"/investment/fx/21/1","fx_tip":"风险提示书","p_qixiri":"募集完毕后下一工作日起息","is_graceperiod":"","ispen_sing":true,"grant":0}}'
-						// var data = JSON.parse(json).data;
-						var data = ret.data
+						var json = '{"code":"1","msg":"操作成功","data":{"ac_balances":"0.00","bt_name":"供应链","bt_img":"http://ksh.51jili.com/attachment/display/3310","b_projecttitle":"GYL002886","b_minimum":"100","Rate":"9%","IncreasedRate":"1%","b_interest_rate":"9%","loandeadline":"3个月","b_need_loan":"10,000","b_actual_loan":"1,200","b_can_cast_loan":"8,800.00","b_effective_date":"1510646207","progress":"12.00%","b_status_name":"立即投标","db_id":"13","db_title":"集成金融财富中心","b_repayment_way":"每期还息到期还本","expected_income":"225.00","b_assignbiddding":"1","b_assignpwd":"123456","is_hot":"0","canrsecoupon":"0","add_i":"1%","yuji_qixiri":"募集满T+1工作日","fx_url":"/investment/fx/21/1","fx_tip":"风险提示书","p_qixiri":"募集完毕后下一工作日起息","is_graceperiod":"","ispen_sing":true,"grant":0}}'
+						var data = JSON.parse(json).data;
+						// var data = ret.data
 
 						if(ret.code==1){
+								//有预约的话弹窗输入预约码
+								if(data.b_assignbiddding==1){
+										assignpwdPrompt(data)
+								}
+								
 								//渲染立即投标按钮
 								api.execScript({
-								    name: 'investmentDetail',
-								    script: "changeBtn('"+data.b_status_name+"')"
+										name: 'investmentDetail',
+										script: "changeBtn('"+data.b_status_name+"')"
 								});
 
+								//渲染数据
 								var investmentDetailHTML = template('investmentDetail_template' ,data);
 								$('body').html(investmentDetailHTML);
 								drawCircle()
-						}
 
+								// 如果标状态为立即投标，则开启倒计时
+								if(data.b_status_name == '立即投标'){
+										countdownStart(data.b_effective_date)
+								}
+
+
+						}
 					}
 			},false)
+	}
+
+	function countdownStart (timeStamp){
+		setInterval(function(){
+				var remainTime = timeStamp*1000-Date.parse(new Date())
+				var day = numFormat(parseInt(remainTime/1000/60/60/24))
+				var hour = numFormat(parseInt((remainTime/1000/60/60)%24))
+				var minute = numFormat(parseInt((remainTime/1000/60)%60))
+				var second = numFormat((remainTime/1000)%60)
+				var countdownHTML = `<span class="time day">${day}</span><span>天 </span>
+				<span class="time hour">${hour}</span><span>:</span>
+				<span class="time minute">${minute}</span><span>:</span>
+				<span class="time second">${second}</span>`
+
+				$('.countdown > div > em').html(countdownHTML)
+		},1000)
+
+	}
+
+	function numFormat(num){
+			if(num<10){
+					return '0'+num
+			}else{
+					return num
+			}
+	}
+
+	function assignpwdPrompt(data){
+			api.prompt({
+					title:'请输入预约码',
+					type:'number',
+					buttons: ['确定', '取消']
+			}, function(ret, err){
+				// alert(ret.buttonIndex)
+					if(ret.buttonIndex==1){
+							if(ret.text.length<6||ret.text.length>8){
+									showToastMsg('预约码必须为6-8位纯数字')
+									assignpwdPrompt()
+							}else{
+									if(ret.text==data.b_assignpwd){
+											showToastMsg('预约码正确')
+											// alert('预约码正确进入标详情')
+									}else{
+											showToastMsg('预约必须为6-8位纯数字')
+											assignpwdPrompt()
+									}
+							}
+
+					}else if(ret.buttonIndex==2){
+							api.closeWin()
+					}else if(ret.buttonIndex==0){
+							assignpwdPrompt()
+					}
+			});
 	}
 </script>
 </html>

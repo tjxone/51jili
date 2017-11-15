@@ -76,7 +76,7 @@
 
                     api.setPrefs({
                         key: 'islogin',
-                        value: true
+                        value: 'logined'
                     });
 
 										var preWin = api.pageParam.prevWin
@@ -102,7 +102,6 @@
   													//     script: 'refreshFrameData()'
   													// });
   													// 返回用户中心页面
-                            alert('返回用户中心')
                             api.execScript({
                                 name: 'index',
                                 script: "randomSwitchBtn($('.footer-nav li:eq(2)')[0],false)",

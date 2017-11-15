@@ -228,6 +228,7 @@
 						loop: true,
 						speed:300,
 						autoplay:3000,
+						noSwiping:true
 					})
 
 					//渲染推荐标数据
@@ -248,9 +249,9 @@
 				key: 'islogin'
 		}, function(ret, err){
 				var islogin = ret.value;
-				if(islogin == 'true'){
+				if(islogin == 'logined'){
 						$('.logo-header').css('display','none')
-				}else{
+				}else if(islogin = 'notlogin'){
 						$('.logo-header').css('display','block')
 				}
 		});
