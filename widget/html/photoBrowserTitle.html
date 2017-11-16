@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="../css/fontello.css">
+  <link rel="stylesheet" href="../css/swiper.min.css">
+  <link rel="stylesheet" href="../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/common.css">
+</head>
+<body style="background:rgba(0,0,0,0)">
+  <div class="nei-title" style="background:rgba(0,0,0,0)">
+      <div class="back hideReplaceBack"><i class="replace"></i></div>
+      <div class="back showBack" tapmode onclick=closePhotoBrowser()><i class="icon-left-open-big"></i></div>
+      <h2>1/2</h2>
+      <div class="back" tapmode onclick="saveImgToAlumb()"><i class="icon-floppy"></i></div>
+  </div>
+</body>
+<script src="../script/jquery.js"></script>
+<script src="../script/common.js"></script>
+<script>
+    apiready = function(){
+        console.log(api)
+    }
+    function closePhotoBrowser(){
+        api.execScript({
+            name: 'photoBrowser',
+            script: 'api.closeWin()'
+        });
+    }
+
+    function saveImg(){
+        api.execScript({
+            name: 'photoBrowser',
+            frameName:'photoBrowserFrame',
+            script: 'saveImgToAlumb()'
+        });
+    }
+</script>
+</html>

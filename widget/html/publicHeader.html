@@ -40,7 +40,7 @@
         if(api.winName == 'login'){
             //它上一页是主页或者详情页
             if(param.prevWin == 'index'){
-                if(param.prevPage == ''){
+                if(param.prevPage == ''||param.prevPage == 'frame2'){
                     api.addEventListener({
                         name: 'keyback'
                     }, function(ret, err) {
@@ -60,7 +60,7 @@
                           name: 'keyback'
                       }, function(ret, err) {
                           api.closeWin({
-                            name:param.prevWin
+                              name:param.prevWin
                           })
                           api.closeWin();
                       });
@@ -129,12 +129,12 @@
       var param = api.pageParam;
       //如果当前窗口是登陆窗口
       if(api.winName == 'login'){
-          //它上一页是主页或者详情页
+          //它上一win是主页
           if(param.prevWin == 'index'){
-              if(param.prevPage != ''){
-                  api.closeWin();
-              }else{
+              if(param.prevPage == ''||param.prevPage == 'frame2'){
                   jumpToIndex(0)
+              }else{
+                  api.closeWin();
               }
           }else if(param.prevWin == 'investmentDetail'){
               api.closeWin();
@@ -157,7 +157,6 @@
               });
           }
       }else{
-          alert('here')
           api.closeWin();
       }
     }

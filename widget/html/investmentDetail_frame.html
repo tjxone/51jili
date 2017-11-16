@@ -215,25 +215,25 @@
 		</div>
 		<div class="detail-style">
 			<ul>
-				<li tapmode onclick="jumpToWinAfterJudggingLogin('investmentDescription','项目描述')">
+				<li tapmode onclick="jumpToWinAfterJudggingLogin('investmentDescription','项目描述',{b_id:{{d.b_id}}})">
 					<div>
 						<span>项目描述：</span>
 						<em class="color1"><i class="icon-right-open-big"></i></em>
 					</div>
 				</li>
-				<li tapmode onclick="jumpToWinAfterJudggingLogin('borrowerInfo','借款人信息')">
+				<li tapmode onclick="jumpToWinAfterJudggingLogin('borrowerInfo','借款人信息',{b_id:{{d.b_id}}})">
 					<div>
 						<span>借贷方信息：</span>
 						<em class="color1"><i class="icon-right-open-big"></i></em>
 					</div>
 				</li>
-				<li tapmode onclick="jumpToWin('safeGuard','保障措施')">
+				<li tapmode onclick="jumpToWin('safeGuard','保障措施',{b_id:{{d.b_id}}})">
 					<div>
 						<span>保障措施：</span>
 						<em class="color1"><i class="icon-right-open-big"></i></em>
 					</div>
 				</li>
-				<li tapmode onclick="jumpToWinAfterJudggingLogin('bidRecord','购标记录')">
+				<li tapmode onclick="jumpToWinAfterJudggingLogin('bidRecord','购标记录',{b_id:{{d.b_id}}})">
 					<div>
 						<span>投标记录：</span>
 						<em class="color1"><i class="icon-right-open-big"></i></em>
@@ -272,16 +272,18 @@
 					},
 					fun:function(ret,err){
 						console.log(JSON.stringify(ret.data))
-						var json = '{"code":"1","msg":"操作成功","data":{"ac_balances":"0.00","bt_name":"供应链","bt_img":"http://ksh.51jili.com/attachment/display/3310","b_projecttitle":"GYL002886","b_minimum":"100","Rate":"9%","IncreasedRate":"1%","b_interest_rate":"9%","loandeadline":"3个月","b_need_loan":"10,000","b_actual_loan":"1,200","b_can_cast_loan":"8,800.00","b_effective_date":"1510646207","progress":"12.00%","b_status_name":"立即投标","db_id":"13","db_title":"集成金融财富中心","b_repayment_way":"每期还息到期还本","expected_income":"225.00","b_assignbiddding":"1","b_assignpwd":"123456","is_hot":"0","canrsecoupon":"0","add_i":"1%","yuji_qixiri":"募集满T+1工作日","fx_url":"/investment/fx/21/1","fx_tip":"风险提示书","p_qixiri":"募集完毕后下一工作日起息","is_graceperiod":"","ispen_sing":true,"grant":0}}'
-						var data = JSON.parse(json).data;
-						// var data = ret.data
+						// var json = '{"code":"1","msg":"操作成功","data":{"ac_balances":"0.00","bt_name":"供应链","bt_img":"http://ksh.51jili.com/attachment/display/3310","b_projecttitle":"GYL002886","b_minimum":"100","Rate":"9%","IncreasedRate":"1%","b_interest_rate":"9%","loandeadline":"3个月","b_need_loan":"10,000","b_actual_loan":"1,200","b_can_cast_loan":"8,800.00","b_effective_date":"1510646207","progress":"12.00%","b_status_name":"立即投标","db_id":"13","db_title":"集成金融财富中心","b_repayment_way":"每期还息到期还本","expected_income":"225.00","b_assignbiddding":"1","b_assignpwd":"123456","is_hot":"0","canrsecoupon":"0","add_i":"1%","yuji_qixiri":"募集满T+1工作日","fx_url":"/investment/fx/21/1","fx_tip":"风险提示书","p_qixiri":"募集完毕后下一工作日起息","is_graceperiod":"","ispen_sing":true,"grant":0}}'
+						// var data = JSON.parse(json).data;
+
+						var data = ret.data
+						data.b_id = bid;
 
 						if(ret.code==1){
 								//有预约的话弹窗输入预约码
 								if(data.b_assignbiddding==1){
 										assignpwdPrompt(data)
 								}
-								
+
 								//渲染立即投标按钮
 								api.execScript({
 										name: 'investmentDetail',

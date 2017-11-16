@@ -14,8 +14,8 @@ const appid = '06wygzvDdr062rNwIXTC';
 const appkey = 'vxCdATZ76WeqjhF3ZNHu';
 const appver = '2.6.0';
 const apptype = 'ios';
-const baseUrl = 'http://ksh.51jili.com/api/';
-// const baseUrl = 'https://www.51jili.com/api/';
+// const baseUrl = 'http://ksh.51jili.com/api/';
+const baseUrl = 'https://www.51jili.com/api/';
 
 function apiPost(params) {
     //引入加密模块
@@ -322,7 +322,7 @@ function jumpToWinAfterJudggingLogin(name, title, newParams) {
                   duration:200
               }
           })
-        }else if(ret.value == 'notlogin'){
+        }else if(ret.value == 'notlogin'||ret.value == undefined||ret.value == ''){
             api.confirm({
                 title: '未登录',
                 msg: '系统检测到您未登录',
@@ -342,7 +342,6 @@ function jumpToWinAfterJudggingLogin(name, title, newParams) {
             });
         }
     });
-
 
 }
 

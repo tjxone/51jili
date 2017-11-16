@@ -21,7 +21,7 @@
 			<div class="detail-zone">
 			</div>
 			<script id="db_template" type="text/html">
-					<h3 style="text-align:center">{{db_title}}</h3>
+					<h4 style="text-align:center">{{db_title}}</h4>
 					<p style="text-indent:2em">{{db_remark}}</p>
 			</script>
 	  </div>
@@ -42,7 +42,6 @@
 							db_id:dbId
 					},
 					fun:function(ret,err){
-							console.log(JSON.stringify(ret))
 							var data = ret.data;
 							if(ret.code == 1){
 									var dblHTML = template('db_template' ,data);
