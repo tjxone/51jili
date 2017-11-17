@@ -14,29 +14,41 @@
   <div class="nei-title" style="background:rgba(0,0,0,0)">
       <div class="back hideReplaceBack"><i class="replace"></i></div>
       <div class="back showBack" tapmode onclick=closePhotoBrowser()><i class="icon-left-open-big"></i></div>
-      <h2>1/2</h2>
-      <div class="back" tapmode onclick="saveImgToAlumb()"><i class="icon-floppy"></i></div>
+      <h2>-/-</h2>
+      <div class="back" tapmode onclick="saveImg()"><i class="icon-floppy"></i></div>
   </div>
 </body>
 <script src="../script/jquery.js"></script>
 <script src="../script/common.js"></script>
 <script>
     apiready = function(){
-        console.log(api)
+        showCurrentImg()
     }
     function closePhotoBrowser(){
         api.execScript({
             name: 'photoBrowser',
-            script: 'api.closeWin()'
+            script: 'api.closeWin({animation:{type:"reveal",subType:"from_top"}})'
         });
     }
 
     function saveImg(){
         api.execScript({
             name: 'photoBrowser',
-            frameName:'photoBrowserFrame',
             script: 'saveImgToAlumb()'
         });
+    }
+
+    function showCurrentImg(){
+        var param = api.pageParam
+        var currentIndex = param.index+1
+        var imgLength = param.imgLength
+        $('.nei-title > h2').html(currentIndex+'/'+imgLength)
+    }
+
+    function changeCurrentImgIndex(index){
+      var imgLength = api.pageParam.imgLength
+      var currentIndex = index+1
+      $('.nei-title > h2').html(currentIndex+'/'+imgLength)
     }
 </script>
 </html>

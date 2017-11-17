@@ -182,7 +182,7 @@
 			<script id="materialPublicity_template" type="text/html">
 				{{set d = $data}}
 				{{each d value key}}
-					<li tapmode onclick="openPhotoBrowser()">
+					<li tapmode onclick="openPhotoBrowser(this)">
 						<img src="{{value.ba_url}}" class="detail_img">
 						<p>{{value.ba_name}}</p>
 					</li>
@@ -205,19 +205,19 @@
 
 		function refreshFrameData(){
 				var bid = api.pageParam.b_id
-				refreshData({
-						url:'investment_borrower',
-						values:{
-								b_id:bid
-						},
-						fun:function(ret,err){
-								if(ret.code==1){
-										var data = ret.data
-										var enterpriseInfoHTML = template('enterpriseInfo_template' ,data);
-										$('.enterpriseInfo').html(enterpriseInfoHTML);
-								}
-						}
-				})
+				// refreshData({
+				// 		url:'investment_borrower',
+				// 		values:{
+				// 				b_id:bid
+				// 		},
+				// 		fun:function(ret,err){
+				// 				if(ret.code==1){
+				// 						var data = ret.data
+				// 						var enterpriseInfoHTML = template('enterpriseInfo_template' ,data);
+				// 						$('.enterpriseInfo').html(enterpriseInfoHTML);
+				// 				}
+				// 		}
+				// })
 				refreshData({
 						url:'investment_img',
 						values:{
@@ -230,14 +230,25 @@
 										var materialPublicityHTML = template('materialPublicity_template' ,data);
 										$('.materialPublicity ul').html(materialPublicityHTML);
 
-										//生成图片数组，存储在本页面sessionStorage中
+										//生成图片数组，通过pageParam传到相册的frame中
+										for(var i = 0;i<data.length;i++){
+												imgArr.push(data[i].ba_url)
+										}
+
 								}
 
 						}
 				})
 		}
 
-		function openPhotoBrowser (){
+		function openPhotoBrowser (tag){
+				var index;
+				var materialPublicityList = $('.materialPublicity li')
+				for(var i = 0 ;i < materialPublicityList.length; i++){
+						if(tag == materialPublicityList[i]){
+								index = i
+						}
+				}
 				api.openWin({
 				    name: 'photoBrowser',
 				    url: 'widget://html/photoBrowser.html',
@@ -251,7 +262,8 @@
 							duration:200
 						},
 				    pageParam: {
-				        imgArr: imgArr
+				        imgArr: imgArr,
+								index: index
 				    },
 				    bounces: false,
 				});

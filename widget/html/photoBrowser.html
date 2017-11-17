@@ -11,21 +11,89 @@
 <script src="../script/common.js"></script>
 <script>
     apiready = function(){
-        openPhotoBrowserFrame()
+        photoBrowser()
+        openTitle()
     }
 
-    function openPhotoBrowserFrame(){
+    function openTitle(){
+      var param = api.pageParam
+      var imgLength = param.imgArr.length
+      var index = param.index
       api.openFrame({
-          name: 'photoBrowserFrame',
-          url: 'widget://html/photoBrowser_frame.html',
+          name: 'photoBrowserTitle',
+          url: 'widget://html/photoBrowserTitle.html',
           rect: {
               x: 0,
-              y: 64,
+              y: 0,
               w: 'auto',
-              h: api.frameHeight-64
+              h: 64
           },
-          bounces: false
+          bounces: false,
+          pageParam:{
+            imgLength:imgLength,
+            index:index
+          }
       });
+    }
+
+    function photoBrowser(){
+        var photoBrowser = api.require('photoBrowser');
+        var param = api.pageParam
+        var imgArr = param.imgArr
+        var index = param.index
+        //打开相册
+        photoBrowser.open({
+          images: imgArr,
+          placeholderImg: 'widget://icon/jililogo.png',
+          bgColor: '#000',
+          activeIndex:index,
+        }, function(ret, err) {
+          if(ret.eventType == 'change'){
+              api.execScript({
+                  frameName: 'photoBrowserTitle',
+                  script: 'changeCurrentImgIndex('+ret.index+')'
+              });
+          }
+          if (ret) {
+              alert(JSON.stringify(ret));
+          } else {
+              alert(JSON.stringify(err));
+          }
+        });
+
+    }
+
+    function saveImgToAlumb(){
+        var photoBrowser = api.require('photoBrowser');
+        //取当前图像下标
+        photoBrowser.getIndex(function(ret, err){
+            if(ret){
+                var index = ret.index
+                // 取当前图像本地地址
+                photoBrowser.getImage({
+                  index:index
+                },function(ret,err){
+                  if (ret) {
+                      // 取用本地地址存储图像到我的相册
+                      api.saveMediaToAlbum({
+                          path: ret.path
+                      }, function(ret, err){
+                          if( ret.status ){
+                               showToastMsg('保存成功')
+                          }else{
+                               showToastMsg(JSON.stringify(ret.err.msg))
+                          }
+                      });
+                  } else {
+                      showToastMsg(JSON.stringify(ret.err))
+                  }
+                })
+            }else{
+                showToastMsg(JSON.stringify(ret.err))
+            }
+        });
+
+
     }
 
 
