@@ -17,7 +17,7 @@ const apptype = 'ios';
 // const baseUrl = 'http://ksh.51jili.com/api/';
 const baseUrl = 'https://www.51jili.com/api/';
 
-function apiPost(params) {
+function apiPost(params,isUseProgress) {
     //引入加密模块
     var signature = api.require('signature');
     var valuesObj,
@@ -63,7 +63,9 @@ function apiPost(params) {
             valuesObj.sign = hash;
             console.log('发送请求的数据' + JSON.stringify(valuesObj))
                 //显示等待中准备发送请求
-            showWaitingProgress();
+            if(isUseProgress!=undefined){
+              showWaitingProgress();
+            }
             api.ajax({
                 url: baseUrl + params.url,
                 method: 'post',
@@ -138,6 +140,7 @@ function refreshData(params, isNeedToJumpLogin) {
                 apiPost(params)
             } else {
                 // 如果没有token，删除token属性
+                //使用没有token的参数发送请求，后台不记录用户数据
                 delete params.values.token
                 if (isNeedToJumpLogin == false) {
                     //如果不跳转登陆，则直接发请求

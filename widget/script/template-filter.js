@@ -40,3 +40,7 @@ template.defaults.imports.detailDateFormat = function(value){
     var detailTime = value.slice(blankIndex);
     return `${detailDate}<em> ${detailTime}</em>`
 }
+
+template.defaults.imports.fix2 = function(value){
+    return Number(value).toFixed(2)
+}

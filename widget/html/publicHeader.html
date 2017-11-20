@@ -24,9 +24,9 @@
         <div class="back"><i class="replace"></i></div>
     </div>
 
-    <div class="footer-btn" style="display:none" tapmode >
+    <!-- <div class="footer-btn" style="display:none" tapmode >
       <div style="background:#ccc">- - - -</div>
-    </div>
+    </div> -->
 </body>
 <script src="../script/jquery.js"></script>
 <script src="../script/common.js"></script>
@@ -109,21 +109,13 @@
                 x: 0,
                 y: $('.nei-title')[0].offsetHeight,
                 w: 'auto',
-                h: api.winName == 'investmentDetail' ? (api.frameHeight-$('.footer-btn')[0].offsetHeight-$('.nei-title')[0].offsetHeight) : 'auto'
+                h: 'auto'
             },
             pageParam: param
         })
     }
 
-    function changeBtn(statusName){
-        if(statusName=='立即投标'){
-          $('.footer-btn > div').css('background','#ef4646').html(statusName).on('click',function(){
-            jumpToWin('tenderNow','立即投标')
-          })
-        }else{
-          $('.footer-btn > div').html(statusName)
-        }
-    }
+
 
     function closeWindow(){
       var param = api.pageParam;

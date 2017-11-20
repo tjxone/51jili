@@ -19,30 +19,32 @@
 		}
 	</style>
 </head>
-<body>
+<body style="margin-bottom:70px;">
 	<div class="detail-b ">
-    <h3 style=""><img src="https://www.51jili.com/attachment/display/3310" >GYL002858
-      <img src="../image/icon_phone.png" style="width: 60px;height: 40px;margin-right: 0;margin-left: 10px;">
+    <h3 style="text-align:center">
+			<!-- <img src="https://www.51jili.com/attachment/display/3310" > -->
+			-----
+      <!-- <img src="../image/icon_phone.png" style="width: 60px;height: 40px;margin-right: 0;margin-left: 10px;"> -->
 			<!-- <em style="background: url(../image/hot.png) no-repeat;background-size: 100% 100%;"></em> -->
     </h3>
 		<div class="detail-b-info">
 			<canvas height="300" id="canvas" width="300" data-value="57.68"></canvas>
 			<h1>
-        进度：<small>57.68%</small>
+        进度：<small>--.--%</small>
       </h1>
 			<p>预期年化收益率</p>
-			<i>8.8%</i>
-			<h2>期限<em>12</em>个月</h2>
+			<i>--.--%</i>
+			<h2>期限<em>--</em>--</h2>
 		</div>
 	</div>
 	<div class="detail-num ">
 		<ul class="clearfix">
 			<li>
-				<p><span>400,000.00</span>元</p>
+				<p><span>--</span>元</p>
 				<p>借款金额</p>
 			</li>
 			<li>
-				<p><span>169,285.00</span>元</p>
+				<p><span>--</span>元</p>
 				<p>可投金额</p>
 			</li>
 		</ul>
@@ -71,7 +73,7 @@
 				<div>
 					<span>剩余募集时间：</span>
 					<em>
-						<span class="time day">00</span><span>天 </span><span class="time hour">00</span><span>:</span><span class="time minute">00</span><span>:</span><span class="time second">00</span>
+						<span class="time day">--</span><span>天 </span><span class="time hour">--</span><span>:</span><span class="time minute">--</span><span>:</span><span class="time second">--</span>
 					</em>
 				</div>
 			</li>
@@ -84,7 +86,7 @@
       <li>
         <div tapmode onclick="jumpToWin('agency','推荐机构')">
           <span>推荐机构：</span>
-          <em class="color4 tjjg">佛山市城城区集成小额贷款有限公司</em>
+          <em class="color4 tjjg">----</em>
         </div>
       </li>
 		</ul>
@@ -187,7 +189,7 @@
 						<em>{{d.yuji_qixiri}}</em>
 					</div>
 				</li>
-				{{if d.b_status_name == '立即投标'}}
+				{{if d.b_status_name == '立即投标'&&d.b_effective_date}}
 				<li class="countdown">
 					<div>
 						<span>剩余募集时间：</span>
@@ -203,7 +205,7 @@
 						<em class="color4">风险提示书<i class="icon-right-open-big"></i></em>
 					</div>
 				</li>
-				{{if d.investment_db!=''}}
+				{{if d.investment_db}}
 				<li>
 					<div tapmode onclick="jumpToWin('agency','{{d.db_title}}',{db_id:{{d.db_id}} })">
 						<span>推荐机构：</span>
@@ -247,6 +249,9 @@
 				</li>
 			</ul>
 		</div>
+		<div class="footer-btn" style="position:fixed;bottom:0;left:0;width:100%" tapmode >
+			<div style="background:#ccc">- - - -</div>
+		</div>
 	</script>
 </body>
 <script src="../script/jquery.js"></script>
@@ -284,12 +289,6 @@
 										assignpwdPrompt(data)
 								}
 
-								//渲染立即投标按钮
-								api.execScript({
-										name: 'investmentDetail',
-										script: "changeBtn('"+data.b_status_name+"')"
-								});
-
 								//渲染数据
 								var investmentDetailHTML = template('investmentDetail_template' ,data);
 								$('body').html(investmentDetailHTML);
@@ -299,6 +298,9 @@
 								if(data.b_status_name == '立即投标'){
 										countdownStart(data.b_effective_date)
 								}
+
+								//渲染立即投标按钮
+								changeBtn(data)
 
 
 						}
@@ -351,13 +353,24 @@
 											assignpwdPrompt()
 									}
 							}
-
 					}else if(ret.buttonIndex==2){
 							api.closeWin()
 					}else if(ret.buttonIndex==0){
 							assignpwdPrompt()
 					}
 			});
+	}
+
+	function changeBtn(data){
+			if(data.b_status_name=='立即投标'){
+				$('.footer-btn > div').css('background','#ef4646').html(data.b_status_name).on('click',function(){
+					jumpToWin('tenderNow','立即投标',{bid:api.pageParam.bid})
+				})
+				api.parseTapmode();
+
+			}else{
+				$('.footer-btn > div').html(statusName)
+			}
 	}
 </script>
 </html>
