@@ -261,9 +261,8 @@
 <script src="../script/template-filter.js"></script>
 <script>
 	apiready = function(){
-			refreshFrameData();
+			refreshFrameData()
 			refreshHeader()
-
 	}
 
 	function refreshFrameData(){
@@ -301,8 +300,6 @@
 
 								//渲染立即投标按钮
 								changeBtn(data)
-
-
 						}
 					}
 			},false)
@@ -322,7 +319,6 @@
 
 				$('.countdown > div > em').html(countdownHTML)
 		},1000)
-
 	}
 
 	function numFormat(num){
@@ -364,12 +360,16 @@
 	function changeBtn(data){
 			if(data.b_status_name=='立即投标'){
 				$('.footer-btn > div').css('background','#ef4646').html(data.b_status_name).on('click',function(){
-					jumpToWin('tenderNow','立即投标',{bid:api.pageParam.bid})
+					// 发送请求检查三个项目（未写）
+					// 是否登陆过期
+					// 是否实名认证
+					// 是否设置交易密码
+					// 是否进行风险承受能力评估
+					jumpToWinAfterJudggingLogin('tenderNow','立即投标',{bid:api.pageParam.bid})
 				})
 				api.parseTapmode();
-
 			}else{
-				$('.footer-btn > div').html(statusName)
+				$('.footer-btn > div').html(data.b_status_name)
 			}
 	}
 </script>

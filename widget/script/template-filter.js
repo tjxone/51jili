@@ -44,3 +44,13 @@ template.defaults.imports.detailDateFormat = function(value){
 template.defaults.imports.fix2 = function(value){
     return Number(value).toFixed(2)
 }
+
+template.defaults.imports.couponDateFormat = function(value){
+    var couponDate = new Date(Number(value)*1000)
+    var year = couponDate.getFullYear();
+    var month = couponDate.getMonth()+1
+    var day = couponDate.getDate()
+    var hour = couponDate.getHours()
+    var minute = couponDate.getMinutes()
+     return `${year}-${month}-${day} ${hour}:${minute}`
+}

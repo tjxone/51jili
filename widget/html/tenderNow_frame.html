@@ -104,7 +104,7 @@
 							元
 						</em>
 					</li>
-					<li tapmode onclick="jumpToCoupon()">
+					<li class="couponName" tapmode onclick="jumpToCoupon()">
 						<span class="coupon_name">礼券</span>
 						<em class="color3 fs14 ty-ch" data-value="" data-type="">
 	            请选择礼券
@@ -140,6 +140,9 @@
 <script src="../script/template-web.js"></script>
 <script src="../script/template-filter.js"></script>
 <script>
+var minNum = 0;
+var couponId = ''
+var type = ''
 apiready = function(){
 		refreshFrameData();
 		refreshHeader()
@@ -154,63 +157,104 @@ function refreshFrameData(){
 					token:''
 				},
 				fun:function(ret,err){
-					console.log(JSON.stringify(ret.data))
-
 					var data = ret.data
-
 					if(ret.code==1){
 							//渲染数据
 							var tenderNowHTML = template('tenderNow_template' ,data);
 							$('.main').html(tenderNowHTML);
 
 							//投标金额正则验证
-							changeNum(parseInt(data.b_minimum))
+							minNum = Number(data.b_minimum)
+							inputNum()
 					}
 				}
 		},false)
 }
 
 function jumpToCoupon(){
-		if(checkNum()){
-			jumpToWin('tenderNowCoupon','可用礼券')
+		var bid = api.pageParam.bid
+		if(checkNum(minNum)){
+			jumpToWin('tenderNowCoupon','可用礼券',{bid:bid,amount:$('#moneyNum').val()})
 		}
 }
 
-function changeNum(minNum){
+function inputNum(){
 		//获取焦点时输入框上移到可视区域中间，防止选择礼券部分消失
 		$('#moneyNum').on('focus',function(){
 				var _this = $(this)
-				var thisHeight = _this.parent().parent().offset().top;
+				var thisOffsetTop = _this.parent().parent().offset().top;
+				var thisHeight = _this.parent().parent().height()
 				setTimeout(function(){
 					var winInnerHeight = window.innerHeight
-					if(thisHeight>winInnerHeight/2){
-						$('body').scrollTop(thisHeight-winInnerHeight/2)
+					if(thisOffsetTop>winInnerHeight/2){
+						$('body').animate({'scrollTop':thisOffsetTop-winInnerHeight/2+thisHeight},200)
 					}
 				},500)
 		})
 		// 失去焦点时自动设这scrolltop为0，并验证输入数字
 		$('#moneyNum').on('blur',function(){
 				var _this = $(this)
-				$('body').scrollTop(0)
-
+				$('body').animate({'scrollTop':0},200)
+				// 验证输入金额
 				checkNum(minNum)
+				// 计算收益
+				calculateInvest()
 		})
 }
 function checkNum(minNum){
 		var num = $('#moneyNum').val()
 		if(num==undefined||num==''){
-			console.log(1)
 			showToastMsg('请输入投标金额')
 			return false
-		}else if(num<minNum){
-			console.log(2)
-			showToastMsg('最少投资金额为'+minNum+'元')
+		}else if(num < minNum){
+			showToastMsg('投资金额最少为'+minNum+'元')
 			return false
 		}
 
 		return true
+}
 
+function calculateInvest(couponIdNow,typeNow,couponName){
+		var bid = api.pageParam.bid
+		var amount = $('#moneyNum').val()
+		var token = getToken()
+		var values = {
+			token:token,
+			b_id:bid,
+			amount:amount,
+			CouponID:couponId,
+			type:type
+		}
 
+		alert(couponId+'and'+type+'and'+couponName)
+
+		if(couponIdNow!=undefined&&typeNow!=undefined&&couponName!=undefined){
+			alert('使用参数')
+			couponId = couponIdNow
+			type = typeNow
+			values.CouponID = couponId
+			values.type = type
+			$('.couponName em').html(couponName+'<i class="icon-right-open-big fs24"></i>')
+		}
+
+		// 如果全局变量couponId和type是空值，则不带上他们发请求
+		if(couponId==''&&type==''){
+				delete values.CouponID
+				delete values.type
+		}
+
+		apiPost({
+			url:'calculateInvest',
+			values:values,
+			fun:function(ret,err){
+				alert(JSON.stringify(ret))
+				var data = ret.data
+				if(ret.code==1){
+						var interest = data.interest_total
+						$('.income i').html(interest)
+				}
+			}
+		},false)
 }
 </script>
 </html>

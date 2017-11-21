@@ -63,7 +63,7 @@ function apiPost(params,isUseProgress) {
             valuesObj.sign = hash;
             console.log('发送请求的数据' + JSON.stringify(valuesObj))
                 //显示等待中准备发送请求
-            if(isUseProgress!=undefined){
+            if(isUseProgress==undefined){
               showWaitingProgress();
             }
             api.ajax({
@@ -97,7 +97,7 @@ function apiPost(params,isUseProgress) {
                 //服务器返回错误代码0时
                 if (ret.code == 0) {
                     //显示错误信息
-                    showToastMsg(ret.msg);
+                    showToastMsg(ret.msg+'请重新登录');
                     //检查是否登陆过期，过期则跳转登陆页面
                     if (ret.msg == '登录过期') {
                         // 登陆过期删除token
@@ -177,7 +177,7 @@ function showWaitingProgress() {
 //**消息提醒toast
 //**
 function showToastMsg(content) {
-    var duration = 2000;
+    var duration = 3000;
     if (content.length > 30) {
         duration = 5000
     }
@@ -329,7 +329,7 @@ function jumpToWinAfterJudggingLogin(name, title, newParams) {
             api.confirm({
                 title: '未登录',
                 msg: '系统检测到您未登录',
-                buttons: ['登陆', '再逛逛']
+                buttons: ['去登陆', '再逛逛']
             }, function(ret, err){
                 if(ret.buttonIndex == 1){
                     var defaultParams = {
@@ -349,17 +349,17 @@ function jumpToWinAfterJudggingLogin(name, title, newParams) {
 }
 
 
-function getToken(newParams) {
-    var token = api.getPrefs({
-        key: 'token',
-        sync: true
-    });
-    if (token) {
-        return token;
-    } else {
-        jumpToWin('login', '登陆', newParams);
-    }
-}
+// function getToken(newParams) {
+//     var token = api.getPrefs({
+//         key: 'token',
+//         sync: true
+//     });
+//     if (token) {
+//         return token;
+//     } else {
+//         jumpToWin('login', '登陆', newParams);
+//     }
+// }
 
 function refreshHeader() {
     api.setRefreshHeaderInfo({
