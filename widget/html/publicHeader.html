@@ -24,9 +24,9 @@
         <div class="back"><i class="replace"></i></div>
     </div>
 
-    <div class="footer-btn" style="display:none" tapmode >
+    <!-- <div class="footer-btn" style="display:none" tapmode >
       <div style="background:#ccc">- - - -</div>
-    </div>
+    </div> -->
 </body>
 <script src="../script/jquery.js"></script>
 <script src="../script/common.js"></script>
@@ -40,7 +40,7 @@
         if(api.winName == 'login'){
             //它上一页是主页或者详情页
             if(param.prevWin == 'index'){
-                if(param.prevPage == ''){
+                if(param.prevPage == ''||param.prevPage == 'frame2'){
                     api.addEventListener({
                         name: 'keyback'
                     }, function(ret, err) {
@@ -60,7 +60,7 @@
                           name: 'keyback'
                       }, function(ret, err) {
                           api.closeWin({
-                            name:param.prevWin
+                              name:param.prevWin
                           })
                           api.closeWin();
                       });
@@ -109,32 +109,24 @@
                 x: 0,
                 y: $('.nei-title')[0].offsetHeight,
                 w: 'auto',
-                h: api.winName == 'investmentDetail' ? (api.frameHeight-$('.footer-btn')[0].offsetHeight-$('.nei-title')[0].offsetHeight) : 'auto'
+                h: 'auto'
             },
             pageParam: param
         })
     }
 
-    function changeBtn(statusName){
-        if(statusName=='立即投标'){
-          $('.footer-btn > div').css('background','#ef4646').html(statusName).on('click',function(){
-            jumpToWin('tenderNow','立即投标')
-          })
-        }else{
-          $('.footer-btn > div').html(statusName)
-        }
-    }
+
 
     function closeWindow(){
       var param = api.pageParam;
       //如果当前窗口是登陆窗口
       if(api.winName == 'login'){
-          //它上一页是主页或者详情页
+          //它上一win是主页
           if(param.prevWin == 'index'){
-              if(param.prevPage != ''){
-                  api.closeWin();
-              }else{
+              if(param.prevPage == ''||param.prevPage == 'frame2'){
                   jumpToIndex(0)
+              }else{
+                  api.closeWin();
               }
           }else if(param.prevWin == 'investmentDetail'){
               api.closeWin();
@@ -157,7 +149,6 @@
               });
           }
       }else{
-          alert('here')
           api.closeWin();
       }
     }

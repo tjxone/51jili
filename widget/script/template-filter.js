@@ -33,3 +33,14 @@ template.defaults.imports.effectiveDateFormat = function(value){
     <span class="time minute">${minute}</span><span>:</span>
     <span class="time second">${second}</span>`
 }
+
+template.defaults.imports.detailDateFormat = function(value){
+    var blankIndex = value.indexOf(' ');
+    var detailDate = value.slice(0,blankIndex);
+    var detailTime = value.slice(blankIndex);
+    return `${detailDate}<em> ${detailTime}</em>`
+}
+
+template.defaults.imports.fix2 = function(value){
+    return Number(value).toFixed(2)
+}
