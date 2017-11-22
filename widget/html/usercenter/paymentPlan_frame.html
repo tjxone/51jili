@@ -17,52 +17,88 @@
     <title>回款记录</title>
 </head>
 
-<body>
-    <div class="received-t">
-        <h1>总回款</h1>
-        <p class="color-red">
-            ¥
-            <span>75,307.45</span>
-        </p>
-    </div>
-    <div class="detail-num">
-        <ul class="clearfix">
-            <li>
-                <p>待回款</p>
-                <p class="color2">
-                    ¥
-                    <span>33,223.55</span>
-                </p>
-            </li>
-            <li>
-                <p>已回款</p>
-                <p class="color2">
-                    ¥
-                    <span>33,123.123</span>
-                </p>
-            </li>
-        </ul>
-    </div>
-    <div class="main">
-        <h1 class="title">
-            <span></span> 回款详情
-        </h1>
-        <div class="received-list">
-            <ul>
+<body id="plan">
+    <script id="planBox" type="text/html">
+        <div class="received-t">
+            <h1>总回款</h1>
+            <p class="color-red">
+                ¥
+                <span>{{repayment_total}}</span>
+            </p>
+        </div>
+        <div class="detail-num">
+            <ul class="clearfix">
                 <li>
-                    <span>2017.11.11</span>
-                    <em class="color2">
-                        <img src="https://www.51jili.com/attachment/display/3316" alt="">
-                        <a href="" class="color2">DBT002699</a>
-                    </em>
-                    <small>
-                        待回款
-                        <i class="color4">80.04</i>
-                    </small>
+                    <p>待回款</p>
+                    <p class="color2">
+                        ¥
+                        <span>{{repayment_ds}}</span>
+                    </p>
+                </li>
+                <li>
+                    <p>已回款</p>
+                    <p class="color2">
+                        ¥
+                        <span>{{repayment_ss}}</span>
+                    </p>
                 </li>
             </ul>
         </div>
-    </div>
+        <div class="main">
+            <h1 class="title">
+                <span></span> 回款详情
+            </h1>
+            <div class="received-list">
+                <ul>
+                    {{each list}}
+                    <li>
+                        <em class="color2">
+                          <div>{{$value.ide_due_date|fromDate}}</div>
+                          <div>{{$value.b_projecttitle}}</div>
+                        </em>
+                        <span>
+                          <i class="color4">{{$value.ide_total_cost}}</i>
+                        </span>
+                        <small class="color-red ">
+                          {{if $value.ide_status}}
+                            待回款
+                            {{else}}
+                            已回款
+                            {{/if}}
+                        </small>
+                    </li>
+                    {{/each}}
+                </ul>
+            </div>
+        </div>
+    </script>
+    <script src="../../script/jquery.js"></script>
+    <script src="../../script/common.js"></script>
+    <script src="../../script/template-web.js"></script>
+    <script src="../../script/template-filter.js"></script>
+    <script>
+        apiready = function(){
+            refreshFrameData();
+        }
+        function refreshFrameData() {
+            refreshData({
+                url: 'repayment',
+                values: {
+                    token: ''
+                },
+                loginParams: {
+                    slidBackEnabled: false,
+                    isbackToIndex: true
+                },
+                fun: function (ret, err) {
+                    console.log(JSON.stringify(ret));
+                    var data = ret.data;
+                    var html = template('planBox', data);
+                    $('#plan').html(html);
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>

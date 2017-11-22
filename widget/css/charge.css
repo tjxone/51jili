@@ -37,7 +37,7 @@
     padding: 0 5px;
 }
 
-#withDrawals .reward-list-t a.reward-list-del {
+#withDrawals .reward-list-t div.reward-list-del {
     float: right;
     line-height: 32px;
     background-color: #ef4646;

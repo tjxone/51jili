@@ -31,95 +31,133 @@
                 </li>
             </ul>
         </div>
-        <div class="tab5-content">
-            <div class="tab5-list on" id="tab5-list1">
-                <div class="coupon-list">
+        <div class="tab5-content" id="reward">
+            <script id="rewardBox" type="text/html">
+                {{each list_jxq}}
+                {{if $value.uic_status == 0}}
+                <div class="tab5-list on" id="tab5-list1">
+                    <div class="coupon-list">
+                        <ul>
+                            <li>
+                                <a>
+                                    <div class="coupon-l">
+                                        <div class="coupon-l-o">
+                                            <div class="coupon-l-i">
+                                                <p>
+                                                    加息
+                                                    <span>{{$value.uic_day}}</span> 天
+                                                </p>
+                                                <h1>
+                                                    <span>{{$value.uic_rate}}</span>%
+                                                </h1>
+                                                <p>
+                                                    {{$value.mdname}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="coupon-r">
+                                        <h1>单笔投资满<span>{{$value.uic_can_use_amount}}</span>元，期限满<span>180</span>天可用<i style="display: inline-block;width: 20px;height: 20px;background: url(/static/img/wen1.png) no-repeat;background-size: 100% 100%;margin-left: 10px;"></i></h1>
+                                        <p>【供应链专属加息1%】</p>
+                                        <p>使用时间: <span>{{$value.uic_start_time}}</span>-<span>{{$value.uic_end_time}}</span></p>
+                                        <em>{{$value.uic_status_name}}</em>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                {{else if $value.uic_status == 1}}
+                <div class="tab5-list" id="tab5-list2">
+                    <div class="coupon-list">
+                        <ul>
+                            <li class="coupon-use">
+                                <a href="/user_center/userule/204/2/24161">
+                                    <div class="coupon-l">
+                                        <div class="coupon-l-o">
+                                            <div class="coupon-l-i">
+                                                <p>加息 <span>30</span>天</p>
+                                                <h1><span>1</span>%</h1>
+                                                <p>天/月标券</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="coupon-r">
+                                    <a href="/user_center/userule/204/2/24161">
+                                        <h1>单笔投资满<span>10,000</span>元，期限满<span>180</span>天可用<i style="display: inline-block;width: 20px;height: 20px;background: url(/static/img/wen1.png) no-repeat;background-size: 100% 100%;margin-left: 10px;"></i></h1>
+                                        <p>【供应链专属加息1%】</p>
+                                    </a>
+                                    <p><a href="/user_center/userule/204/2/24161"><span>使用项目：</span></a><a href="/investment/detailed/21/2488" style="display: inline-block;margin-right: 10px;">供应链GYL002488</a>2017-06-23</p>
+                                    <em>已用</em>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                {{else if $value.uic_status==2}}
+                <div class="tab5-list" id="tab5-list3">
                     <ul>
-                        <li>
-                            <a>
+                        <li class="coupon-pass">
+                            <a href="/user_center/userule/204/2/6891">
                                 <div class="coupon-l">
                                     <div class="coupon-l-o">
                                         <div class="coupon-l-i">
+                                            <p>加息 <span>60</span>天</p>
+                                            <h1><span>2</span>%</h1>
                                             <p>
-                                                加息
-                                                <span>180</span> 天
-                                            </p>
-                                            <h1>
-                                                <span>1</span>%
-                                            </h1>
-                                            <p>
-                                                月标券
-                                            </p>
+                                                天/月标券 </p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="coupon-r">
-                                    <h1>单笔投资满<span>100</span>元，期限满<span>180</span>天可用<i style="display: inline-block;width: 20px;height: 20px;background: url(/static/img/wen1.png) no-repeat;background-size: 100% 100%;margin-left: 10px;"></i></h1>
-                                    <p>【供应链专属加息1%】</p>
-                                    <p>使用时间: <span>2017.10.23 15:16</span>-<span>2017.11.22 15:16</span></p>
-                                    <em>可用</em>
+                                    <h1>单笔投资满<span>10,000</span>元，期限满<span>90</span>天可用<i style="display: inline-block;width: 20px;height: 20px;background: url(/static/img/wen1.png) no-repeat;background-size: 100% 100%;margin-left: 10px;"></i></h1>
+                                    <p>理财节加息2%</p>
+                                    <p>使用时间: <span>2017.03.17 00:00</span>-<span>2017.03.23 23:59</span></p>
+                                    <em>过期</em>
                                 </div>
                             </a>
                         </li>
                     </ul>
                 </div>
-            </div>
-            <div class="tab5-list" id="tab5-list2">
-                <div class="coupon-list">
-                    <ul>
-                        <li class="coupon-use">
-                            <a href="/user_center/userule/204/2/24161">
-                                <div class="coupon-l">
-                                    <div class="coupon-l-o">
-                                        <div class="coupon-l-i">
-                                            <p>加息 <span>30</span>天</p>
-                                            <h1><span>1</span>%</h1>
-                                            <p>天/月标券</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                            <div class="coupon-r">
-                                <a href="/user_center/userule/204/2/24161">
-                                    <h1>单笔投资满<span>10,000</span>元，期限满<span>180</span>天可用<i style="display: inline-block;width: 20px;height: 20px;background: url(/static/img/wen1.png) no-repeat;background-size: 100% 100%;margin-left: 10px;"></i></h1>
-                                    <p>【供应链专属加息1%】</p>
-                                </a>
-                                <p><a href="/user_center/userule/204/2/24161"><span>使用项目：</span></a><a href="/investment/detailed/21/2488" style="display: inline-block;margin-right: 10px;">供应链GYL002488</a>2017-06-23</p>
-                                <em>已用</em>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="tab5-list" id="tab5-list3">
-                <ul>
-                    <li class="coupon-pass">
-                        <a href="/user_center/userule/204/2/6891">
-                            <div class="coupon-l">
-                                <div class="coupon-l-o">
-                                    <div class="coupon-l-i">
-                                        <p>加息 <span>60</span>天</p>
-                                        <h1><span>2</span>%</h1>
-                                        <p>
-                                            天/月标券 </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="coupon-r">
-                                <h1>单笔投资满<span>10,000</span>元，期限满<span>90</span>天可用<i style="display: inline-block;width: 20px;height: 20px;background: url(/static/img/wen1.png) no-repeat;background-size: 100% 100%;margin-left: 10px;"></i></h1>
-                                <p>理财节加息2%</p>
-                                <p>使用时间: <span>2017.03.17 00:00</span>-<span>2017.03.23 23:59</span></p>
-                                <em>过期</em>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+                {{/if}}
+                {{/each}}
+            </script>
         </div>
     </div>
     <script src="../../script/jquery.js"></script>
     <script src="../../script/common.js"></script>
-    <script src="../../script/reward.js"></script>
+    <script>
+        $('.tab5 li').on('touchend', function () {
+            var $this = $(this);
+            var this_id = $this.attr('data-target');
+            $this.addClass('on').siblings('li').removeClass('on');
+            $('.tab5-list').each(function () {
+                $(this).removeClass('on');
+                $('#' + this_id).addClass('on');
+            });
+        });
+        apiready = function(){
+            refreshFrameData();
+        }
+        function refreshFrameData() {
+            refreshData({
+                url: 'reward',
+                values: {
+                    token: '',
+                    type: 2,
+                    status:0
+                },
+                loginParams: {
+                    slidBackEnabled: false,
+                    isbackToIndex: true
+                },
+                fun: function (ret, err) {
+                    console.log(JSON.stringify(ret));
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>

@@ -78,6 +78,10 @@
                         key: 'islogin',
                         value: true
                     });
+                    api.setPrefs({
+                        key:'phone',
+                        value:ret.data.phone
+                    });
 
 										var preWin = api.pageParam.prevWin
 										var prevPage = api.pageParam.prevPage

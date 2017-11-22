@@ -54,6 +54,33 @@
             </ul>
         </div>
     </div>
+    <script src="../../script/jquery.js"></script>
+    <script src="../../script/common.js"></script>
+    <script src="../../script/template-web.js"></script>
+    <script>
+        apiready = function(){
+            refreshFrameData()
+        }
+        function refreshFrameData() {
+            refreshData({
+                url: 'mytransfer',
+                values: {
+                    token: '',
+                    t_transfer_status:'3'
+                },
+                loginParams: {
+                    slidBackEnabled: false,
+                    isbackToIndex: true
+                },
+                fun: function (ret, err) {
+                    console.log(JSON.stringify(ret));
+                    var data = ret.data;
+                    // var html = template('investBox', data);
+                    // $('#invest').html(html);
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>

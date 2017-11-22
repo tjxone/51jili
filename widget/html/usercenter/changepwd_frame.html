@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no,minimal-ui">
+  <meta name="keywords" content="集利财富，集利网，投资理财，网络理财，个人理财，互联网理财，互联网金融，固定收益，本息保障，个人贷款，网络贷款，网络借贷，小额贷款，信用贷款，担保贷款，网贷平台，投融资平台">
+  <meta name="description" content="集利财富：安全可信赖的投资理财平台，为大众用户提供低门槛、可信赖、有保障的投资理财服务！在集利财富，足不出户、轻点鼠标，即可便捷投资、安享收益！">
+  <meta name="apple-mobile-web-app-title" content="集利财富，点滴投资，聚集好利，安全可信赖的投资理财平台" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" href="../../css/fontello.css">
+  <link rel="stylesheet" href="../../css/swiper.min.css">
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../css/common.css">
+  <title>更改登录密码</title>
+</head>
+
+<body>
+  <div class="login" style="padding-bottom: 20px;">
+    <formid="pwd_form">
+      <ul class="login-input">
+        <h1 class="title" style="text-align: left;">
+          <span></span>
+          <a class="color3">输入旧登录密码</a>
+        </h1>
+        <li>
+            <input type="password" name="oldpwd" placeholder="请输入旧登录密码" id="oldpwd">
+            <i>
+              <img src="../../image/pwd.png">
+            </i>
+        </li>
+        <h1 class="title" style="text-align: left;">
+          <span></span>
+          <a class="color3">验证手机号码</a>
+        </h1>
+        <li>
+          <input type="text" readonly="readonly" id="username">
+          <i>
+            <img src="../../image/phone.png">
+          </i>
+        </li>
+        <li>
+          <input type="text" name="msg-code" id="msgcode" placeholder="请输入短信验证码">
+          <i>
+            <img src="../../image/msg.png">
+          </i>
+          <span>
+            <input type="button" value="获取验证码" class="getcode" tapmode onclick="getcode()">
+          </span>
+        </li>
+        <h1 class="title" style="text-align: left;">
+          <span></span>
+          <a class="color3">设置新登录密码</a>
+        </h1>
+        <li>
+          <input type="password" name="newpw" placeholder="请输入新登录密码" id="newpw">
+          <i>
+            <img src="../../image/pwd.png">
+          </i>
+        </li>
+        <li>
+          <input type="password" name="cfpw" placeholder="确认新登录密码" id="cfpw">
+          <i>
+            <img src="../../image/pwd.png">
+          </i>
+        </li>
+      </ul>
+      <div class="form-tips" id="msgdemo">
+        <p></p>
+      </div>
+      <button type="button" class="btn toubiao-btn" tapmode onclick="reset_password()">确定修改</button>
+    </form>
+  </div>
+  <script src="../../script/jquery.js"></script>
+  <script src="../../script/common.js"></script>
+  <script src="../../script/template-web.js"></script>
+  <script>
+      var phone, token;
+      apiready = function () {
+        phone = getPhone();
+        token = getToken();
+        $('#username').val(phone);
+      }
+      function getcode(){
+        apiPost({
+          url: 'get_reset_password_sms_code',
+          values: {
+            'token': token,
+            'phone': phone
+          },
+          fun: function (ret, err) {
+            showToastMsg(ret.msg);
+          }
+        });
+      }
+      function reset_password(){
+        var oldpwd = $('#oldpwd').val();
+        var code =$('#msgcode').val();
+        var newpw = $('#newpw').val();
+        var cfpw = $('#cfpw').val();
+        apiPost({
+          url:'reset_password',
+          values:{
+            'token':token,
+            'phone':phone,
+            'old_password': oldpwd,
+            'sms_code':code,
+            'new_password': newpw,
+            'new_password_confirm': cfpw,
+          },
+          fun:function(ret,err){
+            console.log(JSON.stringify(ret));
+          }
+        });
+      }
+  </script>
+</body>
+</html>

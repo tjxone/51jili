@@ -344,3 +344,9 @@ function getToken() {
         sync: true
     });
 }
+function getPhone(){
+    return api.getPrefs({
+        key:'phone',
+        sync:true
+    });
+}

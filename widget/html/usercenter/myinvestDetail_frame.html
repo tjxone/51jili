@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no,minimal-ui">
+  <meta name="keywords" content="集利财富，集利网，投资理财，网络理财，个人理财，互联网理财，互联网金融，固定收益，本息保障，个人贷款，网络贷款，网络借贷，小额贷款，信用贷款，担保贷款，网贷平台，投融资平台">
+  <meta name="description" content="集利财富：安全可信赖的投资理财平台，为大众用户提供低门槛、可信赖、有保障的投资理财服务！在集利财富，足不出户、轻点鼠标，即可便捷投资、安享收益！">
+  <meta name="apple-mobile-web-app-title" content="集利财富，点滴投资，聚集好利，安全可信赖的投资理财平台" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" href="../../css/fontello.css">
+  <link rel="stylesheet" href="../../css/swiper.min.css">
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../css/common.css">
+  <link rel="stylesheet" href="../../css/fundrecord.css">
+  <title></title>
+</head>
+<style>
+  .detail-style li a{
+    display: block;
+    color: #999;
+    font-size: 14px;
+    padding: 10px 0;
+    line-height: 24px;
+    position: relative;
+  }
+</style>
+<body id="investDetail">
+  <script id="detailBox" type="text/html">
+    <div class="i-details">
+      <div class="detail-style">
+        <ul>
+          <li>
+            <a>
+              <span>项目名称 </span>
+              <em class="color2 fs16" style="padding-right: 0;">{{pname}}</em>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span>投标金额</span>
+              <em class="color-red" style="padding-right: 0;">
+                <small class="fs20">{{t_investment}}</small>
+              </em>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span>预期收益率 </span>
+              <em class="color2" style="padding-right: 0;">{{Rate}} </em>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span>期限</span>
+              <em class="color2" style="padding-right: 0;">{{loandeadline}}</em>
+            </a>
+          </li>
+  
+  
+          <li>
+            <a>
+              <span>还款方式</span>
+              <em class="color2" style="padding-right: 0;">
+                {{payway}} </em>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span>可否债权转让</span>
+              <em class="color2" style="padding-right: 0;">{{cantransfer}}</em>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span>还款情况</span>
+              <em class="color2" style="padding-right: 0;">
+                {{status}} </em>
+            </a>
+          </li>
+  
+        </ul>
+      </div>
+      <div class="detail-style">
+        <ul>
+          <li>
+            <a>
+              <span>本期待收日期</span>
+              <em class="color2" style="padding-right: 0;">{{t_cnt1}}</em>
+            </a>
+          </li>
+      
+          <li>
+            <a>
+              <span>本期待收本金</span>
+              <em class="color2" style="padding-right: 0;">{{t_cnt2}}</em>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span>本期待收利息</span>
+              <em class="color2" style="padding-right: 0;">{{t_cnt3}}</em>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span>本期待收礼券增利</span>
+              <em class="color2" style="padding-right: 0;">{{t_cnt4}}</em>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span>本期待收总额</span>
+              <em class="color2" style="padding-right: 0;">{{t_cnt5}}</em>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="detail-style">
+        <ul>
+      
+          <li>
+            <a>
+              <span>累计已收本金</span>
+              <em class="color2" style="padding-right: 0;">{{y_cnt1}}</em>
+            </a>
+          </li>
+      
+          <li>
+            <a>
+              <span>累计已收利息</span>
+              <em class="color2" style="padding-right: 0;">{{y_cnt2}}</em>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span>累计已收礼券增利</span>
+              <em class="color2" style="padding-right: 0;">{{y_cnt3}}</em>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span>累计已收罚息</span>
+              <em class="color2" style="padding-right: 0;">{{y_cnt4}}</em>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span>累计已收总额</span>
+              <em class="color2" style="padding-right: 0;">{{y_cnt5}}</em>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="detail-style">
+        <ul>
+      
+          <li>
+            <a>
+              <span>剩余待收本金</span>
+              <em class="color2" style="padding-right: 0;">{{n_cnt1}}</em>
+            </a>
+          </li>
+      
+          <li>
+            <a>
+              <span>剩余待收利息</span>
+              <em class="color2" style="padding-right: 0;">{{n_cnt2}}</em>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span>剩余待收礼券增利</span>
+              <em class="color2" style="padding-right: 0;">{{n_cnt3}}</em>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span>剩余待收总额</span>
+              <em class="color2" style="padding-right: 0;">{{n_cnt4}}</em>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="detail-style">
+        <ul>
+          <li>
+            <a>
+              <span>投标日期</span>
+              <em class="color2" style="padding-right: 0;">{{time1}}</em>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span>起息日期</span>
+              <em class="color2" style="padding-right: 0;">{{time2}}</em>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span>到期日期</span>
+              <em class="color2" style="padding-right: 0;">{{time3}}</em>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </script>
+  <script src="../../script/jquery.js"></script>
+  <script src="../../script/common.js"></script>
+  <script src="../../script/template-web.js"></script>
+  <script>
+    apiready = function(){
+      refreshFrameData();
+    }
+    function refreshFrameData() {
+      var t_id = api.pageParam.t_id;
+      refreshData({
+        url: 'myinvest_details',
+        values: {
+          token: '',
+          t_id: t_id
+        },
+        loginParams: {
+          slidBackEnabled: false,
+          isbackToIndex: true
+        },
+        fun: function (ret, err) {
+          console.log(JSON.stringify(ret));
+          var data = ret.data;
+          var html = template('detailBox',data);
+          $('#investDetail').html(html);
+        }
+      });
+    }
+  </script>
+</body>
+</html>
