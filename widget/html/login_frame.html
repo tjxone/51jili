@@ -76,7 +76,7 @@
 
                     api.setPrefs({
                         key: 'islogin',
-                        value: true
+                        value: 'logined'
                     });
                     api.setPrefs({
                         key:'phone',
@@ -97,17 +97,21 @@
 												// 关闭登陆窗口，返回上一个页面
 												api.closeWin()
 										}else{
-											//如果没有frameName，但是有prevWin==index则刷新用户中心数据
-											if(preWin == 'index'){
-													// 指定用户中心刷新页面
-													api.execScript({
-															name:preWin,
-													    frameName: 'frame2',
-													    script: 'refreshFrameData()'
-													});
-													// 返回用户中心页面
-													jumpToIndex(2)
-											}
+  											//如果没有frameName，但是有prevWin==index则刷新用户中心数据
+  											if(preWin == 'index'){
+  													// 指定用户中心刷新页面
+  													// api.execScript({
+  													// 		name:preWin,
+  													//     frameName: 'frame2',
+  													//     script: 'refreshFrameData()'
+  													// });
+  													// 返回用户中心页面
+                            api.execScript({
+                                name: 'index',
+                                script: "randomSwitchBtn($('.footer-nav li:eq(2)')[0],false)",
+                            })
+                            api.closeWin()
+  											}
 										}
                 }
             }

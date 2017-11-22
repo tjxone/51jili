@@ -4,7 +4,9 @@
 //**  userAgent名称  string
 //**  url地址  string
 //**  fun（回调函数） function
-//**  loginParams 登陆页面后退键参数 object
+//**  slidBackEnabled(是否滑动关闭)
+//**  backEnable(是否允许后退)
+//**  isbackToIndex(是否后退键后退到主页)
 //**常量设置
 //**
 const userAgentDefalut = '51jili';
@@ -12,10 +14,10 @@ const appid = '06wygzvDdr062rNwIXTC';
 const appkey = 'vxCdATZ76WeqjhF3ZNHu';
 const appver = '2.6.0';
 const apptype = 'ios';
-const baseUrl = 'http://ksh.51jili.com/api/';
-// const baseUrl = 'https://www.51jili.com/api/';
+// const baseUrl = 'http://ksh.51jili.com/api/';
+const baseUrl = 'https://www.51jili.com/api/';
 
-function apiPost(params) {
+function apiPost(params,isUseProgress) {
     //引入加密模块
     var signature = api.require('signature');
     var valuesObj,
@@ -61,7 +63,9 @@ function apiPost(params) {
             valuesObj.sign = hash;
             console.log('发送请求的数据' + JSON.stringify(valuesObj))
                 //显示等待中准备发送请求
-            showWaitingProgress();
+            if(isUseProgress==undefined){
+              showWaitingProgress();
+            }
             api.ajax({
                 url: baseUrl + params.url,
                 method: 'post',
@@ -75,6 +79,7 @@ function apiPost(params) {
                     values: valuesObj
                 },
             }, function(ret, err) {
+                console.log(JSON.stringify(ret))
                 //收到响应后关闭等待窗口
                 api.hideProgress();
                 //关闭下拉刷新等待条
@@ -92,7 +97,7 @@ function apiPost(params) {
                 //服务器返回错误代码0时
                 if (ret.code == 0) {
                     //显示错误信息
-                    showToastMsg(ret.msg);
+                    showToastMsg(ret.msg+'请重新登录');
                     //检查是否登陆过期，过期则跳转登陆页面
                     if (ret.msg == '登录过期') {
                         // 登陆过期删除token
@@ -102,10 +107,10 @@ function apiPost(params) {
                         //登陆过期后登陆状态设置false
                         api.setPrefs({
                             key: 'islogin',
-                            value: false
+                            value: 'notlogin'
                         });
                         //跳转登陆界面
-                        jumpToWin('login', '登陆', params.loginParams)
+                        jumpToWin('login','登陆',params)
                     }
                 } else {
                     //传入ajax参数运行自定义回调函数
@@ -135,15 +140,16 @@ function refreshData(params, isNeedToJumpLogin) {
                 apiPost(params)
             } else {
                 // 如果没有token，删除token属性
+                //使用没有token的参数发送请求，后台不记录用户数据
                 delete params.values.token
                 if (isNeedToJumpLogin == false) {
                     //如果不跳转登陆，则直接发请求
                     apiPost(params)
-                } else {
-                    // 如果需要跳转登陆，则跳转登陆页登陆
-                    setTimeout(function() {
-                        jumpToWin('login', '登陆', params.loginParams)
-                    }, 150)
+                }else{
+                  // 如果需要跳转登陆，则跳转登陆页登陆
+                  setTimeout(function(){
+                    jumpToWin('login','登陆',params)
+                  },150)
                 }
             }
         });
@@ -171,7 +177,7 @@ function showWaitingProgress() {
 //**消息提醒toast
 //**
 function showToastMsg(content) {
-    var duration = 2000;
+    var duration = 3000;
     if (content.length > 30) {
         duration = 5000
     }
@@ -291,38 +297,69 @@ function jumpToIndex(index) {
 //**params:
 //** bid number 项目id号(必填)
 //**
-function jumpToWinAfterJudggingLogin(bid) {
+function jumpToWinAfterJudggingLogin(name, title, newParams) {
     api.getPrefs({
         key: 'islogin'
-    }, function(ret, err) {
-        if (ret.value == true) {
-            api.openWin({
-                name: 'investmentDetail',
-                url: 'widget://html/investmentDetail.html',
-                pageParam: {
-                    bid: bid
+    }, function(ret, err){
+      alert( 'islogin状态'+JSON.stringify( ret ) );
+        if( ret.value == 'logined' ){
+          // 默认设置
+          var defaultParams = {
+              name: name,
+              title: title,
+              slidBackEnabled: true,
+              backEnable: true,
+              isbackToIndex: false,
+              prevPage: api.frameName,
+              prevWin: api.winName
+          };
+          //继承新设置
+          var params = Object.assign(defaultParams, newParams)
+          api.openWin({
+              name: params.name,
+              url: 'widget://html/publicHeader.html',
+              pageParam: params,
+              slidBackEnabled: params.slidBackEnabled,
+              animation:{
+                  type:'movein',
+                  duration:200
+              }
+          })
+        }else if(ret.value == 'notlogin'||ret.value == undefined||ret.value == ''){
+            api.confirm({
+                title: '未登录',
+                msg: '系统检测到您未登录',
+                buttons: ['去登陆', '再逛逛']
+            }, function(ret, err){
+                if(ret.buttonIndex == 1){
+                    var defaultParams = {
+                        slidBackEnabled: true,
+                        backEnable: true,
+                        isbackToIndex: false,
+                        prevPage: api.frameName,
+                        prevWin: api.winName
+                    };
+                    var params = Object.assign(defaultParams, newParams)
+                    jumpToWin('login','登陆',params)
                 }
             });
-        } else {
-            alert('未登录，询问是否登陆，或者再逛逛')
         }
     });
 
-
 }
 
 
-function getToken(newParams) {
-    var token = api.getPrefs({
-        key: 'token',
-        sync: true
-    });
-    if (token) {
-        return token;
-    } else {
-        jumpToWin('login', '登陆', newParams);
-    }
-}
+// function getToken(newParams) {
+//     var token = api.getPrefs({
+//         key: 'token',
+//         sync: true
+//     });
+//     if (token) {
+//         return token;
+//     } else {
+//         jumpToWin('login', '登陆', newParams);
+//     }
+// }
 
 function refreshHeader() {
     api.setRefreshHeaderInfo({

@@ -19,11 +19,39 @@
 		<div class="tab1-list active" id="tab1-list3">
 			<h1 class="title"><span></span>风险控制措施</h1>
 			<div class="detail-zone">
-				<p>1）根据贷款额度将相应应收账款质押给合作机构，为投资者提供保证。
-2）由合作机构业务及风控部每月共同尽调并监督工程进度。</p>
+				<script id="risk_template" type="text/html">
+					<p>{{riskcontrol}}</p>
+				</script>
 			</div>
 		</div>
 	</div>
 </body>
+<script src="../script/jquery.js"></script>
+<script src='../script/common.js'></script>
+<script src="../script/template-web.js"></script>
+<script src="../script/template-filter.js"></script>
+<script>
+		apiready = function(){
+				refreshFrameData();
+				refreshHeader()
+		}
+		function refreshFrameData(){
+				var bid = api.pageParam.b_id
+				refreshData({
+						url:'investment_risk',
+						values:{
+								b_id:bid
+						},
+						fun:function(ret,err){
+								console.log(JSON.stringify(ret))
+								if(ret.code==1){
+										var data = ret.data
+										var riskHTML = template('risk_template' ,data);
+										$('.detail-zone').html(riskHTML);
+								}
 
+						}
+				})
+		}
+</script>
 </html>

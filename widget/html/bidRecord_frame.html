@@ -18,7 +18,7 @@
 	<div class="tab1-content">
 		<div class="tab1-list active" id="tab1-list4">
 				<div class="detail-record">
-					<h1><span>投标人次：<i>18</i></span><em>投标总额：<i>￥<small>230,715.00</small></i></em></h1>
+					<h1 style="display: flex;justify-content: space-between;align-items: center;line-height: 20px;" class="clearfix"><span>投标人次：<i>--</i></span><em>投标总额：<i>￥<small>--</small></i></em></h1>
 					<table class="detail-record-table">
 						<thead>
 							<tr>
@@ -27,103 +27,60 @@
 								<th>成交时间</th>
 							</tr>
 						</thead>
-						<tbody>
-																				<tr>
-								<td>li*****6</td>
-								<td>1,000.00</td>
-								<td>2017-10-28<em> 13:53</em></td>
-							</tr>
-																				<tr>
-								<td>JL*****5</td>
-								<td>15,518.00</td>
-								<td>2017-10-28<em> 10:56</em></td>
-							</tr>
-																				<tr>
-								<td>JL*****2</td>
-								<td>961.00</td>
-								<td>2017-10-28<em> 09:33</em></td>
-							</tr>
-																				<tr>
-								<td>JL*****8</td>
-								<td>2,600.00</td>
-								<td>2017-10-28<em> 08:40</em></td>
-							</tr>
-																				<tr>
-								<td>JL*****4</td>
-								<td>5,645.00</td>
-								<td>2017-10-28<em> 07:28</em></td>
-							</tr>
-																				<tr>
-								<td>hu*****u</td>
-								<td>51,073.00</td>
-								<td>2017-10-27<em> 22:18</em></td>
-							</tr>
-																				<tr>
-								<td>JL*****2</td>
-								<td>100.00</td>
-								<td>2017-10-27<em> 22:07</em></td>
-							</tr>
-																				<tr>
-								<td>JL*****9</td>
-								<td>154.00</td>
-								<td>2017-10-27<em> 21:37</em></td>
-							</tr>
-																				<tr>
-								<td>JL*****2</td>
-								<td>621.00</td>
-								<td>2017-10-27<em> 20:40</em></td>
-							</tr>
-																				<tr>
-								<td>小*****o</td>
-								<td>20,000.00</td>
-								<td>2017-10-27<em> 20:26</em></td>
-							</tr>
-																				<tr>
-								<td>杨*****n</td>
-								<td>22,700.00</td>
-								<td>2017-10-27<em> 20:25</em></td>
-							</tr>
-																				<tr>
-								<td>Ca*****e</td>
-								<td>126.00</td>
-								<td>2017-10-27<em> 19:19</em></td>
-							</tr>
-																				<tr>
-								<td>紫*****Y</td>
-								<td>935.00</td>
-								<td>2017-10-27<em> 18:49</em></td>
-							</tr>
-																				<tr>
-								<td>Tr*****喜</td>
-								<td>5,370.00</td>
-								<td>2017-10-27<em> 17:02</em></td>
-							</tr>
-																				<tr>
-								<td>JL*****9</td>
-								<td>50,000.00</td>
-								<td>2017-10-27<em> 15:26</em></td>
-							</tr>
-																				<tr>
-								<td>p2*****0</td>
-								<td>3,000.00</td>
-								<td>2017-10-27<em> 14:25</em></td>
-							</tr>
-																				<tr>
-								<td>JL*****8</td>
-								<td>912.00</td>
-								<td>2017-10-26<em> 22:23</em></td>
-							</tr>
-																				<tr>
-								<td>JL*****2</td>
-								<td>50,000.00</td>
-								<td>2017-10-26<em> 15:08</em></td>
-							</tr>
-																			</tbody>
 					</table>
 				</div>
+				<script id="detailRecord_template" type="text/html">
+					<div class="detail-record">
+						<h1 style="display: flex;justify-content: space-between;align-items: center;line-height: 20px;"><span>投标人次：<i>{{invest_count}}</i></span><em>投标总额：<i>￥<small>{{invest_amount}}</small></i></em></h1>
+						<table class="detail-record-table">
+							<thead>
+								<tr>
+									<th>购买人</th>
+									<th>金额（元）</th>
+									<th>成交时间</th>
+								</tr>
+							</thead>
+							<tbody>
+								{{each list v k}}
+								<tr>
+									<td>{{v.username}}</td>
+									<td>{{v.t_investment}}</td>
+									<td>{{@v.t_date|detailDateFormat}}</td>
+								</tr>
+								{{/each}}
+							</tbody>
+						</table>
+					</div>
+				</script>
 			</div>
 	</div>
 </body>
 <script src="../script/jquery.js"></script>
 <script src="../script/common.js"></script>
+<script src="../script/template-web.js"></script>
+<script src="../script/template-filter.js"></script>
+<script>
+		apiready = function(){
+				refreshFrameData();
+				refreshHeader()
+		}
+		function refreshFrameData(){
+				var bid = api.pageParam.b_id
+				refreshData({
+						url:'investment_invest',
+						values:{
+								b_id:bid
+						},
+						fun:function(ret,err){
+								console.log(JSON.stringify(ret))
+								if(ret.code==1){
+										var data = ret.data
+										var detailRecordHTML = template('detailRecord_template' ,data);
+										$('.tab1-list').html(detailRecordHTML);
+								}
+
+						}
+				})
+		}
+</script>
 </html>

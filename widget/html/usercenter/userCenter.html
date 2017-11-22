@@ -160,10 +160,8 @@
             values: {
                 token: ''
             },
-            loginParams: {
-                slidBackEnabled: false,
-                isbackToIndex: true
-            },
+            slidBackEnabled: false,
+            isbackToIndex: true,
             fun: function(ret, err) {
                 var data = ret.data;
                 var html = template('usercenter', data);
@@ -182,6 +180,12 @@
                                 api.removePrefs({
                                     key: 'token'
                                 });
+
+                                api.setPrefs({
+                                    key: 'islogin',
+                                    value: 'notlogin'
+                                });
+
                                 // 跳转index页面
                                 api.execScript({
                                     name: 'index',

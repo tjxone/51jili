@@ -66,7 +66,7 @@
 						<script id="platform_template" type="text/html">
 							<ul class="infoList swiper-wrapper">
 								{{each notice value key}}
-								<li class="swiper-slide" tapmode onclick="open51Url('{{value.url}}','{{value.a_title}}')">
+								<li class="swiper-slide swiper-no-swiping" tapmode onclick="open51Url('{{value.url}}','{{value.a_title}}')">
 									{{value.a_title}}
 								</li>
 								{{/each}}
@@ -206,18 +206,33 @@
 			fun:function(ret,err){
 				isShowNavBar()
 				if(ret.code == 1){
-					// var data = ret.data;
-					var json = '{"code":"1","msg":"操作成功","data":{"advs_one":[{"a_img_url":"https://www.51jili.com/attachment/display/3428","a_url":"/single/index/228/1","a_title":"手机-集车贷"},{"a_img_url":"https://www.51jili.com/attachment/display/3419","a_url":"/article/notices/183/399/1","a_title":"手机-合作"},{"a_img_url":"https://www.51jili.com/attachment/display/3378","a_url":"/giftcoupon/novice/1","a_title":"手机-新人专享"},{"a_img_url":"https://www.51jili.com/attachment/display/3357","a_url":"","a_title":"手机-信息披露"},{"a_img_url":"https://www.51jili.com/attachment/display/3345","a_url":"","a_title":"手机-六重保障"}],"recommend":[{"b_id":"2825","bt_name":"集利宝","bt_img":"https://www.51jili.com/attachment/display/3314","b_projecttitle":"JLB002825","Rate":"9.2%","IncreasedRate":"1%","b_interest_rate":"9.2%","b_need_loan":"500,000.00","b_actual_loan":"9,395.00","b_can_cast_loan":"490,605.00","progress":"1.88%","loandeadline":"12个月","b_status_name":"投标中","is_hot":"1","canrsecoupon":"1","b_assignbiddding":"0","add_i":"1%"}],"notice":[{"a_id":"399","a_title":"集利财富成为广州金融风险监测防控中心首批达成合作平台","n_id":"183","a_fileurl1":"","url":"/article/notices/183/399/1"},{"a_id":"398","a_title":"关于集利财富乔迁新址公告","n_id":"183","a_fileurl1":"","url":"/article/notices/183/398/1"},{"a_id":"397","a_title":"关于400客服热线电话更改公告","n_id":"183","a_fileurl1":"","url":"/article/notices/183/397/1"},{"a_id":"396","a_title":"关于400客服电话升级的公告","n_id":"183","a_fileurl1":"","url":"/article/notices/183/396/1"},{"a_id":"395","a_title":"集利财富2017国庆假期业务受理公告","n_id":"183","a_fileurl1":"","url":"/article/notices/183/395/1"},{"a_id":"394","a_title":"关于平台系统服务器升级的公告","n_id":"183","a_fileurl1":"","url":"/article/notices/183/394/1"},{"a_id":"393","a_title":"集利4周年第二波活动开启，供应链全项目期加息1%","n_id":"183","a_fileurl1":"","url":"/article/notices/183/393/1"},{"a_id":"392","a_title":"集利4周年活动月，周年狂欢节正式开启","n_id":"183","a_fileurl1":"","url":"/article/notices/183/392/1"},{"a_id":"391","a_title":"集利4周年系列活动：七夕之约鲜花节","n_id":"183","a_fileurl1":"","url":"/article/notices/183/391/1"},{"a_id":"390","a_title":"安贷无忧理财周加息2.4%","n_id":"183","a_fileurl1":"","url":"/article/notices/183/390/1"}]}}'
-					var data = JSON.parse(json).data;
+					var data = ret.data;
+					// var json = '{"code":"1","msg":"操作成功","data":{"advs_one":[{"a_img_url":"https://www.51jili.com/attachment/display/3428","a_url":"/single/index/228/1","a_title":"手机-集车贷"},{"a_img_url":"https://www.51jili.com/attachment/display/3419","a_url":"/article/notices/183/399/1","a_title":"手机-合作"},{"a_img_url":"https://www.51jili.com/attachment/display/3378","a_url":"/giftcoupon/novice/1","a_title":"手机-新人专享"},{"a_img_url":"https://www.51jili.com/attachment/display/3357","a_url":"","a_title":"手机-信息披露"},{"a_img_url":"https://www.51jili.com/attachment/display/3345","a_url":"","a_title":"手机-六重保障"}],"recommend":[{"b_id":"2825","bt_name":"集利宝","bt_img":"https://www.51jili.com/attachment/display/3314","b_projecttitle":"JLB002825","Rate":"9.2%","IncreasedRate":"1%","b_interest_rate":"9.2%","b_need_loan":"500,000.00","b_actual_loan":"9,395.00","b_can_cast_loan":"490,605.00","progress":"1.88%","loandeadline":"12个月","b_status_name":"投标中","is_hot":"1","canrsecoupon":"1","b_assignbiddding":"0","add_i":"1%"}],"notice":[{"a_id":"399","a_title":"集利财富成为广州金融风险监测防控中心首批达成合作平台","n_id":"183","a_fileurl1":"","url":"/article/notices/183/399/1"},{"a_id":"398","a_title":"关于集利财富乔迁新址公告","n_id":"183","a_fileurl1":"","url":"/article/notices/183/398/1"},{"a_id":"397","a_title":"关于400客服热线电话更改公告","n_id":"183","a_fileurl1":"","url":"/article/notices/183/397/1"},{"a_id":"396","a_title":"关于400客服电话升级的公告","n_id":"183","a_fileurl1":"","url":"/article/notices/183/396/1"},{"a_id":"395","a_title":"集利财富2017国庆假期业务受理公告","n_id":"183","a_fileurl1":"","url":"/article/notices/183/395/1"},{"a_id":"394","a_title":"关于平台系统服务器升级的公告","n_id":"183","a_fileurl1":"","url":"/article/notices/183/394/1"},{"a_id":"393","a_title":"集利4周年第二波活动开启，供应链全项目期加息1%","n_id":"183","a_fileurl1":"","url":"/article/notices/183/393/1"},{"a_id":"392","a_title":"集利4周年活动月，周年狂欢节正式开启","n_id":"183","a_fileurl1":"","url":"/article/notices/183/392/1"},{"a_id":"391","a_title":"集利4周年系列活动：七夕之约鲜花节","n_id":"183","a_fileurl1":"","url":"/article/notices/183/391/1"},{"a_id":"390","a_title":"安贷无忧理财周加息2.4%","n_id":"183","a_fileurl1":"","url":"/article/notices/183/390/1"}]}}'
+					// var data = JSON.parse(json).data;
 					//渲染轮播数据
 					var luoboHTML = template('indexLunbo_template',data);
 					$('.luobo').html(luoboHTML);
 					var mySwiper = new Swiper ('.luobo', {
 						direction: 'horizontal',
+						initialSlide:0,
 						loop: true,
 						speed:300,
 						autoplay:3000,
 						pagination: '.swiper-pagination',
+						onTouchMove:function(){
+								// 触摸移动时禁止页面弹动和下拉刷新
+								api.setFrameAttr({
+								    name: 'frame0',
+								    bounces: false,
+								});
+						},
+						onTouchEnd:function(){
+							// 触摸结束时允许页面弹动和下拉刷新
+								api.setFrameAttr({
+								    name: 'frame0',
+								    bounces: true
+								});
+						}
 					})
 
 					//渲染公告数据
@@ -228,16 +243,18 @@
 						loop: true,
 						speed:300,
 						autoplay:3000,
+						noSwiping:true,
+						noSwipingClass:'swiper-no-swiping'
 					})
+					//左右滑动时禁止下拉刷新
+
 
 					//渲染推荐标数据
 					var recommendHTML = template('recommend_template' ,data);
 					$('.recommendBox').html(recommendHTML);
 					drawCircle()
-
 					api.parseTapmode();
 				}
-
 			}
 		})
 	}
@@ -245,10 +262,10 @@
 	function isShowNavBar(){
 		// 判断有无token
 		api.getPrefs({
-				key: 'token'
+				key: 'islogin'
 		}, function(ret, err){
-				var token = ret.value;
-				if(token != ''){
+				var islogin = ret.value;
+				if(islogin == 'logined'){
 						$('.logo-header').css('display','none')
 				}else{
 						$('.logo-header').css('display','block')

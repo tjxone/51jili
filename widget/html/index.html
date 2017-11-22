@@ -44,10 +44,10 @@
     var clickTimesforFrame2 = 0
     apiready = function() {
 
-        api.setStatusBarStyle({
-            style: 'light',
-            color: '#ef4646'
-        });
+        // api.setStatusBarStyle({
+        //     style: 'light',
+        //     color: '#ef4646'
+        // });
         funIniGroup();
         doubleClickExit()
     }
@@ -101,8 +101,12 @@
     }
 
     // 随意切换按钮
-    function randomSwitchBtn(tag) {
-        if (tag == $('.footer-nav li.active')[0]) return;
+    function randomSwitchBtn(tag,isSameTagReturn) {
+        //参数小于1时才检测当前下标与目标下标是否相同，主要用在优化 未登录时点击用户中心马上跳转登录窗口
+        if(arguments.length<=1){
+          if (tag == $('.footer-nav li.active')[0]) return;
+        }
+
         var eFootLis = $('.footer-nav li'),
             index = 0;
         for (var i = 0, len = eFootLis.length; i < len; i++) {
@@ -114,11 +118,6 @@
         }
         $(eFootLis[index]).addClass('active');
 
-        api.setFrameGroupIndex({
-            name: 'indexFrameGroup',
-            index: index
-        });
-
 
         // 当index为0时，点击主页键，显示或隐藏headtop
         if (index == 0) {
@@ -126,6 +125,10 @@
               name:'index',
               frameName: 'frame0',
               script: 'isShowNavBar()'
+          });
+          api.setFrameGroupIndex({
+              name: 'indexFrameGroup',
+              index: index,
           });
         }
 
@@ -148,6 +151,10 @@
                 frameName: 'investment',
                 script: 'refreshFrameData();'
             });
+            api.setFrameGroupIndex({
+                name: 'indexFrameGroup',
+                index: index,
+            });
 
         } else {
             //ios专用
@@ -164,11 +171,28 @@
 
         //当index为2时，点击用户中心，刷新用户中心数据
         if (index == 2) {
-            api.execScript({
-                name:'index',
-                frameName: 'frame2',
-                script: 'refreshFrameData();'
+            api.getPrefs({
+                key: 'islogin'
+            }, function(ret, err){
+                // alert(ret.value)
+                if(ret.value=='notlogin'||ret.value == undefined||ret.value == ''){
+                    alert('未登录')
+                    jumpToWin('login','登陆',{slidBackEnabled:false})
+                }else{
+                    // alert('已登录')
+                    api.setFrameGroupIndex({
+                        name: 'indexFrameGroup',
+                        index: index,
+                    });
+                    api.execScript({
+                        name:'index',
+                        frameName: 'frame2',
+                        script: 'refreshFrameData();'
+                    });
+                }
             });
+
+
         }
     }
 

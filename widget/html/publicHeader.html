@@ -19,14 +19,14 @@
 <body>
     <div class="nei-title">
         <div class="back hideReplaceBack"><i class="replace"></i></div>
-        <div class="back showBack" tapmode><i class="icon-left-open-big"></i></div>
+        <div class="back showBack" tapmode onclick=closeWindow()><i class="icon-left-open-big"></i></div>
         <h2></h2>
         <div class="back"><i class="replace"></i></div>
     </div>
 
-    <div class="footer-btn" style="display:none" tapmode >
+    <!-- <div class="footer-btn" style="display:none" tapmode >
       <div style="background:#ccc">- - - -</div>
-    </div>
+    </div> -->
 </body>
 <script src="../script/jquery.js"></script>
 <script src="../script/common.js"></script>
@@ -38,53 +38,38 @@
 
         //如果当前窗口是登陆窗口
         if(api.winName == 'login'){
+            //它上一页是主页或者详情页
             if(param.prevWin == 'index'){
-              $('.showBack').on('click', function() {
-                api.closeWin();
-              })
-            }else{
-              //检查有无token
-              api.getPrefs({
-                  key: 'token'
-              }, function(ret, err){
-                  //无token（登陆过期也会删除token）则后退键返回两页
-                  if(ret.token == undefined){
-                    // 点击返回键操作
-                    $('.showBack').on('click', function() {
-                      // token没有和上一页不是首页
-                      console.log('返回前两页')
-                      // 关闭前两页
-                      api.closeWin({
-                        name:param.prevWin
-                      })
-                      api.closeWin();
-                    })
-
-                    //安卓返回键操作
+                if(param.prevPage == ''||param.prevPage == 'frame2'){
                     api.addEventListener({
                         name: 'keyback'
                     }, function(ret, err) {
-                        api.closeWin({
-                          name:param.prevWin
-                        })
-                        api.closeWin();
+                        jumpToIndex(0)
                     });
-                  }else{
-                    // 关闭一页
-                    console.log('关闭一页')
-                    $('.showBack').on('click', function() {
-                      api.closeWin();
-                    })
-                  }
-              });
+                    $('.showBack > i').removeClass('icon-left-open-big').addClass('icon-cancel-5')
+                }
+            }else{
+                //检查是否登录
+                api.getPrefs({
+                    key: 'islogin'
+                }, function(ret, err){
+                    //如果未登录（因为登陆过期会设置islogin未notlogin自动跳转登陆页）则后退键返回两页
+                    if(ret.value == 'notlogin'){
+                      //安卓返回键操作
+                      api.addEventListener({
+                          name: 'keyback'
+                      }, function(ret, err) {
+                          api.closeWin({
+                              name:param.prevWin
+                          })
+                          api.closeWin();
+                      });
+                    }
+                });
             }
-        }else{
-          $('.showBack').on('click', function() {
-            api.closeWin();
-          })
         }
 
-        //如果不是投标详情页，隐藏立即投标按钮
+        //如果是投标详情页，显示立即投标按钮
         if(api.winName == 'investmentDetail'){
           //渲染投标数据
           $('.footer-btn').show()
@@ -124,20 +109,47 @@
                 x: 0,
                 y: $('.nei-title')[0].offsetHeight,
                 w: 'auto',
-                h: api.winName == 'investmentDetail' ? (api.frameHeight-$('.footer-btn')[0].offsetHeight-$('.nei-title')[0].offsetHeight) : 'auto'
+                h: 'auto'
             },
             pageParam: param
         })
     }
 
-    function changeBtn(statusName){
-        if(statusName=='立即投标'){
-          $('.footer-btn > div').css('background','#ef4646').html(statusName).on('click',function(){
-            jumpToWin('tenderNow','立即投标')
-          })
-        }else{
-          $('.footer-btn > div').html(statusName)
-        }
+
+
+    function closeWindow(){
+      var param = api.pageParam;
+      //如果当前窗口是登陆窗口
+      if(api.winName == 'login'){
+          //它上一win是主页
+          if(param.prevWin == 'index'){
+              if(param.prevPage == ''||param.prevPage == 'frame2'){
+                  jumpToIndex(0)
+              }else{
+                  api.closeWin();
+              }
+          }else if(param.prevWin == 'investmentDetail'){
+              api.closeWin();
+          }else{
+              //检查是否登陆了
+              api.getPrefs({
+                  key: 'islogin'
+              }, function(ret, err){
+                  //无没登陆（因为登陆过期会设置islogin为false自动跳转登陆页）则返回两页
+                  if(ret.value == 'nologin'){
+                      // token没有和上一页不是首页
+                      console.log('返回前两页')
+                      // 关闭前两页
+                      api.closeWin({
+                        name:param.prevWin
+                      })
+                      api.closeWin();
+                  }
+              });
+          }
+      }else{
+          api.closeWin();
+      }
     }
 </script>
 
