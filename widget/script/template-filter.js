@@ -42,7 +42,7 @@ template.defaults.imports.detailDateFormat = function(value){
 }
 
 template.defaults.imports.fix2 = function(value){
-    return Number(value).toFixed(2)
+    return value==0?Number(value).toFixed(2):value
 }
 
 template.defaults.imports.couponDateFormat = function(value){

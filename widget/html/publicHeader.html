@@ -21,7 +21,7 @@
         <div class="back hideReplaceBack"><i class="replace"></i></div>
         <div class="back showBack" tapmode onclick=closeWindow()><i class="icon-left-open-big"></i></div>
         <h2></h2>
-        <div class="back"><i class="replace"></i></div>
+        <div class="back rightPlace" tapmode><i class="replace"></i></div>
     </div>
 
     <!-- <div class="footer-btn" style="display:none" tapmode >
@@ -67,6 +67,19 @@
                     }
                 });
             }
+        }
+
+        // 如果winName为tenderNowCoupon
+        if(api.winName == 'tenderNowCoupon'){
+            $('.rightPlace').html('不使用礼券').on('click',function(){
+                api.execScript({
+                    name: 'tenderNow',
+                    frameName: 'tenderNow_frame',
+                    script: 'calculateInvest("","","")'
+                });
+                api.closeWin()
+            })
+            $('.rightPlace > h2').css('left','20px')
         }
 
         //如果是投标详情页，显示立即投标按钮

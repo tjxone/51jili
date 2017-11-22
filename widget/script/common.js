@@ -14,8 +14,8 @@ const appid = '06wygzvDdr062rNwIXTC';
 const appkey = 'vxCdATZ76WeqjhF3ZNHu';
 const appver = '2.6.0';
 const apptype = 'ios';
-// const baseUrl = 'http://ksh.51jili.com/api/';
-const baseUrl = 'https://www.51jili.com/api/';
+const baseUrl = 'http://ksh.51jili.com/api/';
+// const baseUrl = 'https://www.51jili.com/api/';
 
 function apiPost(params,isUseProgress) {
     //引入加密模块
@@ -97,7 +97,7 @@ function apiPost(params,isUseProgress) {
                 //服务器返回错误代码0时
                 if (ret.code == 0) {
                     //显示错误信息
-                    showToastMsg(ret.msg+'请重新登录');
+                    showToastMsg(ret.msg);
                     //检查是否登陆过期，过期则跳转登陆页面
                     if (ret.msg == '登录过期') {
                         // 登陆过期删除token
@@ -108,6 +108,11 @@ function apiPost(params,isUseProgress) {
                         api.setPrefs({
                             key: 'islogin',
                             value: 'notlogin'
+                        });
+                        // 关闭输入密码窗口
+                        var dialogBox = api.require('dialogBox');
+                        dialogBox.close({
+                            dialogName: 'alert'
                         });
                         //跳转登陆界面
                         jumpToWin('login','登陆',params)
@@ -349,18 +354,6 @@ function jumpToWinAfterJudggingLogin(name, title, newParams) {
 }
 
 
-// function getToken(newParams) {
-//     var token = api.getPrefs({
-//         key: 'token',
-//         sync: true
-//     });
-//     if (token) {
-//         return token;
-//     } else {
-//         jumpToWin('login', '登陆', newParams);
-//     }
-// }
-
 function refreshHeader() {
     api.setRefreshHeaderInfo({
         visible: true,
@@ -380,4 +373,52 @@ function getToken() {
         key: 'token',
         sync: true
     });
+}
+
+function customAlert(content,btnTitle,callback){
+    var dialogBox = api.require('dialogBox');
+    dialogBox.alert({
+        texts: {
+            content: content,
+            leftBtnTitle: btnTitle
+        },
+        styles: {
+            bg: '#fff',
+            w: 300,
+            corner:5,
+            title: {
+                marginT: 0,
+                titleSize: 0,
+                titleColor: '#000'
+            },
+            content: {
+                color: '#000',
+                size: 14
+            },
+            left: {
+                marginB: 7,
+                marginL: 20,
+                marginR: 20,
+                w: 260,
+                h: 35,
+                corner: 5,
+                bg: '#ef4646',
+                color:'#fff',
+                size: 12
+            }
+        }
+    },callback);
+}
+function alertForRetractingKeyboard(content,btnTitle){
+    customAlert(content,btnTitle,function(ret,err){
+        if (ret.eventType == 'left') {
+            var dialogBox = api.require('dialogBox');
+            dialogBox.close({
+                dialogName: 'alert'
+            });
+            dialogBox.close({
+                dialogName: 'input'
+            });
+        }
+    })
 }

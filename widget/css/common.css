@@ -553,7 +553,7 @@ header {
     display: flex;
     justify-content: space-between;
     padding-top: 20px;
-    align-items: flex-end;
+    align-items: center;
 }
 
 .nei-title .hideBack {
@@ -592,6 +592,7 @@ header {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    position: relative;
 }
 
 .nei-title a {
