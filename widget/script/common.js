@@ -409,6 +409,7 @@ function customAlert(content,btnTitle,callback){
         }
     },callback);
 }
+
 function alertForRetractingKeyboard(content,btnTitle){
     customAlert(content,btnTitle,function(ret,err){
         if (ret.eventType == 'left') {
@@ -421,4 +422,11 @@ function alertForRetractingKeyboard(content,btnTitle){
             });
         }
     })
+}
+
+function getPhone(){
+    return api.getPrefs({
+        key:'phone',
+        sync:true
+    });
 }

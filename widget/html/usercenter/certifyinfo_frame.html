@@ -16,94 +16,210 @@
     <title>安全认证</title>
 </head>
 
-<body>
-    <div class="saft-t">
-        <div class="saft-t-b">
-            <p>安全级别</p>
-            <ul>
-                <li>
-                    <img src="../../image/star.png" alt="">
-                </li>
-                <li>
-                    <img src="../../image/star.png" alt="">
-                </li>
-                <li>
-                    <img src="../../image/star.png" alt="">
-                </li>
-                <li>
-                    <img src="../../image/star.png" alt="">
-                </li>
-                <li>
-                    <img src="../../image/star-no.png" alt="">
-                </li>
-            </ul>
-            <h1>
-                安全等级中，请继续验证，提高安全等级！
-            </h1>
+<body id="certify">
+    <script id="certifyBox" type="text/html">
+        <div class="saft-t">
+            <div class="saft-t-b">
+                <p>安全级别</p>
+                <ul>
+                    {{if grade>=2}}
+                    <li>
+                        <img src="../../image/star.png" alt="">
+                    </li>
+                    {{else}}
+                    <li>
+                        <img src="../../image/star-no.png" alt="">
+                    </li>
+                    {{/if}}
+                    {{if grade>=4}}
+                    <li>
+                        <img src="../../image/star.png" alt="">
+                    </li>
+                    {{else}}
+                    <li>
+                        <img src="../../image/star-no.png" alt="">
+                    </li>
+                    {{/if}}
+                    {{if grade>=6}}
+                    <li>
+                        <img src="../../image/star.png" alt="">
+                    </li>
+                    {{else}}
+                    <li>
+                        <img src="../../image/star-no.png" alt="">
+                    </li>
+                    {{/if}}
+                    {{if grade>=8}}
+                    <li>
+                        <img src="../../image/star.png" alt="">
+                    </li>
+                    {{else}}
+                    <li>
+                        <img src="../../image/star-no.png" alt="">
+                    </li>
+                    {{/if}}
+                     {{if grade>=8}}
+                    <li>
+                        <img src="../../image/star.png" alt="">
+                    </li>
+                    {{else}}
+                    <li>
+                        <img src="../../image/star-no.png" alt="">
+                    </li>
+                    {{/if}}
+                </ul>
+                {{if grade <=4}}
+                <h1>
+                    安全等级低，请继续验证，提高安全等级！
+                </h1>
+                {{else if grade >4 && grade <8}}
+                <h1>
+                    安全等级中，请继续验证，提高安全等级！
+                </h1>
+                {{else if grade >8}}
+                <h1>
+                    安全等级高!
+                </h1>
+                {{/if}}
+            </div>
         </div>
-    </div>
-    <div class="sefe-b">
-        <ul>
-            <li>
-                <h1>身份认证</h1>
-                <p>***(******) 不可更改</p>
-                <div class="saft-b-icon">
-                    <a>
-                        <span class="authe">已认证</span>
-                        <i class="icon-right-open-big"></i>
-                    </a>
-                </div>
-            </li>
-            <li>
-                <h1>手机认证</h1>
-                <p>
-                    <i>133****5863</i> 若已丢失或停用，请立即更换，避免账户被盗
-                </p>
-                <div class="saft-b-icon">
-                    <a>
-                        <span class="no-authe">修改</span>
-                        <i class="icon-right-open-big"></i>
-                    </a>
-                </div>
-            </li>
-            <li>
-                <h1>登录密码</h1>
-                <p>
-                    保障余额资金安全
-                </p>
-                <div class="saft-b-icon">
-                    <a>
-                        <span class="no-authe">修改</span>
-                        <i class="icon-right-open-big"></i>
-                    </a>
-                </div>
-            </li>
-            <li>
-                <h1>交易密码</h1>
-                <p>
-                    保障余额资金安全
-                </p>
-                <div class="saft-b-icon">
-                    <a>
-                        <span class="no-authe">修改</span>
-                        <i class="icon-right-open-big"></i>
-                    </a>
-                </div>
-            </li>
-            <li>
-                <h1>风险承受能力评估</h1>
-                <p>
-                    <span class="color-red">未评估</span> 为了给您提供提供更好的资产选择，请您参与风险评估
-                </p>
-                <div class="saft-b-icon">
-                    <a>
-                        <span class="no-authe">去评估</span>
-                        <i class="icon-right-open-big"></i>
-                    </a>
-                </div>
-            </li>
-        </ul>
-    </div>
+        <div class="sefe-b">
+            <ul>
+                {{if au_truename_status==2}}
+                <li>
+                    <h1>身份认证</h1>
+                    <p>{{au_certi_num}} 不可更改</p>
+                    <div class="saft-b-icon">
+                        <a>
+                            <span class="authe">已认证</span>
+                            <i class="icon-right-open-big"></i>
+                        </a>
+                    </div>
+                </li>
+                {{else}}
+                <li>
+                    <h1>身份认证</h1>
+                    <p>立即认证</p>
+                    <div class="saft-b-icon">
+                        <a>
+                            <span class="no-authe">未认证</span>
+                            <i class="icon-right-open-big"></i>
+                        </a>
+                    </div>
+                </li>
+                {{/if}}
+                <li tapmode onclick="jumpToWin('usercenter/changephone','更改手机')">
+                    <h1>手机认证</h1>
+                    <p>
+                        若已丢失或停用，请立即更换，避免账户被盗
+                    </p>
+                    <div class="saft-b-icon">
+                        <a>
+                            <span class="no-authe">修改</span>
+                            <i class="icon-right-open-big"></i>
+                        </a>
+                    </div>
+                </li>
+                <li tapmode onclick="jumpToWin('usercenter/changepwd','更改登录密码')">
+                    <h1>登录密码</h1>
+                    <p>
+                        保障余额资金安全
+                    </p>
+                    <div class="saft-b-icon">
+                        <a>
+                            <span class="no-authe">修改</span>
+                            <i class="icon-right-open-big"></i>
+                        </a>
+                    </div>
+                </li>
+                {{if isset_tradepwd==1}}
+                <li tapmode onclick="jumpToWin('usercenter/changetrade','更改交易密码')">
+                    <h1>交易密码</h1>
+                    <p>
+                        必须由6位以上数字和字母组合，但不能与登录密码相同
+                    </p>
+                    <div class="saft-b-icon">
+                        <a>
+                            <span class="no-authe">修改</span>
+                            <i class="icon-right-open-big"></i>
+                        </a>
+                    </div>
+                </li>
+                {{else}}
+                <li>
+                    <h1>交易密码</h1>
+                    <p>
+                        立即设置
+                    </p>
+                    <div class="saft-b-icon">
+                        <a>
+                            <span class="no-authe">设置</span>
+                            <i class="icon-right-open-big"></i>
+                        </a>
+                    </div>
+                </li>
+                {{/if}}
+                {{if risk}}
+                <li tapmode onclick="open51Url('server/login_for_ios?token=1A5F8A09-8A2B-E2EB-A2F4-5CCA52A3A674&type=1&channel=ios')">
+                    <h1>风险承受能力评估</h1>
+                    <p>
+                        <span class="color-red">未评估</span> 为了给您提供提供更好的资产选择，请您参与风险评估
+                    </p>
+                    <div class="saft-b-icon">
+                        <a>
+                            <span class="no-authe">去评估</span>
+                            <i class="icon-right-open-big"></i>
+                        </a>
+                    </div>
+                </li>
+                {{else}}
+                <li tapmode onclick="open51Url('user_center/risk/142/1')">
+                    <h1>风险承受能力评估</h1>
+                    <p>
+                        <span class="color-red">{{ra_title}}</span> 为了给您提供提供更好的资产选择，请您参与风险评估
+                    </p>
+                    <div class="saft-b-icon">
+                        <a>
+                            <span class="no-authe">重新评估</span>
+                            <i class="icon-right-open-big"></i>
+                        </a>
+                    </div>
+                </li>
+                {{/if}}
+            </ul>
+        </div>
+    </script>
+    <script src="../../script/jquery.js"></script>
+    <script src="../../script/common.js"></script>
+    <script src="../../script/template-web.js"></script>
+    <script>
+        apiready = function(){
+            refreshFrameData()
+        }
+        function refreshFrameData(){
+            refreshData({
+                url:'user_status',
+                values: {
+                    token: ''
+                },
+                loginParams: {
+                    slidBackEnabled: false,
+                    isbackToIndex: true
+                },
+                fun:function(ret,err){
+                    console.log(JSON.stringify(ret));
+                    var data = ret.data;
+                    var tradepwd;
+                    if(data.isset_tradepwd ==1){
+                        tradepwd = 2;
+                    }
+                    data['grade'] = parseInt(data.au_truename_status) + parseInt(data.au_mail_status)+parseInt(data.au_mobile_status)+ parseInt(tradepwd);
+                    var html = template('certifyBox',data);
+                    $('#certify').html(html);
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>
