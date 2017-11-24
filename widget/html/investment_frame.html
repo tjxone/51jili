@@ -18,14 +18,25 @@
 	<form id="forms1">
 		<div class="nav-list-screen">
 			<ul class="clearfix">
-				<li class="">
-					<div class="classifyTitle"><span>项目期限</span><i class="icon-down-dir"></i></div>
+				<li class="" tapmode onclick="orderChange(this)">
+					<div class="classifyTitle">
+						<span>项目期限</span>
+						<i class="icon-down-dir" style="top: 15px;"></i>
+						<i class="icon-up-dir" style="top: 8px;"></i>
+					</div>
+				</li>
+				<li class="" tapmode onclick="orderChange(this)">
+					<div class="classifyTitle">
+						<span>年化利率</span>
+						<i class="icon-down-dir" style="top: 15px;"></i>
+						<i class="icon-up-dir" style="top: 8px;"></i>
+					</div>
 				</li>
 				<li class="">
-					<div class="classifyTitle"><span>年化利率</span><i class="icon-down-dir"></i></div>
-				</li>
-				<li class="">
-					<div class="classifyTitle filter" tapmode onclick="openSlidFrame()"><span>筛选</span><i class="icon-down-dir"></i></div>
+					<div class="classifyTitle filter" tapmode onclick="openSlidFrame()">
+						<span>筛选</span>
+						<i class="icon-th-thumb-empty"></i>
+					</div>
 				</li>
 			</ul>
 		</div>
@@ -60,7 +71,7 @@
 									{{if value.b_assignbiddding==1}}
 										<img class="yu" src="../image/yu.png" >
 									{{/if}}
-	              </h1>
+					            </h1>
 								<span class="target_tou_s"><i data-val="{{value.progress | rateFormat}}" style="width:{{value.progress}}"></i></span>
 							</div>
 							<div class="target_tou_b clearfix">
@@ -77,7 +88,7 @@
 											+{{value.add_i.slice(0,-1)}}%
 										</i>
 										{{/if}}
-	                </dt>
+	                				</dt>
 									<dd>预期年化收益率</dd>
 								</dl>
 								<dl style="width: 24%;">
@@ -99,7 +110,8 @@
 						</li>
 						{{/each}}
 					</script>
-          <li class="" tapmode onclick="jumpToDetail()">
+
+          <!-- <li class="" tapmode onclick="jumpToDetail()">
 						<div class="target_tou_t">
 							<h1><img src="https://www.51jili.com/attachment/display/3310">GYL002858                                                                                                                            <img src="../image/icon_phone.png" style="width: 60px;height: 40px;margin-right: 0;margin-left: 10px;">
                                                                                                                                                                                 </h1>
@@ -123,13 +135,14 @@
 							</dl>
 						</div>
 						<div class="toubiao-btn">立即投标</div>
-					</li>
-        </ul>
+					</li> -->
+        		</ul>
+				<div class="tou-list-tip" data-val="0" style="text-align: center;padding: 10px;font-size: 16px;color: #999;">
+				下拉加载更多
+					<i class="icon-angle-double-down"></i>
+				</div>
 			</div>
-    <div class="tou-list-tip" data-val="0" style="text-align: center;padding: 10px;font-size: 16px;color: #999;">
-    	下拉加载更多
-			<i class="icon-angle-double-down"></i>
-		</div>
+
 </body>
 <script src="../script/jquery.js"></script>
 <script src="../script/common.js"></script>
@@ -138,55 +151,56 @@
 <script>
 	// 声明  期限，利率，项目变量
 	var pubtimeData = ' ',
-			rateData = ' ',
-			bt_codeData = ' ',
-			offset = 0;
+		rateData = ' ',
+		bt_codeData = ' ',
+		offset = 0;
 
 	apiready = function (){
-			refreshHeader()
-			bottomRefresh()
-			// 监听更新分类数据时间
-			api.addEventListener({
-			    name: 'refreshClassifyData'
-			}, function(ret, err){
-					pubtimeData = ret.value.pubtimeData
-					rateData = ret.value.rateData
-					bt_codeData = ret.value.bt_codeData
-					offset = ret.value.offset
-					refreshClassifyData(pubtimeData,rateData,bt_codeData,offset)
-			});
-			//回到顶部按钮
-			var button = api.require('UIButton');
-			button.open({
-		    rect: {
-		        x: api.frameWidth*0.8,
-		        y: api.frameHeight*0.8,
-		        w: 80,
-		        h: 50
-		    },
-		    corner: 5,
-		    bg: {
-		        normal: '#ff0000',
-		        highlight: '#ff0000',
-		        active: '#ff0000'
-		    },
-		    title: {
-		        size: 14,
-		        highlight: '回到顶部',
-		        active: '回到顶部',
-		        normal: '回到顶部',
-		        highlightColor: '#000adf',
-		        activeColor: '#000adf',
-		        normalColor: '#000adf',
-		        alignment: 'center'
-		    },
-		    fixedOn: api.frameName,
-		    fixed: true,
-		    move: true
+		refreshHeader()
+		refreshFrameData()
+		bottomRefresh()
+		// 监听更新分类数据时间
+		api.addEventListener({
+		    name: 'refreshInvestmentClassifyData'
+		}, function(ret, err){
+			pubtimeData = ret.value.pubtimeData
+			rateData = ret.value.rateData
+			bt_codeData = ret.value.bt_codeData
+			offset = ret.value.offset
+			refreshClassifyData(pubtimeData,rateData,bt_codeData,offset)
+		});
+		//回到顶部按钮
+		var button = api.require('UIButton');
+		button.open({
+	    rect: {
+	        x: api.frameWidth*0.8,
+	        y: api.frameHeight*0.8,
+	        w: 80,
+	        h: 50
+	    },
+	    corner: 5,
+	    bg: {
+	        normal: '#ff0000',
+	        highlight: '#ff0000',
+	        active: '#ff0000'
+	    },
+	    title: {
+	        size: 14,
+	        highlight: '回到顶部',
+	        active: '回到顶部',
+	        normal: '回到顶部',
+	        highlightColor: '#000adf',
+	        activeColor: '#000adf',
+	        normalColor: '#000adf',
+	        alignment: 'center'
+	    },
+	    fixedOn: api.frameName,
+	    fixed: true,
+	    move: true
 		}, function(ret, err) {
-				api.pageUp({
-					top:true
-				});
+			api.pageUp({
+				top:true
+			});
 		});
 	}
 
@@ -210,6 +224,7 @@
 	}
 
 	function refreshFrameData(){
+		resetOrderStyle()
 		refreshData({
 			url:"investment",
 			values:{
@@ -217,21 +232,22 @@
 				offset:0
 			},
 			fun:function(ret,err){
-					if(ret.code == 1){
-							// 重置全局变量
-							offset = 0
-							pubtimeData = ' '
-							rateData = ' '
-							bt_codeData = ' '
+				if(ret.code == 1){
+					// 重置全局变量
+					offset = 0
+					pubtimeData = ' '
+					rateData = ' '
+					bt_codeData = ' '
 
-							// var json = '{"code":"1","msg":"操作成功","data":[{"b_id":"2886","bt_name":"供应链","bt_img":"http://ksh.51jili.com/attachment/display/3310","b_projecttitle":"GYL002886","Rate":"9%","IncreasedRate":"1%","b_interest_rate":"9%","b_need_loan":"10,000.00","b_actual_loan":"1,100.00","b_can_cast_loan":"8,900.00","progress":"11.00%","loandeadline":"90天","b_status_name":"投标中","is_hot":"1","canrsecoupon":"1","b_assignbiddding":"0","add_i":"1%"},{"b_id":"2867","bt_name":"担保通","bt_img":"http://ksh.51jili.com/attachment/display/3316","b_projecttitle":"DBT002867","Rate":"8%","IncreasedRate":"0%","b_interest_rate":"8%","b_need_loan":"3,000.00","b_actual_loan":"100.00","b_can_cast_loan":"2,900.00","progress":"3.33%","loandeadline":"180天","b_status_name":"投标中","is_hot":"0","canrsecoupon":"0","b_assignbiddding":"0","add_i":"0%"},{"b_id":"2860","bt_name":"彩虹盛柘","bt_img":"http://ksh.51jili.com/attachment/display/3312","b_projecttitle":"CH002860","Rate":"8%","IncreasedRate":"0%","b_interest_rate":"8%","b_need_loan":"550,000.00","b_actual_loan":"100,000.00","b_can_cast_loan":"450,000.00","progress":"18.18%","loandeadline":"90天","b_status_name":"已过期","is_hot":"0","canrsecoupon":"0","b_assignbiddding":"0","add_i":"0%"}]}'
-							// var data = JSON.parse(json).data;
-							var data = ret.data
-							//渲染投标专区数据
-							var toubiaoHTML = template('toubiao_template',data);
-							$('.target_tou > ul').html(toubiaoHTML);
-							api.parseTapmode();
-					}
+					// var json = '{"code":"1","msg":"操作成功","data":[{"b_id":"2886","bt_name":"供应链","bt_img":"http://ksh.51jili.com/attachment/display/3310","b_projecttitle":"GYL002886","Rate":"9%","IncreasedRate":"1%","b_interest_rate":"9%","b_need_loan":"10,000.00","b_actual_loan":"1,100.00","b_can_cast_loan":"8,900.00","progress":"11.00%","loandeadline":"90天","b_status_name":"投标中","is_hot":"1","canrsecoupon":"1","b_assignbiddding":"0","add_i":"1%"},{"b_id":"2867","bt_name":"担保通","bt_img":"http://ksh.51jili.com/attachment/display/3316","b_projecttitle":"DBT002867","Rate":"8%","IncreasedRate":"0%","b_interest_rate":"8%","b_need_loan":"3,000.00","b_actual_loan":"100.00","b_can_cast_loan":"2,900.00","progress":"3.33%","loandeadline":"180天","b_status_name":"投标中","is_hot":"0","canrsecoupon":"0","b_assignbiddding":"0","add_i":"0%"},{"b_id":"2860","bt_name":"彩虹盛柘","bt_img":"http://ksh.51jili.com/attachment/display/3312","b_projecttitle":"CH002860","Rate":"8%","IncreasedRate":"0%","b_interest_rate":"8%","b_need_loan":"550,000.00","b_actual_loan":"100,000.00","b_can_cast_loan":"450,000.00","progress":"18.18%","loandeadline":"90天","b_status_name":"已过期","is_hot":"0","canrsecoupon":"0","b_assignbiddding":"0","add_i":"0%"}]}'
+					// var data = JSON.parse(json).data;
+					var data = ret.data
+					//渲染投标专区数据
+					var toubiaoHTML = template('toubiao_template',data);
+					$('.target_tou > ul').html(toubiaoHTML);
+					api.parseTapmode();
+					$('.tou-list-tip').html('下拉加载更多<i class="icon-angle-double-down"></i>')
+				}
 			}
 		})
 	}
@@ -248,52 +264,68 @@
 				rate:rate
 			},
 			fun:function(ret,err){
-					if(ret.code == 1){
-							var data = ret.data
-							console.log(JSON.stringify(data))
-							if(!isBottomRefresh){
-									// 全部刷新时
-									// 重置全局offset
-									window.offset = 0
-									if(data!=null){
-										//渲染投标专区数据
-										var toubiaoHTML = template('toubiao_template',data);
-										$('.target_tou > ul').html(toubiaoHTML);
-										api.parseTapmode();
-									}else{
-										showToastMsg('亲，无符合条件的项目哟~~')
-									}
-							}else{
-									// 上拉刷新时
-									if(data!=null){
-										//上拉刷新添加数据
-										var toubiaoHTML = template('toubiao_template',data);
-										$('.target_tou > ul').append(toubiaoHTML);
-										api.parseTapmode();
-									}else{
-										showToastMsg('亲，已经到底部了~~')
-									}
-							}
+				if(ret.code == 1){
+					var data = ret.data
+					if(!isBottomRefresh){
+						// 全部刷新时
+						// 重置全局offset
+						window.offset = 0
+						if(data!=null){
+							//渲染投标专区数据
+							var toubiaoHTML = template('toubiao_template',data);
+							$('.target_tou > ul').html(toubiaoHTML);
+							api.parseTapmode();
+							$('.tou-list-tip').html('下拉加载更多<i class="icon-angle-double-down"></i>')
+
+						}else{
+							showToastMsg('亲，无符合条件的项目哟~~')
+						}
+					}else{
+						// 上拉刷新时
+						if(data!=null){
+							//上拉刷新添加数据
+							var toubiaoHTML = template('toubiao_template',data);
+							$('.target_tou > ul').append(toubiaoHTML);
+							api.parseTapmode();
+						}else{
+							showToastMsg('亲，已经到底部了~~')
+							$('.tou-list-tip').html('亲，已经到底部了~~')
+						}
 					}
+			}
 			}
 		})
 	}
 
 	// 底部上拉刷新事件
 	function bottomRefresh(){
-			api.addEventListener({
-			    name: 'scrolltobottom',
-					extra:{
-						threshold:100
-					}
-			}, function(ret, err){
-				//页数加1，然后刷新分类数据
-					offset++
-					refreshClassifyData(pubtimeData,rateData,bt_codeData,offset,true)
-
-			});
-
+		api.addEventListener({
+		    name: 'scrolltobottom',
+				extra:{
+					threshold:100
+				}
+		}, function(ret, err){
+			//页数加1，然后刷新分类数据
+			offset++
+			refreshClassifyData(pubtimeData,rateData,bt_codeData,offset,true)
+		});
 	}
 
+	//升降序排序按钮切换
+	function orderChange (tag){
+		var _this = $(tag)
+		if(_this.hasClass('asc')){
+			_this.removeClass('asc').addClass('desc')
+		}else if(_this.hasClass('desc')){
+			_this.removeClass('desc').addClass('asc')
+		}else{
+			_this.addClass('desc')
+		}
+	}
+
+	//重置排序样式
+	function resetOrderStyle(){
+		$('.nav-list-screen li').removeClass('desc asc')
+	}
 </script>
 </html>

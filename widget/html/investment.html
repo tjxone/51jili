@@ -23,7 +23,8 @@
 	<div class="nei-title">
 		<div  class="back"><i class="replace"></i></div>
 		<h1>
-      <div href="/investment/index/21" class="active">投标专区</div>
+      	<div tapmode class="invest active" onclick="randomSwitchBtn(this)">投标专区</div>
+	  	<div tapmode class="invest" onclick="randomSwitchBtn(this)">债权超市</div>
     </h1>
 		<div class="back"><i class="replace"></i></div>
 	</div>
@@ -34,29 +35,104 @@
 <script src="../script/common.js"></script>
 <script>
   apiready = function(){
-    api.openFrame({
-        name: 'investment',
-        url: './investment_frame.html',
-        rect: {
-            x: 0,
-            y: $('.nei-title')[0].offsetHeight,
-            w: 'auto',
-            h: api.frameHeight-$('.nei-title')[0].offsetHeight
-        },
-				bounces:true
-    });
+    // api.openFrame({
+    //     name: 'investment',
+    //     url: './investment_frame.html',
+    //     rect: {
+    //         x: 0,
+    //         y: $('.nei-title')[0].offsetHeight,
+    //         w: 'auto',
+    //         h: api.frameHeight-$('.nei-title')[0].offsetHeight
+    //     },
+	// 			bounces:true
+    // });
 
-    //默认打开index为0的页面，把投资内容隐藏
-		// alert('隐藏')
-		api.setFrameAttr({
-			name:'investment',
-			hidden:true
-		})
-		// alert('罗后')
-    api.sendFrameToBack({
-      from:'investment'
-    })
+	funIniGroup()
+  }
 
+  function funIniGroup() {
+	  // 打开窗口组
+	  var investLis = $('.nei-title .invest');
+	  var frames = [];
+	  for (var i = 0, len = investLis.length; i < len; i++) {
+		  var url = '';
+		  var bounces = true;
+		  switch (i) {
+			  case 0:
+				  url = './investment_frame.html';
+				  break;
+			  case 1:
+				  url = './transfer_frame.html';
+				  break;
+		  }
+		  frames.push({
+			  name: 'investFrame' + i,
+			  url: url,
+			  bgColor: '#edf3f8',
+			  bounces: bounces
+		  })
+	  }
+	  api.openFrameGroup({
+		  name: 'investFrameGroup',
+		  scrollEnabled: false,
+		  rect: {
+			  x: 0,
+			  y: $('.nei-title')[0].offsetHeight,
+			  w: api.winWidth,
+			  h: api.frameHeight - $('.nei-title')[0].offsetHeight
+		  },
+		  preload:2,
+		  index: 0,
+		  scrollEnabled:true,
+		  frames: frames
+	  }, function(ret, err) {
+		  var index = ret.index;
+		  var investLis = $('.nei-title .invest');
+		  var activeInvestLis = $('.nei-title .invest.active');
+		  $('.nei-title .invest.active').removeClass('active');
+		  $(investLis[index]).addClass('active');
+	  });
+
+	  api.setFrameGroupAttr({
+		  name: 'investFrameGroup',
+		  hidden: true
+	  });
+
+  }
+
+
+  function randomSwitchBtn(tag) {
+		if (tag == $('.nei-title .invest.active')[0]) return;
+
+	  var investLis = $('.nei-title .invest'),
+		  index = 0;
+	  for (var i = 0, len = investLis.length; i < len; i++) {
+		  if (tag == investLis[i]) {
+			  index = i;
+		  } else {
+			  $(investLis[i]).removeClass('active');
+		  }
+	  }
+	  $(investLis[index]).addClass('active');
+	  api.setFrameGroupIndex({
+		  name: 'investFrameGroup',
+		  index: index,
+	  });
+
+  }
+
+  function hideFrameGroup(){
+	  api.setFrameGroupAttr({
+	      name: 'investFrameGroup',
+	      hidden: true
+	  });
+  }
+
+  function showFrameGroup(){
+	  api.setFrameGroupAttr({
+	      name: 'investFrameGroup',
+	      hidden: false
+	  });
   }
 </script>
 </html>

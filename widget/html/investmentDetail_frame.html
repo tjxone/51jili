@@ -135,6 +135,9 @@
 				{{if d.b_assignbiddding==1}}
 				<img class="yu" src="../image/yu.png">
 				{{/if}}
+				{{if d.is_hot}}
+				<em style="background: url(../image/hot.png) no-repeat;background-size: 100% 100%;"></em>
+				{{/if}}
 			</h3>
 			<div class="detail-b-info">
 				<canvas height="300" id="canvas" width="300" data-value="{{d.progress.slice(0,-1)}}"></canvas>
@@ -428,7 +431,19 @@
 				// 是否实名认证
 				// 是否设置交易密码
 				// 是否进行风险承受能力评估
-				jumpToWinAfterJudggingLogin('tenderNow','立即投标',{bid:api.pageParam.bid})
+				refreshData({
+					url:'user_status',
+					values:{
+						token:''
+					},
+					fun:function(ret,err){
+						console.log(JSON.stringify(ret))
+						if(ret.code == 1){
+							jumpToWinAfterJudggingLogin('tenderNow','立即投标',{bid:api.pageParam.bid})
+						}
+					}
+				})
+
 			})
 			api.parseTapmode();
 		}else{

@@ -2839,18 +2839,18 @@ header {
 
 .nav-list-screen li i {
     position: absolute;
-    top: 10px;
-    right: 0;
-    color: #333
+    right: 5px;
+    color: #333;
+    top:12px;
 }
 
-.nav-list-screen li i:before {
+/*.nav-list-screen li i:before {
     content: '\e8c7'
-}
+}*/
 
-.nav-list-screen li.current i:before {
+/*.nav-list-screen li.current i:before {
     content: '\e8c8'
-}
+}*/
 
 .nav-list-screen li.current i,
 .nav-list-screen li.current span {
@@ -4163,4 +4163,13 @@ header {
     to {
         transform: scaleX(1);
     }
+}
+
+
+.desc .icon-up-dir{
+    color:#ddd
+}
+
+.asc .icon-down-dir{
+    color:#ddd
 }

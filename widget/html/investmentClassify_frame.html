@@ -88,15 +88,6 @@
 							</li>
 							{{/each}}
 					</script>
-					<!-- <li>
-						<h3>期限</h3>
-						<ul class="clearfix">
-							<li tapmode onclick="changeStatus(this)">15-29天</li>
-							<li tapmode onclick="changeStatus(this)">15-29天</li>
-							<li tapmode onclick="changeStatus(this)">15-29天</li>
-							<li tapmode onclick="changeStatus(this)">15-29天</li>
-						</ul>
-					</li> -->
 				</ul>
 				<div class="rightBoxBtn clearfix" style="margin-top:20px;">
 					<ul>
@@ -113,7 +104,7 @@
 <script src="../script/template-filter.js"></script>
 <script>
 apiready = function(){
-		refreshFrameData()
+	refreshFrameData()
 }
 window.onload = function(){
 	//加载后确定高度
@@ -127,42 +118,35 @@ window.onload = function(){
 		//请选择至少一个选项
 		var activeNumber = $('.rightBox .active').length;
 		if(activeNumber >= 1){
-				var pubtimeData = $('.pubtime').find('li.active').attr('data-id')
-				var rateData = $('.rate').find('li.active').attr('data-id')
-				var bt_codeData = $('.bdtype').find('li.active').attr('data-btCode')
-				alert('期限'+pubtimeData+'利率'+rateData+'项目'+bt_codeData)
-				//指定investment_frame更新渲染数据
-				api.sendEvent({
-				    name: 'refreshClassifyData',
-				    extra: {
-				        pubtimeData : pubtimeData != undefined ? pubtimeData : ' ',
-				        rateData : rateData != undefined ? rateData : ' ',
-								bt_codeData : bt_codeData != undefined ? bt_codeData : ' ',
-								offset : 0
-				    }
-				});
-
-				// api.execScript({
-				//     name: 'index',
-				//     frameName: 'investment',
-				//     script: 'refreshClassifyData("'+pubtimeData+'","'+rateData+'","'+bt_codeData+'",0)'
-				// 		// script: 'refreshClassifyData(" "," "," ")'
-				// });
-				closeFrames();
+			var pubtimeData = $('.pubtime').find('li.active').attr('data-id')
+			var rateData = $('.rate').find('li.active').attr('data-id')
+			var bt_codeData = $('.bdtype').find('li.active').attr('data-btCode')
+			alert('期限'+pubtimeData+'利率'+rateData+'项目'+bt_codeData)
+			//指定investment_frame更新渲染数据
+			api.sendEvent({
+			    name: 'refreshInvestmentClassifyData',
+			    extra: {
+			        pubtimeData : pubtimeData != undefined ? pubtimeData : ' ',
+			        rateData : rateData != undefined ? rateData : ' ',
+					bt_codeData : bt_codeData != undefined ? bt_codeData : ' ',
+					offset : 0
+			    }
+			});
+			closeFrames();
 		}else{
-				showToastMsg('亲，请至少选择一个选项哟~~')
+			showToastMsg('亲，请至少选择一个选项哟~~')
 		}
 	})
 }
 
 //改变选项状态
 function changeStatus(el){
-		if($(el).hasClass('active')){
-			$(el).removeClass('active')
-		}else{
-			$(el).parent().find('li').removeClass('active')
-			$(el).addClass('active')
-		}
+	if($(el).hasClass('active')){
+		$(el).removeClass('active')
+	}else{
+		$(el).parent().find('li').removeClass('active')
+		$(el).addClass('active')
+	}
 }
 
 //关闭frame组
@@ -175,10 +159,13 @@ function closeFrames(){
 
 
 function refreshFrameData(){
+	//加入缓存机制，先读取prefs的数据，若prefs没数据，则使用网络数据
+	// 网络数据请求后，缓存起来
+	// 每次读取完prefs数据后，无progress请求一次，对比本地和网络数据
+	// 若数据不一致，用网络数据更新缓存
 	refreshData({
 		url:'investment_condition',
 		fun:function(ret,err){
-			console.log(JSON.stringify(ret));
 			if(ret.code == 1){
 				var data = ret.data;
 				investConditionHTML = template('investCondition_template',data);

@@ -126,6 +126,11 @@
               frameName: 'frame0',
               script: 'isShowNavBar()'
           });
+          api.execScript({
+              name:'index',
+              frameName: 'frame1',
+              script: 'hideFrameGroup();'
+          });
           api.setFrameGroupIndex({
               name: 'indexFrameGroup',
               index: index,
@@ -136,36 +141,17 @@
         //当index为1时，把投标区内容隐藏，否则显示
         // 并且刷新投标信息(暂定)
         if (index == 1) {
-            //ios专用
-            api.setFrameAttr({
-                    name: 'investment',
-                    hidden: false
-                })
-            // 安卓专用
-            api.bringFrameToFront({
-                from: 'investment',
-            });
 
             api.execScript({
                 name:'index',
-                frameName: 'investment',
-                script: 'refreshFrameData();'
+                frameName: 'frame1',
+                script: 'showFrameGroup()'
             });
             api.setFrameGroupIndex({
                 name: 'indexFrameGroup',
                 index: index,
             });
 
-        } else {
-            //ios专用
-            api.setFrameAttr({
-                name: 'investment',
-                hidden: true
-            })
-            // 安卓专用
-            api.sendFrameToBack({
-                from: 'investment'
-            })
         }
 
 
@@ -191,7 +177,11 @@
                     });
                 }
             });
-
+            api.execScript({
+                name:'index',
+                frameName: 'frame1',
+                script: 'hideFrameGroup();'
+            });
 
         }
     }

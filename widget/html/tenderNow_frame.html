@@ -268,8 +268,7 @@ function calculateInvest(couponIdNow,typeNow,couponName){
 }
 
 function tenderNow(){
-	// 使用bootstrap模态框
-	// if(api.systemType=='ios'){
+	if(checkNum(minNum)){
 		api.prompt({
 			title:'请输入交易密码',
 			type:'password',
@@ -281,95 +280,11 @@ function tenderNow(){
 						alert('验证通过后，关闭输入框和跳转页面')
 
 						jumpToWin('tenderSuccess','投资成功')
-					}else if(ret.code == '0'){
-						alert('重新输入密码')
-						console.log('重新输入密码')
-						// customAlert(ret.msg,'重新输入密码',function(ret,err){
-						// 	if (ret.eventType == 'left') {
-					    //         var dialogBox = api.require('dialogBox');
-					    //         dialogBox.close({
-					    //             dialogName: 'alert'
-					    //         });
-					    //     }
-						// })
 					}
 				})
 			}
 		});
-	// }else if(api.systemType=='android'){
-	// 	var dialogBox = api.require('dialogBox')
-	// 	dialogBox.input({
-	// 		keyboardType: 'secure',
-	// 		texts: {
-	// 			title: '请输入交易密码',
-	// 			placeholder: '请输入交易密码',
-	// 			leftBtnTitle: '取消',
-	// 			rightBtnTitle: '确定'
-	// 		},
-	// 		styles: {
-	// 			bg: '#fff',
-	// 			corner: 2,
-	// 			w: 300,
-	// 			h: 140,
-	// 			title: {
-	// 				h: 22,
-	// 				alignment: 'center',
-	// 				size: 16,
-	// 				color: '#000'
-	// 			},
-	// 			input: {
-	// 				h: 22,
-	// 				marginT: 6,
-	// 				marginUD: 6,
-	// 				textSize: 18,
-	// 				textColor: '#000'
-	// 			},
-	// 			dividingLine: {
-	// 				width: 0,
-	// 			},
-	// 			left: {
-	// 				bg: 'rgba(0,0,0,0)',
-	// 				color: '#007FFF',
-	// 				size: 16
-	// 			},
-	// 			right: {
-	// 				bg: 'rgba(0,0,0,0)',
-	// 				color: '#007FFF',
-	// 				size: 16
-	// 			}
-	// 		}
-	// 	}, function(ret) {
-	// 		if (ret.eventType == 'left') {
-	// 			var dialogBox = api.require('dialogBox');
-	// 			dialogBox.close({
-	// 				dialogName: 'input'
-	// 			});
-	// 		}else if(ret.eventType == 'right'){
-	// 			tenderNowApiPost(ret.text,function(ret,err){
-	// 				if(ret.code == '1'){
-	// 					alert('验证通过后，关闭输入框和跳转页面')
-	// 					var dialogBox = api.require('dialogBox');
-	// 					dialogBox.close({
-	// 						dialogName: 'input'
-	// 					});
-	//
-	// 					jumpToWin('tenderSuccess','投资成功')
-	// 				}else if(ret.code == '0'){
-	// 					alert('重新输入密码')
-	// 					console.log('重新输入密码')
-	// 					// customAlert(ret.msg,'重新输入密码',function(ret,err){
-	// 					// 	if (ret.eventType == 'left') {
-	// 				    //         var dialogBox = api.require('dialogBox');
-	// 				    //         dialogBox.close({
-	// 				    //             dialogName: 'alert'
-	// 				    //         });
-	// 				    //     }
-	// 					// })
-	// 				}
-	// 			})
-	// 		}
-	// 	});
-	// }
+	}
 
 }
 
