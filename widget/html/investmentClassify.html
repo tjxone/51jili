@@ -26,6 +26,10 @@
 <script src="../script/common.js"></script>
 <script>
 apiready = function(){
+	var param = api.pageParam
+	var pubtimeData = param.pubtime
+	var rateData = param.rate
+	var bt_codeData = param.bt_code
 	api.openFrame({
 	    name: 'investmentClassify_frame',
 	    url: './investmentClassify_frame.html',
@@ -40,6 +44,11 @@ apiready = function(){
 				subType:'from_right'
 			},
 	    bounces: false,
+		pageParam:{
+			pubtime:pubtimeData,
+			rate:rateData,
+			bt_code:bt_codeData
+		}
 	});
 
 }

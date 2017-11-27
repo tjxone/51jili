@@ -126,7 +126,7 @@ window.onload = function(){
 			alert('期限'+pubtimeData+'利率'+rateData+'项目'+bt_codeData)
 			//指定investment_frame更新渲染数据
 			api.sendEvent({
-			    name: 'refreshInvestmentClassifyData',
+			    name: 'refreshTransferClassifyData',
 			    extra: {
 			        pubtimeData : pubtimeData != undefined ? pubtimeData : null,
 			        rateData : rateData != undefined ? rateData : null,

@@ -18,14 +18,14 @@
 	<form id="forms1">
 		<div class="nav-list-screen">
 			<ul class="clearfix">
-				<li class="" tapmode onclick="orderChange(this)">
+				<li class="" tapmode onclick="loantimeSort(this)">
 					<div class="classifyTitle">
 						<span>项目期限</span>
 						<i class="icon-down-dir" style="top: 15px;"></i>
 						<i class="icon-up-dir" style="top: 8px;"></i>
 					</div>
 				</li>
-				<li class="" tapmode onclick="orderChange(this)">
+				<li class="" tapmode onclick="rateSort(this)">
 					<div class="classifyTitle">
 						<span>年化利率</span>
 						<i class="icon-down-dir" style="top: 15px;"></i>
@@ -137,7 +137,7 @@
 						<div class="toubiao-btn">立即投标</div>
 					</li> -->
         		</ul>
-				<div class="tou-list-tip" data-val="0" style="text-align: center;padding: 10px;font-size: 16px;color: #999;">
+				<div class="tou-list-tip" style="text-align: center;padding: 10px;font-size: 16px;color: #999;">
 				下拉加载更多
 					<i class="icon-angle-double-down"></i>
 				</div>
@@ -150,10 +150,13 @@
 <script src="../script/template-filter.js"></script>
 <script>
 	// 声明  期限，利率，项目变量
-	var pubtimeData = ' ',
-		rateData = ' ',
-		bt_codeData = ' ',
-		offset = 0;
+	var offsetData = 0,
+		pubtimeData = null,
+		rateData = null,
+		bt_codeData = null,
+		loantime_sort = null,
+		rate_sort = null
+
 
 	apiready = function (){
 		refreshHeader()
@@ -163,11 +166,17 @@
 		api.addEventListener({
 		    name: 'refreshInvestmentClassifyData'
 		}, function(ret, err){
+			// 接受数据
 			pubtimeData = ret.value.pubtimeData
 			rateData = ret.value.rateData
 			bt_codeData = ret.value.bt_codeData
-			offset = ret.value.offset
-			refreshClassifyData(pubtimeData,rateData,bt_codeData,offset)
+			offsetData = 0
+			// 重置分类设置
+			loantime_sort = null
+			rate_sort = null
+			resetOrderStyle()
+			//刷新数据
+			refreshClassifyData()
 		});
 		//回到顶部按钮
 		var button = api.require('UIButton');
@@ -209,17 +218,22 @@
 		api.openFrame({
 		    name: 'investmentClassify',
 		    url: './investmentClassify.html',
-				animation:{
-					type:'fade',
-					subType:'from_right'
-				},
-				bgColor:'rgba(0,0,0,0.5)',
-				rect:{
-					x:0,
-					y:0,
-					w:'auto',
-					h:'auto',
-				}
+			animation:{
+				type:'fade',
+				subType:'from_right'
+			},
+			bgColor:'rgba(0,0,0,0.5)',
+			rect:{
+				x:0,
+				y:0,
+				w:'auto',
+				h:'auto',
+			},
+			pageParam:{
+				pubtime : pubtimeData,
+				rate : rateData,
+				bt_code : bt_codeData
+			}
 		});
 	}
 
@@ -235,9 +249,11 @@
 				if(ret.code == 1){
 					// 重置全局变量
 					offset = 0
-					pubtimeData = ' '
-					rateData = ' '
-					bt_codeData = ' '
+					pubtimeData = null
+					rateData = null
+					bt_codeData = null
+					loantime_sort = null
+					rate_sort = null
 
 					// var json = '{"code":"1","msg":"操作成功","data":[{"b_id":"2886","bt_name":"供应链","bt_img":"http://ksh.51jili.com/attachment/display/3310","b_projecttitle":"GYL002886","Rate":"9%","IncreasedRate":"1%","b_interest_rate":"9%","b_need_loan":"10,000.00","b_actual_loan":"1,100.00","b_can_cast_loan":"8,900.00","progress":"11.00%","loandeadline":"90天","b_status_name":"投标中","is_hot":"1","canrsecoupon":"1","b_assignbiddding":"0","add_i":"1%"},{"b_id":"2867","bt_name":"担保通","bt_img":"http://ksh.51jili.com/attachment/display/3316","b_projecttitle":"DBT002867","Rate":"8%","IncreasedRate":"0%","b_interest_rate":"8%","b_need_loan":"3,000.00","b_actual_loan":"100.00","b_can_cast_loan":"2,900.00","progress":"3.33%","loandeadline":"180天","b_status_name":"投标中","is_hot":"0","canrsecoupon":"0","b_assignbiddding":"0","add_i":"0%"},{"b_id":"2860","bt_name":"彩虹盛柘","bt_img":"http://ksh.51jili.com/attachment/display/3312","b_projecttitle":"CH002860","Rate":"8%","IncreasedRate":"0%","b_interest_rate":"8%","b_need_loan":"550,000.00","b_actual_loan":"100,000.00","b_can_cast_loan":"450,000.00","progress":"18.18%","loandeadline":"90天","b_status_name":"已过期","is_hot":"0","canrsecoupon":"0","b_assignbiddding":"0","add_i":"0%"}]}'
 					// var data = JSON.parse(json).data;
@@ -258,10 +274,12 @@
 			url:"investment",
 			values:{
 				limit:10,
-				offset:offset,
-				bt_code:btCode,
-				pubtime:pubtime,
-				rate:rate
+				offset:offsetData,
+				bt_code:bt_codeData,
+				pubtime:pubtimeData,
+				rate:rateData,
+				loantime_sort:loantime_sort,
+				rate_sort:rate_sort
 			},
 			fun:function(ret,err){
 				if(ret.code == 1){
@@ -269,7 +287,7 @@
 					if(!isBottomRefresh){
 						// 全部刷新时
 						// 重置全局offset
-						window.offset = 0
+						offset = 0
 						if(data!=null){
 							//渲染投标专区数据
 							var toubiaoHTML = template('toubiao_template',data);
@@ -292,7 +310,7 @@
 							$('.tou-list-tip').html('亲，已经到底部了~~')
 						}
 					}
-			}
+				}
 			}
 		})
 	}
@@ -306,20 +324,54 @@
 				}
 		}, function(ret, err){
 			//页数加1，然后刷新分类数据
-			offset++
-			refreshClassifyData(pubtimeData,rateData,bt_codeData,offset,true)
+			offsetData++
+			refreshClassifyData(pubtimeData,rateData,bt_codeData,offsetData,true)
 		});
 	}
 
 	//升降序排序按钮切换
 	function orderChange (tag){
 		var _this = $(tag)
+		_this.prev().removeClass('desc asc')
+		_this.next().removeClass('desc asc')
 		if(_this.hasClass('asc')){
 			_this.removeClass('asc').addClass('desc')
 		}else if(_this.hasClass('desc')){
 			_this.removeClass('desc').addClass('asc')
 		}else{
 			_this.addClass('desc')
+		}
+	}
+
+	// 年化利率排序
+	function rateSort(tag){
+		orderChange(tag)
+		loantime_sort = null
+		if(rate_sort == null){
+			rate_sort = 'desc'
+			refreshClassifyData()
+		}else if(rate_sort == 'desc'){
+			rate_sort = 'asc'
+			refreshClassifyData()
+		}else if(rate_sort == 'asc'){
+			rate_sort = 'desc'
+			refreshClassifyData()
+		}
+	}
+
+	// 年化利率排序
+	function loantimeSort(tag){
+		orderChange(tag)
+		rate_sort = null
+		if(loantime_sort == null){
+			loantime_sort = 'desc'
+			refreshClassifyData()
+		}else if(loantime_sort == 'desc'){
+			loantime_sort = 'asc'
+			refreshClassifyData()
+		}else if(loantime_sort == 'asc'){
+			loantime_sort = 'desc'
+			refreshClassifyData()
 		}
 	}
 

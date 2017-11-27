@@ -18,14 +18,25 @@
 	<form id="forms1">
 		<div class="nav-list-screen">
 			<ul class="clearfix">
-				<li class="">
-					<div class="classifyTitle"><span>项目期限</span><i class="icon-down-dir"></i></div>
+				<li class="" tapmode onclick="pubSort(this)">
+					<div class="classifyTitle">
+						<span>交易时间</span>
+						<i class="icon-down-dir" style="top: 15px;"></i>
+						<i class="icon-up-dir" style="top: 8px;"></i>
+					</div>
+				</li>
+				<li class="" tapmode onclick="rateSort(this)">
+					<div class="classifyTitle">
+						<span>年化利率</span>
+						<i class="icon-down-dir" style="top: 15px;"></i>
+						<i class="icon-up-dir" style="top: 8px;"></i>
+					</div>
 				</li>
 				<li class="">
-					<div class="classifyTitle"><span>年化利率</span><i class="icon-down-dir"></i></div>
-				</li>
-				<li class="">
-					<div class="classifyTitle filter" tapmode onclick="openSlidFrame()"><span>筛选</span><i class="icon-th-thumb-empty"></i></div>
+					<div class="classifyTitle filter" tapmode onclick="openSlidFrame()">
+						<span>筛选</span>
+						<i class="icon-th-thumb-empty"></i>
+					</div>
 				</li>
 			</ul>
 		</div>
@@ -92,10 +103,280 @@
 				</li>
 			</ul>
 			</div>
-	    	<div class="tou-list-tip" data-val="0" style="text-align: center;padding: 10px;font-size: 16px;color: #999;">
+			<script id="transfer_template" type="text/html">
+				{{set d = $data}}
+				<li class="pass">
+					<div class="target_tou_t">
+						<h1>
+							{{d.bt_name}}
+							<!-- <img src="/attachment/display/3311"> -->
+							{{d.b_projecttitle}}
+						</h1>
+					</div>
+					<div class="target_tou_b clearfix">
+						<dl style="width: 40%;">
+							<dt class="color3 fs14">
+								<em class="color-red fs24">{{d.Rate}}</em>
+								<i class="color-red fs16">%</i>
+							</dt>
+							<dd>预期年化收益率</dd>
+						</dl>
+						<dl style="width: 24%;">
+							<dt class="color4 fs16"><em class="fs20">{{d.yutime}}</em><i>天</i></dt>
+							<dd>剩余期限</dd>
+						</dl>
+						<dl style="width: 36%;">
+							<dt><em class="color2 fs20">{{d.t_transfer_amount}}</em></dt>
+							<dd>待收本息（元）</dd>
+						</dl>
+					</div>
+					<div class="target_tou_pay">
+						<h2>未有返回原项目信息</h2>
+						<p>转让价格（元）</p>
+					</div>
+					<a href="/transfer/detailed/36/7956/2910/81986">{{d.t_transfer_status}}</a>
+				</li>
+			</script>
+	    	<div class="tou-list-tip" style="text-align: center;padding: 10px;font-size: 16px;color: #999;">
 	    	下拉加载更多<i class="icon-angle-double-down"></i>
 			</div>
 		</div>
 	</div>
 </body>
+<script src="../script/jquery.js"></script>
+<script src="../script/common.js"></script>
+<script src="../script/template-web.js"></script>
+<script src="../script/template-filter.js"></script>
+<script>
+	// 声明  期限，利率，项目变量
+	var offsetData = 0,
+		pubtimeData = null,
+		rateData = null,
+		bt_codeData = null,
+		pub_sort = null,
+		rate_sort = null
+
+
+	apiready = function (){
+		refreshHeader()
+		refreshFrameData()
+		bottomRefresh()
+		// 监听更新分类数据时间
+		api.addEventListener({
+		    name: 'refreshTransferClassifyData'
+		}, function(ret, err){
+			// 接受数据
+			pubtimeData = ret.value.pubtimeData
+			rateData = ret.value.rateData
+			bt_codeData = ret.value.bt_codeData
+			offsetData = 0
+			// 重置分类设置
+			loantime_sort = null
+			rate_sort = null
+			resetOrderStyle()
+			//刷新数据
+			refreshClassifyData()
+		});
+		//回到顶部按钮
+		var button = api.require('UIButton');
+		button.open({
+	    rect: {
+	        x: api.frameWidth*0.8,
+	        y: api.frameHeight*0.8,
+	        w: 80,
+	        h: 50
+	    },
+	    corner: 5,
+	    bg: {
+	        normal: '#ff0000',
+	        highlight: '#ff0000',
+	        active: '#ff0000'
+	    },
+	    title: {
+	        size: 14,
+	        highlight: '回到顶部',
+	        active: '回到顶部',
+	        normal: '回到顶部',
+	        highlightColor: '#000adf',
+	        activeColor: '#000adf',
+	        normalColor: '#000adf',
+	        alignment: 'center'
+	    },
+	    fixedOn: api.frameName,
+	    fixed: true,
+	    move: true
+		}, function(ret, err) {
+			api.pageUp({
+				top:true
+			});
+		});
+	}
+
+	// 打开侧边栏
+	function openSlidFrame (){
+		api.openFrame({
+		    name: 'transferClassify',
+		    url: './transferClassify.html',
+			animation:{
+				type:'fade',
+				subType:'from_right'
+			},
+			bgColor:'rgba(0,0,0,0.5)',
+			rect:{
+				x:0,
+				y:0,
+				w:'auto',
+				h:'auto',
+			},
+			pageParam:{
+				pubtime : pubtimeData,
+				rate : rateData,
+				bt_code : bt_codeData
+			}
+		});
+	}
+
+	function refreshFrameData(){
+		resetOrderStyle()
+		refreshData({
+			url:"transfer",
+			values:{
+				limit:10,
+				offset:0
+			},
+			fun:function(ret,err){
+				if(ret.code == 1){
+					// 重置全局变量
+					offset = 0
+					pubtimeData = null
+					rateData = null
+					bt_codeData = null
+					pub_sort = null
+					rate_sort = null
+
+					// var json = '{"code":"1","msg":"操作成功","data":[{"b_id":"2886","bt_name":"供应链","bt_img":"http://ksh.51jili.com/attachment/display/3310","b_projecttitle":"GYL002886","Rate":"9%","IncreasedRate":"1%","b_interest_rate":"9%","b_need_loan":"10,000.00","b_actual_loan":"1,100.00","b_can_cast_loan":"8,900.00","progress":"11.00%","loandeadline":"90天","b_status_name":"投标中","is_hot":"1","canrsecoupon":"1","b_assignbiddding":"0","add_i":"1%"},{"b_id":"2867","bt_name":"担保通","bt_img":"http://ksh.51jili.com/attachment/display/3316","b_projecttitle":"DBT002867","Rate":"8%","IncreasedRate":"0%","b_interest_rate":"8%","b_need_loan":"3,000.00","b_actual_loan":"100.00","b_can_cast_loan":"2,900.00","progress":"3.33%","loandeadline":"180天","b_status_name":"投标中","is_hot":"0","canrsecoupon":"0","b_assignbiddding":"0","add_i":"0%"},{"b_id":"2860","bt_name":"彩虹盛柘","bt_img":"http://ksh.51jili.com/attachment/display/3312","b_projecttitle":"CH002860","Rate":"8%","IncreasedRate":"0%","b_interest_rate":"8%","b_need_loan":"550,000.00","b_actual_loan":"100,000.00","b_can_cast_loan":"450,000.00","progress":"18.18%","loandeadline":"90天","b_status_name":"已过期","is_hot":"0","canrsecoupon":"0","b_assignbiddding":"0","add_i":"0%"}]}'
+					// var data = JSON.parse(json).data;
+					var data = ret.data
+					//渲染投标专区数据
+					var toubiaoHTML = template('transfer_template',data);
+					$('.target_tou > ul').html(toubiaoHTML);
+					api.parseTapmode();
+					$('.tou-list-tip').html('下拉加载更多<i class="icon-angle-double-down"></i>')
+				}
+			}
+		})
+	}
+
+	// 刷新分类数据信息
+	function refreshClassifyData(pubtime,rate,btCode,offset,isBottomRefresh){
+		refreshData({
+			url:"investment",
+			values:{
+				limit:10,
+				offset:offsetData,
+				bt_code:bt_codeData,
+				pubtime:pubtimeData,
+				rate:rateData,
+				pub_sort:pub_sort,
+				rate_sort:rate_sort
+			},
+			fun:function(ret,err){
+				if(ret.code == 1){
+					var data = ret.data
+					if(!isBottomRefresh){
+						// 全部刷新时
+						// 重置全局offset
+						offset = 0
+						if(data!=null){
+							//渲染投标专区数据
+							var toubiaoHTML = template('toubiao_template',data);
+							$('.target_tou > ul').html(toubiaoHTML);
+							api.parseTapmode();
+							$('.tou-list-tip').html('下拉加载更多<i class="icon-angle-double-down"></i>')
+
+						}else{
+							showToastMsg('亲，无符合条件的项目哟~~')
+						}
+					}else{
+						// 上拉刷新时
+						if(data!=null){
+							//上拉刷新添加数据
+							var toubiaoHTML = template('toubiao_template',data);
+							$('.target_tou > ul').append(toubiaoHTML);
+							api.parseTapmode();
+						}else{
+							showToastMsg('亲，已经到底部了~~')
+							$('.tou-list-tip').html('亲，已经到底部了~~')
+						}
+					}
+				}
+			}
+		})
+	}
+
+	// 底部上拉刷新事件
+	function bottomRefresh(){
+		api.addEventListener({
+		    name: 'scrolltobottom',
+				extra:{
+					threshold:100
+				}
+		}, function(ret, err){
+			//页数加1，然后刷新分类数据
+			offsetData++
+			refreshClassifyData(pubtimeData,rateData,bt_codeData,offsetData,true)
+		});
+	}
+
+	//升降序排序按钮切换
+	function orderChange (tag){
+		var _this = $(tag)
+		_this.prev().removeClass('desc asc')
+		_this.next().removeClass('desc asc')
+		if(_this.hasClass('asc')){
+			_this.removeClass('asc').addClass('desc')
+		}else if(_this.hasClass('desc')){
+			_this.removeClass('desc').addClass('asc')
+		}else{
+			_this.addClass('desc')
+		}
+	}
+
+	// 年化利率排序
+	function rateSort(tag){
+		orderChange(tag)
+		loantime_sort = null
+		if(rate_sort == null){
+			rate_sort = 'desc'
+			refreshClassifyData()
+		}else if(rate_sort == 'desc'){
+			rate_sort = 'asc'
+			refreshClassifyData()
+		}else if(rate_sort == 'asc'){
+			rate_sort = 'desc'
+			refreshClassifyData()
+		}
+	}
+
+	// 交易时间排序
+	function pubSort(tag){
+		orderChange(tag)
+		rate_sort = null
+		if(loantime_sort == null){
+			loantime_sort = 'desc'
+			refreshClassifyData()
+		}else if(loantime_sort == 'desc'){
+			loantime_sort = 'asc'
+			refreshClassifyData()
+		}else if(loantime_sort == 'asc'){
+			loantime_sort = 'desc'
+			refreshClassifyData()
+		}
+	}
+
+	//重置排序样式
+	function resetOrderStyle(){
+		$('.nav-list-screen li').removeClass('desc asc')
+	}
+</script>
 </html>

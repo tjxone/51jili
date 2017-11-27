@@ -16,6 +16,7 @@ const appver = '2.6.0';
 const apptype = 'ios';
 // const baseUrl = 'http://ksh.51jili.com/api/';
 const baseUrl = 'https://www.51jili.com/api/';
+// const baseUrl = 'http://192.168.20.4/api/';
 
 function apiPost(params,isUseProgress) {
     //引入加密模块
@@ -38,7 +39,7 @@ function apiPost(params,isUseProgress) {
     valuesObj.apptype = apptype;
     for (var item in valuesObj) {
         // php接受post的值若为空，则不接受这个键名，并且后台序列化加密的键名里面不出现
-        if (valuesObj[item] != '' || valuesObj[item] == 0) {
+        if (valuesObj[item] != null && valuesObj[item] != 'null') {
             var temp = item + ':' + valuesObj[item];
             arr.push(temp);
         }
@@ -61,6 +62,11 @@ function apiPost(params,isUseProgress) {
         if (ret.status) {
             hash = ret.value;
             valuesObj.sign = hash;
+            for(var item in valuesObj){
+                if(valuesObj[item]==null || valuesObj[item]=='null'){
+                    delete valuesObj[item]
+                }
+            }
             console.log('发送请求的数据' + JSON.stringify(valuesObj))
                 //显示等待中准备发送请求
             if(isUseProgress==undefined){

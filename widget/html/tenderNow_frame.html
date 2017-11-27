@@ -74,7 +74,7 @@
 					<li>
 						<span>投标项目</span>
 						<em class="color3 fs14 item-name">
-						<i class="fs18 color2" >{{d.bt_name}}{{d.b_projecttitle}}</i>
+						<i class="fs18 color2 b_projecttitle" >{{d.bt_name}}{{d.b_projecttitle}}</i>
 						</em>
 					</li>
 					<li>
@@ -277,9 +277,9 @@ function tenderNow(){
 			if(ret.buttonIndex==1){
 				tenderNowApiPost(ret.text,function(ret,err){
 					if(ret.code == '1'){
-						alert('验证通过后，关闭输入框和跳转页面')
-
-						jumpToWin('tenderSuccess','投资成功')
+						jumpToWin('tenderSuccess','投资成功',
+							{'b_projecttitle':$('.b_projecttitle').html(),'amount':$('#moneyNum').val()}
+						)
 					}
 				})
 			}
