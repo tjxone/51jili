@@ -70,7 +70,7 @@
 							<h2>100000.00</h2>
 							<p>转让价格（元）</p>
 						</div>
-						<a href="/transfer/detailed/36/7956/2910/81986">已转让</a>
+						<div class="toubiao-btn">已转让</div>
 					</li>
                     <li class="pass"><div class="target_tou_t">
 						<h1><img src="/attachment/display/3310">GYL002885</h1>
@@ -99,13 +99,20 @@
 						<h2>5007.50</h2>
 						<p>转让价格（元）</p>
 					</div>
-					<a href="/transfer/detailed/36/7954/2885/81949">已成交</a>
+					<div class="toubiao-btn" >已成交</div>
 				</li>
 			</ul>
 			</div>
 			<script id="transfer_template" type="text/html">
-				{{set d = $data}}
-				<li class="pass">
+				{{set data = $data}}
+				{{each data d}}
+				<li class="
+				{{if d.t_transfer_status=='投标中'}}
+
+				{{else if d.t_transfer_status!='投标中'}}
+					pass
+				{{/if}}
+				">
 					<div class="target_tou_t">
 						<h1>
 							{{d.bt_name}}
@@ -116,26 +123,27 @@
 					<div class="target_tou_b clearfix">
 						<dl style="width: 40%;">
 							<dt class="color3 fs14">
-								<em class="color-red fs24">{{d.Rate}}</em>
+								<em class="color-red fs24">{{d.Rate.slice(0,-1)}}</em>
 								<i class="color-red fs16">%</i>
 							</dt>
 							<dd>预期年化收益率</dd>
 						</dl>
 						<dl style="width: 24%;">
-							<dt class="color4 fs16"><em class="fs20">{{d.yutime}}</em><i>天</i></dt>
+							<dt class="color4 fs16"><em class="fs20">{{d.yutime.slice(0,-1)}}</em><i>天</i></dt>
 							<dd>剩余期限</dd>
 						</dl>
 						<dl style="width: 36%;">
-							<dt><em class="color2 fs20">{{d.t_transfer_amount}}</em></dt>
+							<dt><em class="color2 fs20">{{d.t_tr_intrest}}</em></dt>
 							<dd>待收本息（元）</dd>
 						</dl>
 					</div>
 					<div class="target_tou_pay">
-						<h2>未有返回原项目信息</h2>
+						<h2>{{d.t_transfer_amount}}</h2>
 						<p>转让价格（元）</p>
 					</div>
-					<a href="/transfer/detailed/36/7956/2910/81986">{{d.t_transfer_status}}</a>
+					<div class="toubiao-btn" >{{d.t_transfer_status}}</div>
 				</li>
+				{{/each}}
 			</script>
 	    	<div class="tou-list-tip" style="text-align: center;padding: 10px;font-size: 16px;color: #999;">
 	    	下拉加载更多<i class="icon-angle-double-down"></i>
@@ -258,8 +266,8 @@
 					// var data = JSON.parse(json).data;
 					var data = ret.data
 					//渲染投标专区数据
-					var toubiaoHTML = template('transfer_template',data);
-					$('.target_tou > ul').html(toubiaoHTML);
+					var transferHTML = template('transfer_template',data);
+					$('.target_tou > ul').html(transferHTML);
 					api.parseTapmode();
 					$('.tou-list-tip').html('下拉加载更多<i class="icon-angle-double-down"></i>')
 				}
@@ -270,7 +278,7 @@
 	// 刷新分类数据信息
 	function refreshClassifyData(pubtime,rate,btCode,offset,isBottomRefresh){
 		refreshData({
-			url:"investment",
+			url:"transfer",
 			values:{
 				limit:10,
 				offset:offsetData,
@@ -289,8 +297,8 @@
 						offset = 0
 						if(data!=null){
 							//渲染投标专区数据
-							var toubiaoHTML = template('toubiao_template',data);
-							$('.target_tou > ul').html(toubiaoHTML);
+							var transferHTML = template('transfer_template',data);
+							$('.target_tou > ul').html(transferHTML);
 							api.parseTapmode();
 							$('.tou-list-tip').html('下拉加载更多<i class="icon-angle-double-down"></i>')
 
@@ -345,7 +353,7 @@
 	// 年化利率排序
 	function rateSort(tag){
 		orderChange(tag)
-		loantime_sort = null
+		pub_sort = null
 		if(rate_sort == null){
 			rate_sort = 'desc'
 			refreshClassifyData()
@@ -362,14 +370,14 @@
 	function pubSort(tag){
 		orderChange(tag)
 		rate_sort = null
-		if(loantime_sort == null){
-			loantime_sort = 'desc'
+		if(pub_sort == null){
+			pub_sort = 'desc'
 			refreshClassifyData()
-		}else if(loantime_sort == 'desc'){
-			loantime_sort = 'asc'
+		}else if(pub_sort == 'desc'){
+			pub_sort = 'asc'
 			refreshClassifyData()
-		}else if(loantime_sort == 'asc'){
-			loantime_sort = 'desc'
+		}else if(pub_sort == 'asc'){
+			pub_sort = 'desc'
 			refreshClassifyData()
 		}
 	}

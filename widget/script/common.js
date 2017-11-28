@@ -15,8 +15,8 @@ const appkey = 'vxCdATZ76WeqjhF3ZNHu';
 const appver = '2.6.0';
 const apptype = 'ios';
 // const baseUrl = 'http://ksh.51jili.com/api/';
-const baseUrl = 'https://www.51jili.com/api/';
-// const baseUrl = 'http://192.168.20.4/api/';
+// const baseUrl = 'https://www.51jili.com/api/';
+const baseUrl = 'http://192.168.20.4/api/';
 
 function apiPost(params,isUseProgress) {
     //引入加密模块
