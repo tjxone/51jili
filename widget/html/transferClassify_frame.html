@@ -70,25 +70,34 @@
 		<div class="right">
 				<ul class="rightBox">
 					<script id="investCondition_template" type="text/html">
-							{{set d = $data}}
-							{{each d classes key}}
-							<li class="{{key}}">
-								<h3>{{key | classifyFormat}}</h3>
-								<ul class="clearfix">
-									{{if key=='pubtime'|key=='rate'}}
-										<li tapmode onclick="changeStatus(this)" data-id='null'>全部</li>
-										{{each classes v k }}
-										<li tapmode onclick="changeStatus(this)" data-id={{v.id}}>{{v.name}}</li>
-										{{/each}}
-									{{else if key=='bdtype'}}
-										<li tapmode onclick="changeStatus(this)" data-btCode='null'>全部</li>
-										{{each classes v k }}
-										<li tapmode onclick="changeStatus(this)" data-btCode={{v.bt_code}}>{{v.bt_name}}</li>
-										{{/each}}
-									{{/if}}
-								</ul>
-							</li>
-							{{/each}}
+						<li class="transferStatus">
+							<h3>债权状态</h3>
+							<ul class="clearfix">
+								<li tapmode onclick="changeStatus(this)" data-status="null">全部</li>
+								<li tapmode onclick="changeStatus(this)" data-status="0">转让中</li>
+								<li tapmode onclick="changeStatus(this)" data-status="1">已转让</li>
+								<li tapmode onclick="changeStatus(this)" data-status="3">已成交</li>
+							</ul>
+						</li>
+						{{set d = $data}}
+						{{each d classes key}}
+						<li class="{{key}}">
+							<h3>{{key | classifyFormat}}</h3>
+							<ul class="clearfix">
+								{{if key=='pubtime'|key=='rate'}}
+									<li tapmode onclick="changeStatus(this)" data-id='null'>全部</li>
+									{{each classes v k }}
+									<li tapmode onclick="changeStatus(this)" data-id={{v.id}}>{{v.name}}</li>
+									{{/each}}
+								{{else if key=='bdtype'}}
+									<li tapmode onclick="changeStatus(this)" data-btCode='null'>全部</li>
+									{{each classes v k }}
+									<li tapmode onclick="changeStatus(this)" data-btCode={{v.bt_code}}>{{v.bt_name}}</li>
+									{{/each}}
+								{{/if}}
+							</ul>
+						</li>
+						{{/each}}
 					</script>
 				</ul>
 				<div class="rightBoxBtn clearfix" style="margin-top:20px;">
@@ -123,14 +132,16 @@ window.onload = function(){
 			var pubtimeData = $('.pubtime').find('li.active').attr('data-id')
 			var rateData = $('.rate').find('li.active').attr('data-id')
 			var bt_codeData = $('.bdtype').find('li.active').attr('data-btCode')
-			alert('期限'+pubtimeData+'利率'+rateData+'项目'+bt_codeData)
+			var t_statusData = $('.transferStatus').find('li.active').attr('data-status')
+			alert('期限'+pubtimeData+'利率'+rateData+'项目'+bt_codeData+'债权状态'+t_statusData)
 			//指定investment_frame更新渲染数据
 			api.sendEvent({
 			    name: 'refreshTransferClassifyData',
 			    extra: {
-			        pubtimeData : pubtimeData != undefined ? pubtimeData : null,
-			        rateData : rateData != undefined ? rateData : null,
-					bt_codeData : bt_codeData != undefined ? bt_codeData : null
+			        pubtime : pubtimeData != undefined ? pubtimeData : null,
+			        rate : rateData != undefined ? rateData : null,
+					bt_code : bt_codeData != undefined ? bt_codeData : null,
+					t_status : t_statusData != undefined ? t_statusData : null
 			    }
 			});
 			closeFrames();
@@ -153,7 +164,7 @@ function changeStatus(el){
 //关闭frame组
 function closeFrames(){
 	api.closeFrame({
-		name:'investmentClassify'
+		name:'transferClassify'
 	})
 	api.closeFrame()
 }
@@ -165,7 +176,7 @@ function refreshFrameData(){
 	// 每次读取完prefs数据后，无progress请求一次，对比本地和网络数据
 	// 若数据不一致，用网络数据更新缓存
 	refreshData({
-		url:'investment_condition',
+		url:'transfer_condition',
 		fun:function(ret,err){
 			if(ret.code == 1){
 				var data = ret.data;
@@ -185,9 +196,11 @@ function classifyData(){
 	var pubtimeData = param.pubtime
 	var rateData = param.rate
 	var bt_codeData = param.bt_code
+	var t_statusData = param.t_status
 	$('.pubtime li[data-id='+pubtimeData+']').addClass('active')
 	$('.rate li[data-id='+rateData+']').addClass('active')
 	$('.bdtype li[data-btCode='+bt_codeData+']').addClass('active')
+	$('.transferStatus li[data-status='+t_statusData+']').addClass('active')
 
 }
 </script>

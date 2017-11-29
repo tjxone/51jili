@@ -20,7 +20,7 @@
 			<ul class="clearfix">
 				<li class="" tapmode onclick="pubSort(this)">
 					<div class="classifyTitle">
-						<span>交易时间</span>
+						<span>发布时间</span>
 						<i class="icon-down-dir" style="top: 15px;"></i>
 						<i class="icon-up-dir" style="top: 8px;"></i>
 					</div>
@@ -112,11 +112,11 @@
 				{{else if d.t_transfer_status!='投标中'}}
 					pass
 				{{/if}}
-				">
+				" tapmode onclick="jumpToWin('transferDetail','{{d.bt_name}} {{d.b_projecttitle}}',{tr_id:{{d.id}},b_id:{{d.t_b_id}},t_id:{{d.id}}})"
+				>
 					<div class="target_tou_t">
 						<h1>
 							{{d.bt_name}}
-							<!-- <img src="/attachment/display/3311"> -->
 							{{d.b_projecttitle}}
 						</h1>
 					</div>
@@ -161,9 +161,9 @@
 		pubtimeData = null,
 		rateData = null,
 		bt_codeData = null,
+		t_statusData = null,
 		pub_sort = null,
 		rate_sort = null
-
 
 	apiready = function (){
 		refreshHeader()
@@ -174,9 +174,10 @@
 		    name: 'refreshTransferClassifyData'
 		}, function(ret, err){
 			// 接受数据
-			pubtimeData = ret.value.pubtimeData
-			rateData = ret.value.rateData
-			bt_codeData = ret.value.bt_codeData
+			pubtimeData = ret.value.pubtime
+			rateData = ret.value.rate
+			bt_codeData = ret.value.bt_code
+			t_statusData = ret.value.t_status
 			offsetData = 0
 			// 重置分类设置
 			loantime_sort = null
@@ -239,7 +240,8 @@
 			pageParam:{
 				pubtime : pubtimeData,
 				rate : rateData,
-				bt_code : bt_codeData
+				bt_code : bt_codeData,
+				t_status : t_statusData
 			}
 		});
 	}
@@ -261,6 +263,7 @@
 					bt_codeData = null
 					pub_sort = null
 					rate_sort = null
+					t_statusData = null
 
 					// var json = '{"code":"1","msg":"操作成功","data":[{"b_id":"2886","bt_name":"供应链","bt_img":"http://ksh.51jili.com/attachment/display/3310","b_projecttitle":"GYL002886","Rate":"9%","IncreasedRate":"1%","b_interest_rate":"9%","b_need_loan":"10,000.00","b_actual_loan":"1,100.00","b_can_cast_loan":"8,900.00","progress":"11.00%","loandeadline":"90天","b_status_name":"投标中","is_hot":"1","canrsecoupon":"1","b_assignbiddding":"0","add_i":"1%"},{"b_id":"2867","bt_name":"担保通","bt_img":"http://ksh.51jili.com/attachment/display/3316","b_projecttitle":"DBT002867","Rate":"8%","IncreasedRate":"0%","b_interest_rate":"8%","b_need_loan":"3,000.00","b_actual_loan":"100.00","b_can_cast_loan":"2,900.00","progress":"3.33%","loandeadline":"180天","b_status_name":"投标中","is_hot":"0","canrsecoupon":"0","b_assignbiddding":"0","add_i":"0%"},{"b_id":"2860","bt_name":"彩虹盛柘","bt_img":"http://ksh.51jili.com/attachment/display/3312","b_projecttitle":"CH002860","Rate":"8%","IncreasedRate":"0%","b_interest_rate":"8%","b_need_loan":"550,000.00","b_actual_loan":"100,000.00","b_can_cast_loan":"450,000.00","progress":"18.18%","loandeadline":"90天","b_status_name":"已过期","is_hot":"0","canrsecoupon":"0","b_assignbiddding":"0","add_i":"0%"}]}'
 					// var data = JSON.parse(json).data;
@@ -276,7 +279,7 @@
 	}
 
 	// 刷新分类数据信息
-	function refreshClassifyData(pubtime,rate,btCode,offset,isBottomRefresh){
+	function refreshClassifyData(isBottomRefresh){
 		refreshData({
 			url:"transfer",
 			values:{
@@ -286,7 +289,8 @@
 				pubtime:pubtimeData,
 				rate:rateData,
 				pub_sort:pub_sort,
-				rate_sort:rate_sort
+				rate_sort:rate_sort,
+				t_status:t_statusData
 			},
 			fun:function(ret,err){
 				if(ret.code == 1){
@@ -294,7 +298,7 @@
 					if(!isBottomRefresh){
 						// 全部刷新时
 						// 重置全局offset
-						offset = 0
+						offsetData = 0
 						if(data!=null){
 							//渲染投标专区数据
 							var transferHTML = template('transfer_template',data);
@@ -309,8 +313,8 @@
 						// 上拉刷新时
 						if(data!=null){
 							//上拉刷新添加数据
-							var toubiaoHTML = template('toubiao_template',data);
-							$('.target_tou > ul').append(toubiaoHTML);
+							var transferHTML = template('transfer_template',data);
+							$('.target_tou > ul').append(transferHTML);
 							api.parseTapmode();
 						}else{
 							showToastMsg('亲，已经到底部了~~')
@@ -332,7 +336,7 @@
 		}, function(ret, err){
 			//页数加1，然后刷新分类数据
 			offsetData++
-			refreshClassifyData(pubtimeData,rateData,bt_codeData,offsetData,true)
+			refreshClassifyData(true)
 		});
 	}
 
@@ -354,6 +358,9 @@
 	function rateSort(tag){
 		orderChange(tag)
 		pub_sort = null
+		// 全部刷新时
+		// 重置全局offset
+		offsetData = 0
 		if(rate_sort == null){
 			rate_sort = 'desc'
 			refreshClassifyData()
@@ -370,6 +377,9 @@
 	function pubSort(tag){
 		orderChange(tag)
 		rate_sort = null
+		// 全部刷新时
+		// 重置全局offset
+		offsetData = 0
 		if(pub_sort == null){
 			pub_sort = 'desc'
 			refreshClassifyData()

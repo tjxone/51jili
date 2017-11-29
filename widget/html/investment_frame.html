@@ -269,7 +269,7 @@
 	}
 
 	// 刷新分类数据信息
-	function refreshClassifyData(pubtime,rate,btCode,offset,isBottomRefresh){
+	function refreshClassifyData(isBottomRefresh){
 		refreshData({
 			url:"investment",
 			values:{
@@ -287,7 +287,7 @@
 					if(!isBottomRefresh){
 						// 全部刷新时
 						// 重置全局offset
-						offset = 0
+						offsetData = 0
 						if(data!=null){
 							//渲染投标专区数据
 							var toubiaoHTML = template('toubiao_template',data);
@@ -325,7 +325,7 @@
 		}, function(ret, err){
 			//页数加1，然后刷新分类数据
 			offsetData++
-			refreshClassifyData(pubtimeData,rateData,bt_codeData,offsetData,true)
+			refreshClassifyData(true)
 		});
 	}
 
@@ -347,6 +347,7 @@
 	function rateSort(tag){
 		orderChange(tag)
 		loantime_sort = null
+		offsetData = 0
 		if(rate_sort == null){
 			rate_sort = 'desc'
 			refreshClassifyData()
@@ -363,6 +364,7 @@
 	function loantimeSort(tag){
 		orderChange(tag)
 		rate_sort = null
+		offsetData = 0
 		if(loantime_sort == null){
 			loantime_sort = 'desc'
 			refreshClassifyData()

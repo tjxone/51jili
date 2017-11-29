@@ -78,13 +78,13 @@
 				</div>
 			</li>
       <li>
-				<div tapmode onclick="open51Url('investment/fx/21/1','风险提示书')">
+				<div>
 					<span>风险提示：</span>
 					<em class="color4">风险提示书<i class="icon-right-open-big"></i></em>
 				</div>
 			</li>
       <li>
-        <div tapmode onclick="jumpToWin('agency','推荐机构')">
+        <div >
           <span>推荐机构：</span>
           <em class="color4 tjjg">----</em>
         </div>
@@ -93,31 +93,31 @@
 	</div>
   <div class="detail-style">
     <ul>
-      <li tapmode onclick="jumpToWin('investmentDescription','项目描述')">
+      <li >
         <div>
           <span>项目描述：</span>
 					<em class="color1"><i class="icon-right-open-big"></i></em>
         </div>
       </li>
-      <li tapmode onclick="jumpToWin('borrowerInfo','借款人信息')">
+      <li >
         <div>
           <span>借贷方信息：</span>
 					<em class="color1"><i class="icon-right-open-big"></i></em>
         </div>
       </li>
-      <li tapmode onclick="jumpToWin('safeGuard','保障措施')">
+      <li >
         <div>
           <span>保障措施：</span>
 					<em class="color1"><i class="icon-right-open-big"></i></em>
         </div>
       </li>
-      <li tapmode onclick="jumpToWin('bidRecord','购标记录')">
+      <li >
         <div>
           <span>投标记录：</span>
 					<em class="color1"><i class="icon-right-open-big"></i></em>
         </div>
       </li>
-      <li tapmode onclick="open51Url('investment/fy/21/1','相关费用')">
+      <li >
 				<div href="/investment/fy/21">
 					<span>相关费用：</span>
 					<em class="color4">相关费用<i class="icon-right-open-big"></i></em>
@@ -183,7 +183,7 @@
 				<li>
 					<div>
 						<span>项目名称：</span>
-						<em>{{d.b_projecttitle}}</em>
+						<em>{{d.projectname}}</em>
 					</div>
 				</li>
 				<li>
@@ -208,7 +208,7 @@
 						<em class="color4">风险提示书<i class="icon-right-open-big"></i></em>
 					</div>
 				</li>
-				{{if d.investment_db}}
+				{{if d.db_id!=''}}
 				<li>
 					<div tapmode onclick="jumpToWin('agency','{{d.db_title}}',{db_id:{{d.db_id}} })">
 						<span>推荐机构：</span>

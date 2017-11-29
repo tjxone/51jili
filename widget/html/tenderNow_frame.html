@@ -84,7 +84,7 @@
 							<i class="fs20">{{d.b_can_cast_loan}}</i>
 						</em>
 					</li>
-	        <li>
+	        		<li class="canUseMoney">
 						<span>账户可用余额</span>
 						<em class="fs14">
 							￥
@@ -268,23 +268,86 @@ function calculateInvest(couponIdNow,typeNow,couponName){
 }
 
 function tenderNow(){
-	if(checkNum(minNum)){
-		api.prompt({
-			title:'请输入交易密码',
-			type:'password',
-			buttons: ['确定', '取消']
-		}, function(ret, err){
-			if(ret.buttonIndex==1){
-				tenderNowApiPost(ret.text,function(ret,err){
-					if(ret.code == '1'){
-						jumpToWin('tenderSuccess','投资成功',
-							{'b_projecttitle':$('.b_projecttitle').html(),'amount':$('#moneyNum').val()}
-						)
-					}
-				})
+	var yu = $('.canUseMoney i').html()
+	var amount = $('#moneyNum').val()
+	if(yu < amount){
+		var dialogBox = api.require('dialogBox');
+	    dialogBox.alert({
+	        texts: {
+	            content: '你的可投余额不足',
+	            leftBtnTitle: '再逛逛',
+				rightBtnTitle: '去充值'
+	        },
+	        styles: {
+	            bg: '#fff',
+	            w: 300,
+	            corner:5,
+	            title: {
+	                marginT: 0,
+	                titleSize: 0,
+	                titleColor: '#000'
+	            },
+	            content: {
+	                color: '#000',
+	                size: 14
+	            },
+	            left: {
+	                marginB: 7,
+	                marginL: 20,
+	                marginR: 20,
+	                w: 120,
+	                h: 35,
+	                corner: 5,
+	                bg: '#ef4646',
+	                color:'#fff',
+	                size: 12
+	            },
+				right: {
+					marginB: 7,
+					marginL: 20,
+					marginR: 20,
+					w: 120,
+					h: 35,
+					corner: 5,
+					bg: '#ef4646',
+					color:'#fff',
+					size: 12
+				}
+	        }
+	    },function(ret,err){
+			if (ret.eventType == 'left') {
+	            var dialogBox = api.require('dialogBox');
+	            dialogBox.close({
+	                dialogName: 'alert'
+	            });
+	        } else if(ret.eventType == 'right') {
+				var dialogBox = api.require('dialogBox');
+				dialogBox.close({
+					dialogName: 'alert'
+				});
+				jumpToWin('usercenter/charge','充值')
 			}
 		});
+	}else{
+		if(checkNum(minNum)){
+			api.prompt({
+				title:'请输入交易密码',
+				type:'password',
+				buttons: ['确定', '取消']
+			}, function(ret, err){
+				if(ret.buttonIndex==1){
+					tenderNowApiPost(ret.text,function(ret,err){
+						if(ret.code == '1'){
+							jumpToWin('tenderSuccess','投资成功',
+								{'b_projecttitle':$('.b_projecttitle').html(),'amount':$('#moneyNum').val()}
+							)
+						}
+					})
+				}
+			});
+		}
 	}
+
 
 }
 

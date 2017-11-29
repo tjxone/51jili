@@ -30,6 +30,7 @@ apiready = function(){
 	var pubtimeData = param.pubtime
 	var rateData = param.rate
 	var bt_codeData = param.bt_code
+	var t_statusData = param.t_status
 	api.openFrame({
 	    name: 'transferClassify_frame',
 	    url: './transferClassify_frame.html',
@@ -47,7 +48,8 @@ apiready = function(){
 		pageParam:{
 			pubtime:pubtimeData,
 			rate:rateData,
-			bt_code:bt_codeData
+			bt_code:bt_codeData,
+			t_status:t_statusData
 		}
 	});
 
