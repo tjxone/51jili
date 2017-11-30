@@ -17,7 +17,10 @@
 	<div class="tab1-content">
 		<div class="tab1-list active" id="tab1-list4">
 			<div class="detail-record">
-				<h1><span>还款期数：<i class="color-red">12</i></span><em>投标总额：<i class="color-red">￥<small>0.00</small></i></em></h1>
+				<h1 style="display: flex;justify-content: space-between;align-items: center;line-height: 20px;">
+                    <span>还款期数：<i class="color-red">---</i></span>
+                    <!-- <em>投标总额：<i class="color-red">￥<small>0.00</small></i></em> -->
+                </h1>
 				<table class="detail-record-table">
 					<thead>
 						<tr>
@@ -27,97 +30,89 @@
 						</tr>
 					</thead>
 					<tbody>
-                        <tr>
-							<td>2017-09-14</td>
-							<td>76.67</td>
-							<td class="color3">
-								<img src="/static/mobile/images/icon30.png">已还款
-							</td>
-						</tr>
-                        <tr>
-							<td>2017-10-13</td>
-							<td>76.67</td>
-							<td class="color3">
-								<img src="/static/mobile/images/icon30.png">已还款
-							</td>
-						</tr>
-                        <tr>
-							<td>2017-11-14</td>
-							<td>76.67</td>
-							<td class="color3">
-                                <img src="/static/mobile/images/icon30.png">已还款
-							</td>
-						</tr>
-                        <tr>
-							<td>4</td>
-							<td>76.67</td>
-							<td class="color3">
-                                <img src="/static/mobile/images/icon31.png">未还款
-							</td>
-						</tr>
-                        <tr>
-							<td>5</td>
-							<td>76.67</td>
-							<td class="color3">
-                                <img src="/static/mobile/images/icon31.png">未还款
-							</td>
-						</tr>
-                        <tr>
-							<td>6</td>
-							<td>76.67</td>
-							<td class="color3">
-                                <img src="/static/mobile/images/icon31.png">未还款
-							</td>
-						</tr>
-                        <tr>
-							<td>7</td>
-							<td>76.67</td>
-							<td class="color3">
-                                <img src="/static/mobile/images/icon31.png">未还款
-							</td>
-						</tr>
-                        <tr>
-							<td>8</td>
-							<td>76.67</td>
-							<td class="color3">
-                                <img src="/static/mobile/images/icon31.png">未还款
-							</td>
-						</tr>
-                        <tr>
-							<td>9</td>
-							<td>76.67</td>
-							<td class="color3">
-                                <img src="/static/mobile/images/icon31.png">未还款
-							</td>
-						</tr>
-                        <tr>
-							<td>10</td>
-							<td>76.67</td>
-							<td class="color3">
-                                <img src="/static/mobile/images/icon31.png">未还款
-						</td>
-						</tr>
-                        <tr>
-							<td>11</td>
-							<td>76.67</td>
-							<td class="color3">
-                                <img src="/static/mobile/images/icon31.png">未还款
-							</td>
-						</tr>
-                        <tr>
-							<td>12</td>
-							<td>10,076.67</td>
-							<td class="color3">
-                                <img src="/static/mobile/images/icon31.png">未还款
-							</td>
-						</tr>
                     </tbody>
 				</table>
 			</div>
+            <script id="repaymentPlan_template" type="text/html">
+                {{set d = $data}}
+                <h1 style="display: flex;justify-content: space-between;align-items: center;line-height: 20px;">
+                    <span>还款期数：<i class="color-red">{{d.repayment_ide_number_periods}}</i></span>
+                    <!-- <em>投标总额：<i class="color-red">￥<small>0.00</small></i></em> -->
+                </h1>
+                <table class="detail-record-table">
+                    <thead>
+                        <tr>
+                            <th>期数</th>
+                            <th>应还本息（元）</th>
+                            <th>还款状态</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{each d.repaymentplan value}}
+                        <tr>
+                            {{if value.ide_real_time>0}}
+                                <td>{{value.ide_real_time|repaymentPlanDataFormat}}</td>
+                            {{else if value.ide_real_time==0}}
+                                <td>{{value.ide_repayment_period}}</td>
+                            {{/if}}
+
+                            <td>{{value.ide_principal_interest}}</td>
+
+                            <td class="color3">
+                                {{if value.ide_status==1}}
+                                <img src="../image/icon31.png">未还款
+                                {{else if value.ide_status==2}}
+                                <img src="../image/icon30.png">已还款
+                                {{else if value.ide_status==3}}
+                                已取消
+                                {{else if value.ide_status==4}}
+                                卖出债权已结算
+                                {{else if value.ide_status==3}}
+                                未标识状态
+                                {{/if}}
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </script>
 		</div>
 	</div>
 </div>
 </div>
-
 </body>
+<script src="../script/jquery.js"></script>
+<script src="../script/common.js"></script>
+<script src="../script/template-web.js"></script>
+<script src="../script/template-filter.js"></script>
+<script src="../script/bootstrap.min.js"></script>
+<script>
+apiready = function(){
+	refreshFrameData();
+	refreshHeader()
+}
+
+function refreshFrameData(){
+	var b_id = api.pageParam.b_id
+    var tr_id = api.pageParam.tr_id
+	refreshData({
+		url:'transfer_repayment',
+		values:{
+			b_id:b_id,
+            tr_id:tr_id,
+			token:''
+		},
+		fun:function(ret,err){
+			var data = ret.data
+			if(ret.code==1){
+				//渲染数据
+				var repaymentPlanHTML = template('repaymentPlan_template' ,data);
+				$('.detail-record').html(repaymentPlanHTML);
+
+			}
+		}
+	},false)
+}
+
+</script>
 </html>

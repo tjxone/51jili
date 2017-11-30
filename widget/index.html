@@ -24,6 +24,19 @@ apiready = function(){
         type:'none'
       }
   });
+  var ajpush = api.require('ajpush');
+
+    ajpush.init(function(ret) {
+        if (ret && ret.status){
+            alert(JSON.stringify(ret))
+        }
+    });
+
+    ajpush.setListener(
+    function(ret) {
+         alert(JSON.stringify(ret))
+    }
+);
 }
 
 </script>

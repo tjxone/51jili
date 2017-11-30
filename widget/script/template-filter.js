@@ -54,6 +54,11 @@ template.defaults.imports.couponDateFormat = function(value){
     var minute = couponDate.getMinutes()
      return `${year}-${month}-${day} ${hour}:${minute}`
 }
+
+template.defaults.imports.repaymentPlanDataFormat = function(value){
+    return new Date(value*1000).toLocaleDateString().replace(/\//g,"-")
+}
+
 template.defaults.imports.fromDate = function(value) {
     var value = new Date(value * 1000).toLocaleDateString().replace(/\//g, "-") + ' ' + new Date(value * 1000).toTimeString().substr(0, 8);
     return value;
