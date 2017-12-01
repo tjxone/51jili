@@ -32,11 +32,17 @@ apiready = function(){
         }
     });
 
-    ajpush.setListener(
-    function(ret) {
-         alert(JSON.stringify(ret))
-    }
-);
+    ajpush.setListener(function(ret) {
+        if (ret && ret.status){
+            alert(JSON.stringify(ret))
+        }
+    });
+
+    var param = {alias:'myalias',tags:['tag1','tag2']};
+    ajpush.bindAliasAndTags(param,function(ret) {
+            var statusCode = ret.statusCode;
+    });
+
 }
 
 </script>
