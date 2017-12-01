@@ -200,10 +200,11 @@
                 closeApp.count++;
                 // alert( JSON.stringify( ret ) );
                 if (closeApp.count >= 2) {
-                    api.closeWidget({
-                        id: 'A6052214405912',
-                        silent: true
-                    })
+                    // api.closeWidget({
+                    //     id: 'A6052214405912',
+                    //     silent: true
+                    // })
+                    api.toLauncher();
                 } else {
                     api.toast({
                         msg: '再按一次退出应用',

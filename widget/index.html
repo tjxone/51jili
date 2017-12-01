@@ -33,7 +33,7 @@ apiready = function(){
     });
 
     ajpush.setListener(function(ret) {
-        if (ret && ret.status){
+        if (ret){
             alert(JSON.stringify(ret))
         }
     });
@@ -43,6 +43,13 @@ apiready = function(){
             var statusCode = ret.statusCode;
     });
 
+    ajpush.getRegistrationId(function(ret) {
+        if (ret){
+            alert(JSON.stringify(ret))
+        }
+    });
+
+    // alert(api.deviceToken)
 }
 
 </script>
