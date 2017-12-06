@@ -436,3 +436,47 @@ function getPhone(){
         sync:true
     });
 }
+
+function gesturePassword(fName){
+    // 监听进入后台
+    api.addEventListener({
+        name:'pause'
+    }, function(ret, err){
+        alert('应用进入后台');
+        var timer = new Date().getTime()
+        api.setPrefs({
+            key: 'pauseTime',
+            value: timer
+        });
+    });
+    // 监听回到前台
+    api.addEventListener({
+        name:'resume'
+    }, function(ret, err){
+        alert('应用回到前台');
+        api.getPrefs({
+            key: 'pauseTime'
+        }, function(ret, err){
+            var delay = 1000
+            alert(Number(ret.value)+delay)
+            if( new Date().getTime()>Number(ret.value)+delay ){
+                api.openWin({
+                    name: 'gesturePassword',
+                    url: 'widget://gesturePassword.html',
+                    slidBackEnabled:false,
+                    animation:{
+                      type:'none'
+                    }
+                });
+            }
+        });
+
+
+        // if (fName == api.frameName){
+            // alert('frame名相同')
+
+        // }
+
+
+    });
+}
