@@ -161,8 +161,8 @@
             api.getPrefs({
                 key: 'islogin'
             }, function(ret, err){
-                // alert(ret.value)
-                if(ret.value=='notlogin'||ret.value == undefined||ret.value == ''){
+                var islogin = JSON.parse(ret.value).value
+                if(islogin == false){
                     alert('未登录')
                     jumpToWin('login','登陆',{slidBackEnabled:false})
                 }else{

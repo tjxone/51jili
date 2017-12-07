@@ -54,7 +54,8 @@
                     key: 'islogin'
                 }, function(ret, err){
                     //如果未登录（因为登陆过期会设置islogin未notlogin自动跳转登陆页）则后退键返回两页
-                    if(ret.value == 'notlogin'){
+                    var islogin = JSON.parse(ret.value).value
+                    if(islogin == false){
                       //安卓返回键操作
                       api.addEventListener({
                           name: 'keyback'
@@ -149,7 +150,8 @@
                   key: 'islogin'
               }, function(ret, err){
                   //无没登陆（因为登陆过期会设置islogin为false自动跳转登陆页）则返回两页
-                  if(ret.value == 'nologin'){
+                  var islogin = JSON.parse(ret.value).value
+                  if(islogin == false){
                       // token没有和上一页不是首页
                       console.log('返回前两页')
                       // 关闭前两页

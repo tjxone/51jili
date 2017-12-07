@@ -68,16 +68,39 @@ apiready = function(){
     //     }
     // });
 
-    api.openFrame({
-        name: 'gesturePassword',
-        url: 'widget://gesturePassword.html',
-        slidBackEnabled:false,
-        animation:{
-          type:'none'
-        }
+
+
+    //屏蔽安卓的返回键
+    api.addEventListener({
+        name: 'keyback'
+    }, function(ret, err){
+
     });
 
-
+    api.getPrefs({
+        key: 'islogin'
+    }, function(ret, err){
+    var islogin = JSON.parse(ret.value).value
+    if(islogin == true){
+        
+        api.openFrame({
+            name: 'gesturePassword',
+            url: 'widget://gesturePassword.html',
+            slidBackEnabled:false,
+            animation:{
+              type:'none'
+            }
+        });
+    }else{
+        api.openWin({
+            name: 'index',
+            url: 'widget://html/index.html',
+            slidBackEnabled:false,
+            animation:{
+              type:'none'
+            }
+        });
+    }
 }
 
 

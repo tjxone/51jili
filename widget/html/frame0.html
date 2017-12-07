@@ -264,14 +264,14 @@
 	function isShowNavBar(){
 		// 判断有无token
 		api.getPrefs({
-				key: 'islogin'
+			key: 'islogin'
 		}, function(ret, err){
-				var islogin = ret.value;
-				if(islogin == 'logined'){
-						$('.logo-header').css('display','none')
-				}else{
-						$('.logo-header').css('display','block')
-				}
+			var islogin = JSON.parse(ret.value).value;
+			if(islogin == true){
+				$('.logo-header').css('display','none')
+			}else{
+				$('.logo-header').css('display','block')
+			}
 		});
 	}
 

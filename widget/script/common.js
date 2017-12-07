@@ -113,7 +113,7 @@ function apiPost(params,isUseProgress) {
                         //登陆过期后登陆状态设置false
                         api.setPrefs({
                             key: 'islogin',
-                            value: 'notlogin'
+                            value: {'value':false,'username':''}
                         });
                         // 关闭输入密码窗口
                         var dialogBox = api.require('dialogBox');
@@ -313,7 +313,8 @@ function jumpToWinAfterJudggingLogin(name, title, newParams) {
         key: 'islogin'
     }, function(ret, err){
       alert( 'islogin状态'+JSON.stringify( ret ) );
-        if( ret.value == 'logined' ){
+        var islogin = JSON.parse(ret.value).value
+        if( islogin == true ){
           // 默认设置
           var defaultParams = {
               name: name,
@@ -454,28 +455,28 @@ function gesturePassword(fName){
         name:'resume'
     }, function(ret, err){
         alert('应用回到前台');
-        api.getPrefs({
-            key: 'pauseTime'
-        }, function(ret, err){
-            var delay = 1000
-            alert(Number(ret.value)+delay)
-            if( new Date().getTime()>Number(ret.value)+delay ){
-                api.openWin({
-                    name: 'gesturePassword',
-                    url: 'widget://gesturePassword.html',
-                    slidBackEnabled:false,
-                    animation:{
-                      type:'none'
-                    }
-                });
-            }
-        });
-
-
-        // if (fName == api.frameName){
-            // alert('frame名相同')
-
-        // }
+        var islogin = JSON.parse(api.getPrefs({
+            key: 'islogin',
+            sync:true
+        })).value
+        if(islogin == true){
+            api.getPrefs({
+                key: 'pauseTime'
+            }, function(ret, err){
+                var delay = 1000
+                alert(Number(ret.value)+delay)
+                if( new Date().getTime()>Number(ret.value)+delay ){
+                    api.openWin({
+                        name: 'gesturePassword',
+                        url: 'widget://gesturePassword.html',
+                        slidBackEnabled:false,
+                        animation:{
+                          type:'none'
+                        }
+                    });
+                }
+            });
+        }
 
 
     });
