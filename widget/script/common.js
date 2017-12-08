@@ -113,7 +113,7 @@ function apiPost(params,isUseProgress) {
                         //登陆过期后登陆状态设置false
                         api.setPrefs({
                             key: 'islogin',
-                            value: {'value':false,'username':''}
+                            value: {'value':false,'username':'','uid':''}
                         });
                         // 关闭输入密码窗口
                         var dialogBox = api.require('dialogBox');
@@ -309,55 +309,50 @@ function jumpToIndex(index) {
 //** bid number 项目id号(必填)
 //**
 function jumpToWinAfterJudggingLogin(name, title, newParams) {
-    api.getPrefs({
-        key: 'islogin'
-    }, function(ret, err){
-      alert( 'islogin状态'+JSON.stringify( ret ) );
-        var islogin = JSON.parse(ret.value).value
-        if( islogin == true ){
-          // 默认设置
-          var defaultParams = {
-              name: name,
-              title: title,
-              slidBackEnabled: true,
-              backEnable: true,
-              isbackToIndex: false,
-              prevPage: api.frameName,
-              prevWin: api.winName
-          };
-          //继承新设置
-          var params = Object.assign(defaultParams, newParams)
-          api.openWin({
-              name: params.name,
-              url: 'widget://html/publicHeader.html',
-              pageParam: params,
-              slidBackEnabled: params.slidBackEnabled,
-              animation:{
-                  type:'movein',
-                  duration:200
-              }
-          })
-        }else if(ret.value == 'notlogin'||ret.value == undefined||ret.value == ''){
-            api.confirm({
-                title: '未登录',
-                msg: '系统检测到您未登录',
-                buttons: ['去登陆', '再逛逛']
-            }, function(ret, err){
-                if(ret.buttonIndex == 1){
-                    var defaultParams = {
-                        slidBackEnabled: true,
-                        backEnable: true,
-                        isbackToIndex: false,
-                        prevPage: api.frameName,
-                        prevWin: api.winName
-                    };
-                    var params = Object.assign(defaultParams, newParams)
-                    jumpToWin('login','登陆',params)
-                }
-            });
-        }
-    });
-
+    alert( 'islogin状态'+JSON.stringify( ret ) );
+    var islogin = getIsLogin()
+    if( islogin.value == true ){
+      // 默认设置
+      var defaultParams = {
+          name: name,
+          title: title,
+          slidBackEnabled: true,
+          backEnable: true,
+          isbackToIndex: false,
+          prevPage: api.frameName,
+          prevWin: api.winName
+      };
+      //继承新设置
+      var params = Object.assign(defaultParams, newParams)
+      api.openWin({
+          name: params.name,
+          url: 'widget://html/publicHeader.html',
+          pageParam: params,
+          slidBackEnabled: params.slidBackEnabled,
+          animation:{
+              type:'movein',
+              duration:200
+          }
+      })
+    }else if(ret.value == 'notlogin'||ret.value == undefined||ret.value == ''){
+        api.confirm({
+            title: '未登录',
+            msg: '系统检测到您未登录',
+            buttons: ['去登陆', '再逛逛']
+        }, function(ret, err){
+            if(ret.buttonIndex == 1){
+                var defaultParams = {
+                    slidBackEnabled: true,
+                    backEnable: true,
+                    isbackToIndex: false,
+                    prevPage: api.frameName,
+                    prevWin: api.winName
+                };
+                var params = Object.assign(defaultParams, newParams)
+                jumpToWin('login','登陆',params)
+            }
+        });
+    }
 }
 
 
@@ -455,11 +450,8 @@ function gesturePassword(fName){
         name:'resume'
     }, function(ret, err){
         alert('应用回到前台');
-        var islogin = JSON.parse(api.getPrefs({
-            key: 'islogin',
-            sync:true
-        })).value
-        if(islogin == true){
+        var islogin = getIsLogin()
+        if(islogin.value == true){
             api.getPrefs({
                 key: 'pauseTime'
             }, function(ret, err){
@@ -477,7 +469,21 @@ function gesturePassword(fName){
                 }
             });
         }
-
-
     });
+}
+
+//设置islogin
+function setIsLogin(param){
+    api.setPrefs({
+        key: 'islogin',
+        value: param
+    });
+}
+// 读取islogin
+function getIsLogin(){
+    var value = api.getPrefs({
+        key: 'islogin',
+        sync:true
+    });
+    return value ;
 }

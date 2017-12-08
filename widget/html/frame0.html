@@ -262,17 +262,13 @@
 	}
 
 	function isShowNavBar(){
-		// 判断有无token
-		api.getPrefs({
-			key: 'islogin'
-		}, function(ret, err){
-			var islogin = JSON.parse(ret.value).value;
-			if(islogin == true){
-				$('.logo-header').css('display','none')
-			}else{
-				$('.logo-header').css('display','block')
-			}
-		});
+		// 判断是否login
+		var islogin = getIsLogin;
+		if(islogin.value == true){
+			$('.logo-header').css('display','none')
+		}else{
+			$('.logo-header').css('display','block')
+		}
 	}
 
 

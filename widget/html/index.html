@@ -158,26 +158,22 @@
 
         //当index为2时，点击用户中心，刷新用户中心数据
         if (index == 2) {
-            api.getPrefs({
-                key: 'islogin'
-            }, function(ret, err){
-                var islogin = JSON.parse(ret.value).value
-                if(islogin == false){
-                    alert('未登录')
-                    jumpToWin('login','登陆',{slidBackEnabled:false})
-                }else{
-                    // alert('已登录')
-                    api.setFrameGroupIndex({
-                        name: 'indexFrameGroup',
-                        index: index,
-                    });
-                    api.execScript({
-                        name:'index',
-                        frameName: 'frame2',
-                        script: 'refreshFrameData();'
-                    });
-                }
-            });
+            var islogin = getIsLogin()
+            if(islogin.value == false){
+                alert('未登录')
+                jumpToWin('login','登陆',{slidBackEnabled:false})
+            }else{
+                // alert('已登录')
+                api.setFrameGroupIndex({
+                    name: 'indexFrameGroup',
+                    index: index,
+                });
+                api.execScript({
+                    name:'index',
+                    frameName: 'frame2',
+                    script: 'refreshFrameData();'
+                });
+            }
             api.execScript({
                 name:'index',
                 frameName: 'frame1',

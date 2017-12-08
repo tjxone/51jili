@@ -14,6 +14,7 @@
 
 </body>
 <script src="script/jquery.js"></script>
+<script src="script/common.js"></script>
 <script>
 apiready = function(){
 
@@ -77,12 +78,8 @@ apiready = function(){
 
     });
 
-    api.getPrefs({
-        key: 'islogin'
-    }, function(ret, err){
-    var islogin = JSON.parse(ret.value).value
-    if(islogin == true){
-        
+    var islogin = getIsLogin()
+    if(islogin.value == true){
         api.openFrame({
             name: 'gesturePassword',
             url: 'widget://gesturePassword.html',

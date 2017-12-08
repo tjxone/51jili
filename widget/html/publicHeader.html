@@ -50,23 +50,19 @@
                 }
             }else{
                 //检查是否登录
-                api.getPrefs({
-                    key: 'islogin'
-                }, function(ret, err){
-                    //如果未登录（因为登陆过期会设置islogin未notlogin自动跳转登陆页）则后退键返回两页
-                    var islogin = JSON.parse(ret.value).value
-                    if(islogin == false){
-                      //安卓返回键操作
-                      api.addEventListener({
-                          name: 'keyback'
-                      }, function(ret, err) {
-                          api.closeWin({
-                              name:param.prevWin
-                          })
-                          api.closeWin();
-                      });
-                    }
-                });
+                //如果未登录（因为登陆过期会设置islogin未notlogin自动跳转登陆页）则后退键返回两页
+                var islogin = getIsLogin()
+                if(islogin.value == false){
+                  //安卓返回键操作
+                  api.addEventListener({
+                      name: 'keyback'
+                  }, function(ret, err) {
+                      api.closeWin({
+                          name:param.prevWin
+                      })
+                      api.closeWin();
+                  });
+                }
             }
         }
 
@@ -133,7 +129,7 @@
 
     function closeWindow(){
       var param = api.pageParam;
-      //如果当前窗口是登陆窗口
+      //如果当前窗口是登陆login窗口
       if(api.winName == 'login'){
           //它上一win是主页
           if(param.prevWin == 'index'){
@@ -146,21 +142,17 @@
               api.closeWin();
           }else{
               //检查是否登陆了
-              api.getPrefs({
-                  key: 'islogin'
-              }, function(ret, err){
-                  //无没登陆（因为登陆过期会设置islogin为false自动跳转登陆页）则返回两页
-                  var islogin = JSON.parse(ret.value).value
-                  if(islogin == false){
-                      // token没有和上一页不是首页
-                      console.log('返回前两页')
-                      // 关闭前两页
-                      api.closeWin({
-                        name:param.prevWin
-                      })
-                      api.closeWin();
-                  }
-              });
+              //无没登陆（因为登陆过期会设置islogin为false自动跳转登陆页）则返回两页
+              var islogin = getIsLogin()
+              if(islogin.value == false){
+                  // token没有和上一页不是首页
+                  console.log('返回前两页')
+                  // 关闭前两页
+                  api.closeWin({
+                    name:param.prevWin
+                  })
+                  api.closeWin();
+              }
           }
       }else{
           api.closeWin();
