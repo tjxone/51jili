@@ -15,8 +15,8 @@ const appkey = 'vxCdATZ76WeqjhF3ZNHu';
 const appver = '2.6.0';
 const apptype = 'ios';
 // const baseUrl = 'http://ksh.51jili.com/api/';
-// const baseUrl = 'https://www.51jili.com/api/';
-const baseUrl = 'http://192.168.20.4/api/';
+const baseUrl = 'https://www.51jili.com/api/';
+// const baseUrl = 'http://192.168.20.4/api/';
 
 function apiPost(params,isUseProgress) {
     //引入加密模块
@@ -309,8 +309,9 @@ function jumpToIndex(index) {
 //** bid number 项目id号(必填)
 //**
 function jumpToWinAfterJudggingLogin(name, title, newParams) {
-    alert( 'islogin状态'+JSON.stringify( ret ) );
-    var islogin = getIsLogin()
+
+    var islogin = JSON.parse(getIsLogin())
+    alert( 'islogin状态'+JSON.stringify(islogin) );
     if( islogin.value == true ){
       // 默认设置
       var defaultParams = {
@@ -334,7 +335,7 @@ function jumpToWinAfterJudggingLogin(name, title, newParams) {
               duration:200
           }
       })
-    }else if(ret.value == 'notlogin'||ret.value == undefined||ret.value == ''){
+    }else{
         api.confirm({
             title: '未登录',
             msg: '系统检测到您未登录',

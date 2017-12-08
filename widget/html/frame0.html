@@ -263,7 +263,7 @@
 
 	function isShowNavBar(){
 		// 判断是否login
-		var islogin = getIsLogin;
+		var islogin = JSON.parse(getIsLogin());
 		if(islogin.value == true){
 			$('.logo-header').css('display','none')
 		}else{
