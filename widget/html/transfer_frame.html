@@ -45,7 +45,7 @@
 		<div class="nav-content">
 			<div class="target_tou target_tou_z">
 				<ul>
-                    <li class="pass">
+                    <!-- <li class="pass">
 						<div class="target_tou_t">
 							<h1><img src="/attachment/display/3311">AD002910</h1>
 						</div>
@@ -100,8 +100,8 @@
 						<p>转让价格（元）</p>
 					</div>
 					<div class="toubiao-btn" >已成交</div>
-				</li>
-			</ul>
+					</li> -->
+				</ul>
 			</div>
 			<script id="transfer_template" type="text/html">
 				{{set data = $data}}
@@ -116,6 +116,7 @@
 				>
 					<div class="target_tou_t">
 						<h1>
+							<img src="{{d.bt_img}}">
 							{{d.bt_name}}
 							{{d.b_projecttitle}}
 						</h1>
