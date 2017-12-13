@@ -22,13 +22,13 @@ apiready = function(){
 
     ajpush.init(function(ret) {
         if (ret && ret.status){
-            alert(JSON.stringify(ret))
+            // alert(JSON.stringify(ret))
         }
     });
 
     ajpush.setListener(function(ret) {
         if (ret){
-            alert(JSON.stringify(ret))
+            // alert(JSON.stringify(ret))
         }
     });
 
@@ -37,7 +37,7 @@ apiready = function(){
         name: 'appintent'
     }, function(ret, err) {
         if (ret && ret.appParam.ajpush) {
-            alert(JSON.stringify(ret))
+            // alert(JSON.stringify(ret))
             var ajpush = ret.appParam.ajpush;
             var id = ajpush.id;
             var title = ajpush.title;
@@ -50,7 +50,7 @@ apiready = function(){
     api.addEventListener({
         name: 'noticeclicked'
     }, function(ret, err) {
-        alert(JSON.stringify(ret))
+        // alert(JSON.stringify(ret))
         if (ret && ret.value) {
             var ajpush = ret.value;
             var content = ajpush.content;

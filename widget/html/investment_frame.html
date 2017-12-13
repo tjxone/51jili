@@ -93,11 +93,7 @@
 								</dl>
 								<dl style="width: 24%;">
 									<dt class="color4 fs16">
-										{{if value.loandeadline.indexOf('月')}}
-											<em class="fs20">{{value.loandeadline.slice(0,-2)}}</em><i>个月</i>
-										{{else if value.loandeadline.indexOf('天')}}
-											<em class="fs20">{{value.loandeadline.slice(0,-1)}}</em><i>天</i>
-										{{/if}}
+										{{@value.loandeadline|loandeadlineFormat}}
 									</dt>
 									<dd>项目期限</dd>
 								</dl>
