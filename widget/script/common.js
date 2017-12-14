@@ -440,7 +440,7 @@ function gesturePassword(fName){
     api.addEventListener({
         name:'pause'
     }, function(ret, err){
-        alert('应用进入后台');
+        // alert('应用进入后台');
         var timer = new Date().getTime()
         api.setPrefs({
             key: 'pauseTime',
@@ -451,7 +451,7 @@ function gesturePassword(fName){
     api.addEventListener({
         name:'resume'
     }, function(ret, err){
-        alert('应用回到前台');
+        // alert('应用回到前台');
         var islogin = getIsLogin()
         if(islogin.value == true){
             api.getPrefs({
