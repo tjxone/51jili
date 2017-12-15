@@ -31,7 +31,150 @@
                 </li>
             </ul>
         </div>
+        <div class="tab5-content">
+            <div class="tab5-list on" id="tab5-list1">
+                <script id="canReward" type="text/html">
+                    {{each list_hb}}
+                    {{if $value.ur_status==0||$value.ur_status==1}}
+                    <ul>
+                        <li>
+                            <div class="coupon-l">
+                                <p>红包</p>
+                                <h1>¥<span>{{$value.ur_amount}}</span></h1>
+                            </div>
+                            <div class="coupon-r">
+                                <h1>
+                                    获得{{$value.msg}}<span>{{$value.ur_amount}}</span>元<i style="display: inline-block;width: 20px;height: 20px;background: url(/static/img/wen1.png) no-repeat;background-size: 100%
+                                    100%;margin-left: 10px;"></i>
+                                </h1>
+                                <p>{{$value.rp_type}}</p>
+                                <p>获取时间:{{$value.ur_time}}</p>
+                                <em>在途</em>
+                            </div>
+                        </li>
+                    </ul>
+                    {{/if}}
+                    {{/each}}
+                </script>
+            </div>
+            <div class="tab5-list" id="tab5-list2">
+                <script id="haveReward" type="text/html">
+                    {{each list_hb}}
+                    {{if $value.ur_status==2}}
+                    <ul>
+                        <li class="coupon-use">
+                            <div class="coupon-l">
+                                <p>红包</p>
+                                <h1>¥<span>{{$value.ur_amount}}</span></h1>
+                            </div>
+                            <div class="coupon-r">
+                                <h1>
+                                    获得{{$value.msg}}<span>{{$value.ur_amount}}</span>元<i style="display: inline-block;width: 20px;height: 20px;background: url(/static/img/wen1.png) no-repeat;background-size: 100%
+                                    100%;margin-left: 10px;"></i>
+                                </h1>
+                                <p>{{$value.rp_type}}</p>
+                                <p>获取时间:{{$value.ur_time}}</p>
+                                <em>已发</em>
+                            </div>
+                        </li>
+                    </ul>
+                    {{/if}}
+                    {{/each}}
+                </script>
+            </div>
+            <div class="tab5-list" id="tab5-list3">
+                <script id="haveReward" type="text/html">
+                    {{each list_hb}}
+                    {{if $value.ur_status==3}}
+                    <ul>
+                        <li class="coupon-use">
+                            <div class="coupon-l">
+                                <p>红包</p>
+                                <h1>¥<span>{{$value.ur_amount}}</span></h1>
+                            </div>
+                            <div class="coupon-r">
+                                <h1>
+                                    获得{{$value.msg}}<span>{{$value.ur_amount}}</span>元<i style="display: inline-block;width: 20px;height: 20px;background: url(/static/img/wen1.png) no-repeat;background-size: 100%
+                                    100%;margin-left: 10px;"></i>
+                                </h1>
+                                <p>{{$value.rp_type}}</p>
+                                <p>获取时间:{{$value.ur_time}}</p>
+                                <em>失效</em>
+                            </div>
+                        </li>
+                    </ul>
+                    {{/if}}
+                    {{/each}}
+                </script>
+            </div>
+        </div>
     </div>
 </body>
-
+<script src="../../script/jquery.js"></script>
+<script src="../../script/common.js"></script>
+<script src="../../script/template-web.js"></script>
+<script>
+    $('.tab5 li').on('touchend', function () {
+        var $this = $(this);
+        var this_id = $this.attr('data-target');
+        var status;
+        var token = getToken();
+        if (this_id == 'tab5-list1') {
+            status = 0;
+        } else if (this_id == 'tab5-list2') {
+            status = 1;
+        } else {
+            status = 2;
+        }
+        $this.addClass('on').siblings('li').removeClass('on');
+        apiPost({
+            url: 'reward',
+            values: {
+                token: token,
+                type: 2,
+                status: status
+            },
+            fun: function (ret, err) {
+                var data = ret.data;
+                if (status == 0) {
+                    var html = template('canReward', data);
+                    $('#tab5-list1').html(html);
+                } else if (status == 1) {
+                    var html = template('haveReward', data);
+                    $('#tab5-list2').html(html);
+                } else {
+                    var html = template('overReward', data);
+                    $('#tab5-list3').html(html);
+                }
+            }
+        });
+        $('.tab5-list').each(function () {
+            $(this).removeClass('on');
+            $('#' + this_id).addClass('on');
+        });
+    });
+    apiready = function () {
+        refreshFrameData();
+    }
+    function refreshFrameData() {
+        refreshData({
+            url: 'reward',
+            values: {
+                token: '',
+                type: 2,
+                status: 0
+            },
+            loginParams: {
+                slidBackEnabled: false,
+                isbackToIndex: true
+            },
+            fun: function (ret, err) {
+                var data = ret.data;
+                console.log(JSON.stringify(ret));
+                var html = template('canReward', data);
+                $('#tab5-list1').html(html);
+            }
+        });
+    }
+</script>
 </html>
