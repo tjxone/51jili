@@ -198,6 +198,8 @@
 		isShowNavBar()
 		refreshHeader()
 		refreshFrameData()
+		// gesturePassword('frame0')
+
   }
 
 	function refreshFrameData(){
@@ -260,17 +262,13 @@
 	}
 
 	function isShowNavBar(){
-		// 判断有无token
-		api.getPrefs({
-				key: 'islogin'
-		}, function(ret, err){
-				var islogin = ret.value;
-				if(islogin == 'logined'){
-						$('.logo-header').css('display','none')
-				}else{
-						$('.logo-header').css('display','block')
-				}
-		});
+		// 判断是否login
+		var islogin = JSON.parse(getIsLogin());
+		if(islogin.value == true){
+			$('.logo-header').css('display','none')
+		}else{
+			$('.logo-header').css('display','block')
+		}
 	}
 
 

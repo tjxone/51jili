@@ -42,7 +42,7 @@ template.defaults.imports.detailDateFormat = function(value){
 }
 
 template.defaults.imports.fix2 = function(value){
-    return Number(value).toFixed(2)
+    return value==0?Number(value).toFixed(2):value
 }
 
 template.defaults.imports.couponDateFormat = function(value){
@@ -54,6 +54,20 @@ template.defaults.imports.couponDateFormat = function(value){
     var minute = couponDate.getMinutes()
      return `${year}-${month}-${day} ${hour}:${minute}`
 }
+
+template.defaults.imports.loandeadlineFormat = function(value){
+    console.log(value+value.indexOf('月'))
+    if (value.indexOf('月')>0)
+        return `<em class="fs20">${value.slice(0,-2)}</em><i>个月</i>`
+    else if (value.indexOf('天')>0){
+        return `<em class="fs20">${value.slice(0,-1)}</em><i>天</i>`
+    }
+}
+
+template.defaults.imports.repaymentPlanDataFormat = function(value){
+    return new Date(Number(value)*1000).toLocaleDateString().replace(/\//g,"-")
+}
+
 template.defaults.imports.fromDate = function(value) {
     var value = new Date(value * 1000).toLocaleDateString().replace(/\//g, "-") + ' ' + new Date(value * 1000).toTimeString().substr(0, 8);
     return value;

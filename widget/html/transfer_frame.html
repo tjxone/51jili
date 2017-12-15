@@ -12,15 +12,15 @@
 	<link rel="stylesheet" href="../css/swiper.min.css">
 	<link rel="stylesheet" href="../css/bootstrap.min.css">
 	<link rel="stylesheet" href="../css/common.css">
-	<title>投标专区－集利财富</title>
+	<title>债权超市－集利财富</title>
 </head>
-<body>
+<body style="">
 	<form id="forms1">
 		<div class="nav-list-screen">
 			<ul class="clearfix">
-				<li class="" tapmode onclick="loantimeSort(this)">
+				<li class="" tapmode onclick="pubSort(this)">
 					<div class="classifyTitle">
-						<span>项目期限</span>
+						<span>发布时间</span>
 						<i class="icon-down-dir" style="top: 15px;"></i>
 						<i class="icon-up-dir" style="top: 8px;"></i>
 					</div>
@@ -43,102 +43,114 @@
 	</form>
 	<div class="main">
 		<div class="nav-content">
-			<div class="target_tou">
+			<div class="target_tou target_tou_z">
 				<ul>
-					<script id="toubiao_template" type="text/html">
-						{{ set b = $data}}
-						{{each b value key}}
-						<li class="
-						{{if value.b_status_name=='投标中'}}
-						{{else if value.b_status_name=='已过期'}}
-							pass
-						{{else if value.b_status_name=='已售罄'}}
-							repayment_su
-						{{else if value.b_status_name=='还款中'}}
-							repayment_in
-						{{else if value.b_status_name=='已结束'}}
-							pass
-						{{/if}}
-						{{if value.is_hot==1}}
-							hot
-						{{/if}}
-						" tapmode onclick="jumpToWin('investmentDetail','{{value.bt_name}} {{value.b_projecttitle}}',{bid:{{value.b_id}}})">
-							<div class="target_tou_t">
-								<h1><img src="{{value.bt_img}}">{{value.b_projecttitle}}
-									{{if value.canrsecoupon==1}}
-										<img src="../image/icon_phone.png" style="width: 60px;height: 40px;margin-right: 0;margin-left: 10px;">
-									{{/if}}
-									{{if value.b_assignbiddding==1}}
-										<img class="yu" src="../image/yu.png" >
-									{{/if}}
-					            </h1>
-								<span class="target_tou_s"><i data-val="{{value.progress | rateFormat}}" style="width:{{value.progress}}"></i></span>
-							</div>
-							<div class="target_tou_b clearfix">
-								<dl style="width: 40%;">
-									<dt class="color3 fs14" >
-										<em class="color-red fs24">{{value.Rate.slice(0,-1)}}</em>
-										<i class="color-red fs16">%</i>
-										{{if value.IncreasedRate.slice(0,-1) >0}}
-										+<em class="color-red fs24">{{value.IncreasedRate.slice(0,-1)}}</em><i class="color-red fs16">%</i>
-										{{/if}}
-
-										{{if value.add_i.slice(0,-1) >0}}
-										<i style="display: inline-block;margin-left: 5px;color: #fff;font-size: 14px;font-style: normal;padding:0px 3px;border-radius: 3px;background: #ef4646;line-height: 20px">
-											+{{value.add_i.slice(0,-1)}}%
-										</i>
-										{{/if}}
-	                				</dt>
-									<dd>预期年化收益率</dd>
-								</dl>
-								<dl style="width: 24%;">
-									<dt class="color4 fs16">
-										{{@value.loandeadline|loandeadlineFormat}}
-									</dt>
-									<dd>项目期限</dd>
-								</dl>
-								<dl style="width: 36%;">
-									<dt><em class="color2 fs20">{{value.b_need_loan}}</em></dt>
-									<dd>投标金额（元）</dd>
-								</dl>
-							</div>
-							<div class="toubiao-btn">{{value.b_status_name}}</div>
-						</li>
-						{{/each}}
-					</script>
-
-          <!-- <li class="" tapmode onclick="jumpToDetail()">
+                    <!-- <li class="pass">
 						<div class="target_tou_t">
-							<h1><img src="https://www.51jili.com/attachment/display/3310">GYL002858                                                                                                                            <img src="../image/icon_phone.png" style="width: 60px;height: 40px;margin-right: 0;margin-left: 10px;">
-                                                                                                                                                                                </h1>
-							<span class="target_tou_s">
-								<i data-val="25.98" style="width:30%"></i>
-							</span>
+							<h1><img src="/attachment/display/3311">AD002910</h1>
 						</div>
 						<div class="target_tou_b clearfix">
 							<dl style="width: 40%;">
-								<dt class="color3 fs14" ><em class="color-red fs24">8.8</em><i class="color-red fs16">%</i>
-                                                                                                                                                                                                        </dt>
+								<dt class="color3 fs14">
+									<em class="color-red fs24">10</em>
+									<i class="color-red fs16">%</i>
+								</dt>
 								<dd>预期年化收益率</dd>
 							</dl>
 							<dl style="width: 24%;">
-								<dt class="color4 fs16"><em class="fs20">6</em><i>个月</i></dt>
-								<dd>项目期限</dd>
+								<dt class="color4 fs16"><em class="fs20">30</em><i>天</i></dt>
+								<dd>剩余期限</dd>
 							</dl>
 							<dl style="width: 36%;">
-								<dt><em class="color2 fs20">400,000</em></dt>
-								<dd>投标金额（元）</dd>
+								<dt><em class="color2 fs20">100833.33</em></dt>
+								<dd>待收本息（元）</dd>
 							</dl>
 						</div>
-						<div class="toubiao-btn">立即投标</div>
+						<div class="target_tou_pay">
+							<h2>100000.00</h2>
+							<p>转让价格（元）</p>
+						</div>
+						<div class="toubiao-btn">已转让</div>
+					</li>
+                    <li class="pass"><div class="target_tou_t">
+						<h1><img src="/attachment/display/3310">GYL002885</h1>
+					</div>
+					<div class="target_tou_b clearfix">
+						<dl style="width: 40%;">
+							<dt class="color3 fs14">
+								<em class="color-red fs24">9</em><i class="color-red fs16">%</i>
+							</dt>
+							<dd>预期年化收益率</dd>
+						</dl>
+						<dl style="width: 24%;">
+							<dt class="color4 fs16">
+								<em class="fs20">84</em><i>天</i>
+							</dt>
+							<dd>剩余期限</dd>
+						</dl>
+						<dl style="width: 36%;">
+							<dt>
+								<em class="color2 fs20">5112.5</em>
+							</dt>
+							<dd>剩余金额（元）</dd>
+						</dl>
+					</div>
+					<div class="target_tou_pay">
+						<h2>5007.50</h2>
+						<p>转让价格（元）</p>
+					</div>
+					<div class="toubiao-btn" >已成交</div>
 					</li> -->
-        		</ul>
-				<div class="tou-list-tip" style="text-align: center;padding: 10px;font-size: 16px;color: #999;">
-				下拉加载更多
-					<i class="icon-angle-double-down"></i>
-				</div>
+				</ul>
 			</div>
+			<script id="transfer_template" type="text/html">
+				{{set data = $data}}
+				{{each data d}}
+				<li class="
+				{{if d.t_transfer_status=='投标中'}}
 
+				{{else if d.t_transfer_status!='投标中'}}
+					pass
+				{{/if}}
+				" tapmode onclick="jumpToWin('transferDetail','{{d.bt_name}} {{d.b_projecttitle}}',{tr_id:{{d.id}},b_id:{{d.t_b_id}},t_id:{{d.t_t_id}}})"
+				>
+					<div class="target_tou_t">
+						<h1>
+							<img src="{{d.bt_img}}">
+							{{d.bt_name}}
+							{{d.b_projecttitle}}
+						</h1>
+					</div>
+					<div class="target_tou_b clearfix">
+						<dl style="width: 40%;">
+							<dt class="color3 fs14">
+								<em class="color-red fs24">{{d.Rate.slice(0,-1)}}</em>
+								<i class="color-red fs16">%</i>
+							</dt>
+							<dd>预期年化收益率</dd>
+						</dl>
+						<dl style="width: 24%;">
+							<dt class="color4 fs16"><em class="fs20">{{d.yutime.slice(0,-1)}}</em><i>天</i></dt>
+							<dd>剩余期限</dd>
+						</dl>
+						<dl style="width: 36%;">
+							<dt><em class="color2 fs20">{{d.t_residual_amount}}</em></dt>
+							<dd>待收本息（元）</dd>
+						</dl>
+					</div>
+					<div class="target_tou_pay">
+						<h2>{{d.t_transfer_amount}}</h2>
+						<p>转让价格（元）</p>
+					</div>
+					<div class="toubiao-btn" >{{d.t_transfer_status}}</div>
+				</li>
+				{{/each}}
+			</script>
+	    	<div class="tou-list-tip" style="text-align: center;padding: 10px;font-size: 16px;color: #999;">
+	    	下拉加载更多<i class="icon-angle-double-down"></i>
+			</div>
+		</div>
+	</div>
 </body>
 <script src="../script/jquery.js"></script>
 <script src="../script/common.js"></script>
@@ -150,9 +162,9 @@
 		pubtimeData = null,
 		rateData = null,
 		bt_codeData = null,
-		loantime_sort = null,
+		t_statusData = null,
+		pub_sort = null,
 		rate_sort = null
-
 
 	apiready = function (){
 		refreshHeader()
@@ -160,12 +172,13 @@
 		bottomRefresh()
 		// 监听更新分类数据时间
 		api.addEventListener({
-		    name: 'refreshInvestmentClassifyData'
+		    name: 'refreshTransferClassifyData'
 		}, function(ret, err){
 			// 接受数据
-			pubtimeData = ret.value.pubtimeData
-			rateData = ret.value.rateData
-			bt_codeData = ret.value.bt_codeData
+			pubtimeData = ret.value.pubtime
+			rateData = ret.value.rate
+			bt_codeData = ret.value.bt_code
+			t_statusData = ret.value.t_status
 			offsetData = 0
 			// 重置分类设置
 			loantime_sort = null
@@ -212,8 +225,8 @@
 	// 打开侧边栏
 	function openSlidFrame (){
 		api.openFrame({
-		    name: 'investmentClassify',
-		    url: './investmentClassify.html',
+		    name: 'transferClassify',
+		    url: './transferClassify.html',
 			animation:{
 				type:'fade',
 				subType:'from_right'
@@ -228,7 +241,8 @@
 			pageParam:{
 				pubtime : pubtimeData,
 				rate : rateData,
-				bt_code : bt_codeData
+				bt_code : bt_codeData,
+				t_status : t_statusData
 			}
 		});
 	}
@@ -236,7 +250,7 @@
 	function refreshFrameData(){
 		resetOrderStyle()
 		refreshData({
-			url:"investment",
+			url:"transfer",
 			values:{
 				limit:10,
 				offset:0
@@ -248,15 +262,16 @@
 					pubtimeData = null
 					rateData = null
 					bt_codeData = null
-					loantime_sort = null
+					pub_sort = null
 					rate_sort = null
+					t_statusData = null
 
 					// var json = '{"code":"1","msg":"操作成功","data":[{"b_id":"2886","bt_name":"供应链","bt_img":"http://ksh.51jili.com/attachment/display/3310","b_projecttitle":"GYL002886","Rate":"9%","IncreasedRate":"1%","b_interest_rate":"9%","b_need_loan":"10,000.00","b_actual_loan":"1,100.00","b_can_cast_loan":"8,900.00","progress":"11.00%","loandeadline":"90天","b_status_name":"投标中","is_hot":"1","canrsecoupon":"1","b_assignbiddding":"0","add_i":"1%"},{"b_id":"2867","bt_name":"担保通","bt_img":"http://ksh.51jili.com/attachment/display/3316","b_projecttitle":"DBT002867","Rate":"8%","IncreasedRate":"0%","b_interest_rate":"8%","b_need_loan":"3,000.00","b_actual_loan":"100.00","b_can_cast_loan":"2,900.00","progress":"3.33%","loandeadline":"180天","b_status_name":"投标中","is_hot":"0","canrsecoupon":"0","b_assignbiddding":"0","add_i":"0%"},{"b_id":"2860","bt_name":"彩虹盛柘","bt_img":"http://ksh.51jili.com/attachment/display/3312","b_projecttitle":"CH002860","Rate":"8%","IncreasedRate":"0%","b_interest_rate":"8%","b_need_loan":"550,000.00","b_actual_loan":"100,000.00","b_can_cast_loan":"450,000.00","progress":"18.18%","loandeadline":"90天","b_status_name":"已过期","is_hot":"0","canrsecoupon":"0","b_assignbiddding":"0","add_i":"0%"}]}'
 					// var data = JSON.parse(json).data;
 					var data = ret.data
 					//渲染投标专区数据
-					var toubiaoHTML = template('toubiao_template',data);
-					$('.target_tou > ul').html(toubiaoHTML);
+					var transferHTML = template('transfer_template',data);
+					$('.target_tou > ul').html(transferHTML);
 					api.parseTapmode();
 					$('.tou-list-tip').html('下拉加载更多<i class="icon-angle-double-down"></i>')
 				}
@@ -267,15 +282,16 @@
 	// 刷新分类数据信息
 	function refreshClassifyData(isBottomRefresh){
 		refreshData({
-			url:"investment",
+			url:"transfer",
 			values:{
 				limit:10,
 				offset:offsetData,
 				bt_code:bt_codeData,
 				pubtime:pubtimeData,
 				rate:rateData,
-				loantime_sort:loantime_sort,
-				rate_sort:rate_sort
+				pub_sort:pub_sort,
+				rate_sort:rate_sort,
+				t_status:t_statusData
 			},
 			fun:function(ret,err){
 				if(ret.code == 1){
@@ -286,8 +302,8 @@
 						offsetData = 0
 						if(data!=null){
 							//渲染投标专区数据
-							var toubiaoHTML = template('toubiao_template',data);
-							$('.target_tou > ul').html(toubiaoHTML);
+							var transferHTML = template('transfer_template',data);
+							$('.target_tou > ul').html(transferHTML);
 							api.parseTapmode();
 							$('.tou-list-tip').html('下拉加载更多<i class="icon-angle-double-down"></i>')
 
@@ -298,8 +314,8 @@
 						// 上拉刷新时
 						if(data!=null){
 							//上拉刷新添加数据
-							var toubiaoHTML = template('toubiao_template',data);
-							$('.target_tou > ul').append(toubiaoHTML);
+							var transferHTML = template('transfer_template',data);
+							$('.target_tou > ul').append(transferHTML);
 							api.parseTapmode();
 						}else{
 							showToastMsg('亲，已经到底部了~~')
@@ -342,7 +358,9 @@
 	// 年化利率排序
 	function rateSort(tag){
 		orderChange(tag)
-		loantime_sort = null
+		pub_sort = null
+		// 全部刷新时
+		// 重置全局offset
 		offsetData = 0
 		if(rate_sort == null){
 			rate_sort = 'desc'
@@ -356,19 +374,21 @@
 		}
 	}
 
-	// 年化利率排序
-	function loantimeSort(tag){
+	// 交易时间排序
+	function pubSort(tag){
 		orderChange(tag)
 		rate_sort = null
+		// 全部刷新时
+		// 重置全局offset
 		offsetData = 0
-		if(loantime_sort == null){
-			loantime_sort = 'desc'
+		if(pub_sort == null){
+			pub_sort = 'desc'
 			refreshClassifyData()
-		}else if(loantime_sort == 'desc'){
-			loantime_sort = 'asc'
+		}else if(pub_sort == 'desc'){
+			pub_sort = 'asc'
 			refreshClassifyData()
-		}else if(loantime_sort == 'asc'){
-			loantime_sort = 'desc'
+		}else if(pub_sort == 'asc'){
+			pub_sort = 'desc'
 			refreshClassifyData()
 		}
 	}

@@ -1,0 +1,118 @@
+<html lang="en">
+<head manifest="/static/mobile/app.manifest">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no,minimal-ui">
+	<meta name="keywords" content="集利财富，集利网，投资理财，网络理财，个人理财，互联网理财，互联网金融，固定收益，本息保障，个人贷款，网络贷款，网络借贷，小额贷款，信用贷款，担保贷款，网贷平台，投融资平台">
+	<meta name="description" content="集利财富：安全可信赖的投资理财平台，为大众用户提供低门槛、可信赖、有保障的投资理财服务！在集利财富，足不出户、轻点鼠标，即可便捷投资、安享收益！">
+	<meta name="apple-mobile-web-app-title" content="集利财富，点滴投资，聚集好利，安全可信赖的投资理财平台">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<link rel="stylesheet" href="../css/fontello.css">
+	<link rel="stylesheet" href="../css/swiper.min.css">
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/common.css">
+	<title>债权转让－集利财富</title>
+</head>
+<body style="">
+	<div class="tab1-content">
+		<div class="tab1-list active" id="tab1-list4">
+			<div class="detail-record">
+				<h1 style="display: flex;justify-content: space-between;align-items: center;line-height: 20px;">
+                    <span>还款期数：<i class="color-red">---</i></span>
+                    <!-- <em>投标总额：<i class="color-red">￥<small>0.00</small></i></em> -->
+                </h1>
+				<table class="detail-record-table">
+					<thead>
+						<tr>
+							<th>期数</th>
+							<th>应还本息（元）</th>
+							<th>还款状态</th>
+						</tr>
+					</thead>
+					<tbody>
+                    </tbody>
+				</table>
+			</div>
+            <script id="repaymentPlan_template" type="text/html">
+                {{set d = $data}}
+                <h1 style="display: flex;justify-content: space-between;align-items: center;line-height: 20px;">
+                    <span>还款期数：<i class="color-red">{{d.repayment_ide_number_periods}}</i></span>
+                    <!-- <em>投标总额：<i class="color-red">￥<small>0.00</small></i></em> -->
+                </h1>
+                <table class="detail-record-table">
+                    <thead>
+                        <tr>
+                            <th>期数</th>
+                            <th>应还本息（元）</th>
+                            <th>还款状态</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{each d.repaymentplan value}}
+                        <tr>
+                            {{if value.ide_real_time>0}}
+                                <td>{{value.ide_real_time|repaymentPlanDataFormat}}</td>
+                            {{else if value.ide_real_time==0}}
+                                <td>{{value.ide_repayment_period}}</td>
+                            {{/if}}
+
+                            <td>{{value.ide_principal_interest}}</td>
+
+                            <td class="color3">
+                                {{if value.ide_status==1}}
+                                <img src="../image/icon31.png">未还款
+                                {{else if value.ide_status==2}}
+                                <img src="../image/icon30.png">已还款
+                                {{else if value.ide_status==3}}
+                                已取消
+                                {{else if value.ide_status==4}}
+                                卖出债权已结算
+                                {{else if value.ide_status==3}}
+                                未标识状态
+                                {{/if}}
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </script>
+		</div>
+	</div>
+</div>
+</div>
+</body>
+<script src="../script/jquery.js"></script>
+<script src="../script/common.js"></script>
+<script src="../script/template-web.js"></script>
+<script src="../script/template-filter.js"></script>
+<script src="../script/bootstrap.min.js"></script>
+<script>
+apiready = function(){
+	refreshFrameData();
+	refreshHeader()
+}
+
+function refreshFrameData(){
+	var b_id = api.pageParam.b_id
+    var tr_id = api.pageParam.tr_id
+	refreshData({
+		url:'transfer_repayment',
+		values:{
+			b_id:b_id,
+            tr_id:tr_id,
+			token:''
+		},
+		fun:function(ret,err){
+			var data = ret.data
+			if(ret.code==1){
+				//渲染数据
+				var repaymentPlanHTML = template('repaymentPlan_template' ,data);
+				$('.detail-record').html(repaymentPlanHTML);
+
+			}
+		}
+	},false)
+}
+
+</script>
+</html>
