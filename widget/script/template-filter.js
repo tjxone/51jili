@@ -56,7 +56,6 @@ template.defaults.imports.couponDateFormat = function(value){
 }
 
 template.defaults.imports.loandeadlineFormat = function(value){
-    console.log(value+value.indexOf('月'))
     if (value.indexOf('月')>0)
         return `<em class="fs20">${value.slice(0,-2)}</em><i>个月</i>`
     else if (value.indexOf('天')>0){
@@ -71,4 +70,8 @@ template.defaults.imports.repaymentPlanDataFormat = function(value){
 template.defaults.imports.fromDate = function(value) {
     var value = new Date(value * 1000).toLocaleDateString().replace(/\//g, "-") + ' ' + new Date(value * 1000).toTimeString().substr(0, 8);
     return value;
+}
+
+template.defaults.imports.numberFormat = function(value){
+    return value.replace(/\,/g,"")
 }

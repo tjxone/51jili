@@ -252,11 +252,10 @@ function refreshFrameData(){
 			token:''
 		},
 		fun:function(ret,err){
-
 			var data = ret.data
 			data.b_id = b_id
 			data.tr_id = tr_id
-
+			data.t_id = t_id
 			if(ret.code==1){
 
 				//渲染数据
@@ -266,6 +265,7 @@ function refreshFrameData(){
 				//渲染立即投标按钮
 				changeBtn(data)
 			}
+
 		}
 	},false)
 }
@@ -286,10 +286,20 @@ function changeBtn(data){
 				fun:function(ret,err){
 					console.log(JSON.stringify(ret))
 					if(ret.code == 1){
-						jumpToWinAfterJudggingLogin('tenderNow','立即投标',{bid:api.pageParam.bid})
+						jumpToWinAfterJudggingLogin('transfer_tenderNow','债权购买',{'b_id':data.b_id,'t_id':data.t_id,'tr_id':data.tr_id})
 					}
 				}
 			})
+		})
+		api.parseTapmode();
+	}else if(data.t_status=='请登录'){
+		$('.footer-btn > div').css('background','#ef4646').html(data.t_status).on('click',function(){
+			jumpToWin('login','登陆')
+		})
+		api.parseTapmode();
+	}else if(data.t_status=='请充值'){
+		$('.footer-btn > div').css('background','#ef4646').html(data.t_status).on('click',function(){
+			jumpToWin('usercenter/charge','充值')
 		})
 		api.parseTapmode();
 	}else{

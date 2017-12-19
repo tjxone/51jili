@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no,minimal-ui">
+	<meta name="keywords" content="集利财富，集利网，投资理财，网络理财，个人理财，互联网理财，互联网金融，固定收益，本息保障，个人贷款，网络贷款，网络借贷，小额贷款，信用贷款，担保贷款，网贷平台，投融资平台">
+	<meta name="description" content="集利财富：安全可信赖的投资理财平台，为大众用户提供低门槛、可信赖、有保障的投资理财服务！在集利财富，足不出户、轻点鼠标，即可便捷投资、安享收益！">
+	<meta name="apple-mobile-web-app-title" content="集利财富，点滴投资，聚集好利，安全可信赖的投资理财平台" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<link rel="stylesheet" href="../css/fontello.css">
+	<link rel="stylesheet" href="../css/swiper.min.css">
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/common.css">
+	<title>立即投资－集利财富</title>
+</head>
+<body>
+	<div class="main">
+		<div class="toubian-info">
+			<ul>
+				<li>
+					<span>投标项目</span>
+					<em class="color3 fs14 item-name">
+					<i class="fs18 color2" data-name="供应链">----</i>
+					</em>
+				</li>
+				<li>
+					<span>可投金额</span>
+					<em class="fs14">
+						￥
+						<i class="fs20">--.--</i>
+					</em>
+				</li>
+        <li>
+					<span>账户可用余额</span>
+					<em class="fs14">
+						￥
+						<i class="fs20">--.--</i>
+					</em>
+				</li>
+				<li>
+					<span>投标金额</span>
+					<em class="color-red fs14 pay-ch" data-min="100" data-addamount="1" data-value="0.00" data-vote="165737"><!--data-min起投金额，data-value账户余额,data-vote可投金额-->
+						<input type="text" id="moneyNum" name="money_num" placeholder='输入金额' value="" style="border: none;text-align: right;box-shadow: none;width:80px;font-size: 18px;" >
+						元
+					</em>
+				</li>
+				<li tapmode onclick="jumpToWin('tenderNowCoupon','可用礼券')">
+					<span class="coupon_name">礼券</span>
+					<em class="color3 fs14 ty-ch" data-value="" >
+            请选择礼券
+						<i class="icon-right-open-big fs24"></i>
+					</em>
+				</li>
+			</ul>
+		</div>
+
+		<div class="income" style="margin-top: 10px;margin-bottom: 5px;">
+			预计收益<em class="color-red">￥<i>--.--</i></em>
+		</div>
+		<div class="toubiao-rule">
+			<p>
+				<i class="ok"></i>
+				<input type="checkbox" name="rule" checked="true">
+				我已阅读了解并接受
+				<span class="rule" tapmode onclick="open51Url('contract/index/2884/1','集利财富网借款协议')">《集利财富网借款协议》</span></p>
+			</p>
+		</div>
+		<button tapmode type="button" class="btn toubiao-btn">立即投标</button>
+		<script id="tenderNow_template" type="text/html">
+			{{set d=$data}}
+			<div class="toubian-info">
+				<ul>
+					<li>
+						<span>投标项目</span>
+						<em class="color3 fs14 item-name">
+						<i class="fs18 color2 b_projecttitle" >{{d.bt_name}}{{d.b_projecttitle}}</i>
+						</em>
+					</li>
+					<li class="canLoanMoney">
+						<span>可投金额</span>
+						<em class="fs14">
+							￥
+							<i class="fs20">{{d.b_can_cast_loan}}</i>
+						</em>
+					</li>
+	        		<li class="canUseMoney">
+						<span>账户可用余额</span>
+						<em class="fs14">
+							￥
+							<i class="fs20">{{d.ac_balances|fix2}}</i>
+						</em>
+					</li>
+					<li>
+						<span>投标金额（最少<i style="color:red;font-style:normal">{{d.b_minimum}}</i>元）</span>
+						<em class="color-red fs14 pay-ch" ><!--data-min起投金额，data-value账户余额,data-vote可投金额-->
+							<input type="number" id="moneyNum" name="money_num" placeholder='输入金额' value="" style="border: none;text-align: right;box-shadow: none;width:80px;font-size: 18px;" >
+							元
+						</em>
+					</li>
+					<li class="couponName" tapmode onclick="jumpToCoupon()">
+						<span class="coupon_name">礼券</span>
+						<em class="color3 fs14 ty-ch" data-value="" data-type="">
+	            请选择礼券
+							<i class="icon-right-open-big fs24"></i>
+						</em>
+					</li>
+	        <!-- <li>
+						<span>交易密码</span>
+						<em class="color-red fs14" >
+							<input type="password" style="width: 130px;border:1px solid #fff;text-align: right;font-size: 18px;box-shadow: none;" name="trader_password" placeholder='请输入交易密码' value=""  >
+						</em>
+					</li> -->
+				</ul>
+			</div>
+
+			<div class="income" style="margin-top: 10px;margin-bottom: 5px;">
+				预计收益<em class="color-red">￥<i>0.00</i></em>
+			</div>
+			<div class="toubiao-rule">
+				<p>
+					<i class="ok"></i>
+					<input type="checkbox" name="rule" checked="true">
+					我已阅读了解并接受
+					<span class="rule" tapmode onclick="open51Url('contract/index/{{d.b_id}}/1','集利财富网借款协议')">《集利财富网借款协议》</span></p>
+				</p>
+			</div>
+			<button tapmode type="button" class="btn toubiao-btn" onclick="tenderNow()">立即投标</button>
+		</script>
+</div>
+</body>
+<script src="../script/jquery.js"></script>
+<script src="../script/common.js"></script>
+<script src="../script/template-web.js"></script>
+<script src="../script/template-filter.js"></script>
+<script src="../script/bootstrap.min.js"></script>
+<script>
+// couponId 和 type 为礼券页面传入进来
+var minNum = 0;
+var couponId = ''
+var type = ''
+apiready = function(){
+	refreshFrameData();
+	refreshHeader()
+}
+
+function refreshFrameData(){
+	var bid = api.pageParam.bid
+	refreshData({
+		url:'investment_details',
+		values:{
+			b_id:bid,
+			token:''
+		},
+		fun:function(ret,err){
+			var data = ret.data
+			data.b_id = bid;
+			if(ret.code==1){
+				//渲染数据
+				var tenderNowHTML = template('tenderNow_template' ,data);
+				$('.main').html(tenderNowHTML);
+
+				//投标金额正则验证
+				minNum = Number(data.b_minimum)
+				inputNum()
+			}
+		}
+	},false)
+}
+
+function jumpToCoupon(){
+	var bid = api.pageParam.bid
+	if(checkNum(minNum)){
+		jumpToWin('tenderNowCoupon','可用礼券',{bid:bid,amount:$('#moneyNum').val()})
+	}
+}
+
+function inputNum(){
+	//获取焦点时输入框上移到可视区域中间，防止选择礼券部分消失
+	$('#moneyNum').on({
+		focus:function(){
+			var _this = $(this)
+			var thisOffsetTop = _this.parent().parent().offset().top;
+			var thisHeight = _this.parent().parent()[0].offsetHeight
+			setTimeout(function(){
+				$('body').animate({'scrollTop':thisHeight*2},200)
+			},500)
+		},
+		blur:function(){
+			$('body').animate({'scrollTop':0},200)
+		},
+		input:function(){
+			var _this = $(this)
+			// $('body').animate({'scrollTop':0},200)
+			// 验证输入金额
+			if(checkNum(minNum)){
+				// 计算收益
+				calculateInvest()
+			}else{
+				//不符合条件的计算默认收益为0
+				$('.income i').html('0.00')
+			}
+		},
+		propertychange:function(){
+			var _this = $(this)
+			// 验证输入金额
+			if(checkNum(minNum)){
+				// 计算收益
+				calculateInvest()
+			}else{
+				//不符合条件的计算默认收益为0
+				$('.income i').html('0.00')
+			}
+		}
+	})
+	// 失去焦点时自动设这scrolltop为0，并验证输入数字
+	// $('#moneyNum').on('input propertychange',function(){
+	// 	var _this = $(this)
+	// 	// $('body').animate({'scrollTop':0},200)
+	// 	// 验证输入金额
+	// 	if(checkNum(minNum)){
+	// 		// 计算收益
+	// 		calculateInvest()
+	// 	}else{
+	// 		//不符合条件的计算默认收益为0
+	// 		$('.income i').html('0.00')
+	// 	}
+	// })
+}
+
+function checkNum(minNum){
+	var num = $('#moneyNum').val()
+	var canUseMoney = Number($('.canUseMoney i').html().replace(/\,/g,''))
+	var canLoanMoney = Number($('.canLoanMoney i').html().replace(/\,/g,''))
+	//先判断投资完剩下金额是否大于最少可投金额
+	if((canLoanMoney-num)>minNum){
+		if(num==undefined||num==''){
+			showToastMsg('请输入投标金额')
+			return false
+		}else if(num < minNum){
+			showToastMsg('投资金额最少为'+minNum+'元')
+			return false
+		}else if(num > canLoanMoney){
+			showToastMsg('投资金额不能大于可投金额')
+			return false
+		}
+	}
+
+	// else if(num > canUseMoney){
+	// 	showToastMsg('投资金额不能大于用户余额')
+	// 	return false
+	// }
+	return true
+}
+
+//***
+//**计算收益
+//**params:
+//** couponIdNow number 礼券页面传入的加息券Id
+//** typeNow number 礼券页面传入的礼券类型
+//** couponName number 礼券页面传入的礼券名称
+//**
+function calculateInvest(couponIdNow,typeNow,couponName){
+	var bid = api.pageParam.bid
+	var amount = $('#moneyNum').val()
+	var token = getToken()
+	var values = {
+		token:token,
+		b_id:bid,
+		amount:amount,
+		CouponID:couponId,
+		type:type
+	}
+
+	//判断参数是否符合，符合则改变全局变量和需要发送的属性值
+	if(couponIdNow!=undefined&&typeNow!=undefined&&couponName!=undefined){
+		alert('使用参数')
+		couponId = couponIdNow
+		type = typeNow
+		values.CouponID = couponId
+		values.type = type
+		$('.couponName em').html(couponName+'<i class="icon-right-open-big fs24"></i>')
+	}
+
+	// 如果全局变量couponId和type是空值，则不带上他们发请求
+	if(couponId==''&&type==''){
+		delete values.CouponID
+		delete values.type
+		$('.couponName em').html('请选择礼券'+'<i class="icon-right-open-big fs24"></i>')
+	}
+
+	// 不使用progress
+	apiPost({
+		url:'calculateInvest',
+		values:values,
+		fun:function(ret,err){
+			// alert(JSON.stringify(ret))
+			var data = ret.data
+			if(ret.code==1){
+				var interest = data.interest_total
+				$('.income i').html(interest)
+			}
+		}
+	},false)
+}
+
+function tenderNow(){
+	var yu = Number($('.canUseMoney i').html().replace(/\,/g,''))
+	var amount = $('#moneyNum').val()
+	if(yu < amount){
+		var dialogBox = api.require('dialogBox');
+	    dialogBox.alert({
+	        texts: {
+	            content: '你的账户余额不足',
+	            leftBtnTitle: '再逛逛',
+				rightBtnTitle: '去充值'
+	        },
+	        styles: {
+	            bg: '#fff',
+	            w: 300,
+	            corner:5,
+	            title: {
+	                marginT: 0,
+	                titleSize: 0,
+	                titleColor: '#000'
+	            },
+	            content: {
+	                color: '#000',
+	                size: 14
+	            },
+	            left: {
+	                marginB: 7,
+	                marginL: 20,
+	                marginR: 20,
+	                w: 120,
+	                h: 35,
+	                corner: 5,
+	                bg: '#ef4646',
+	                color:'#fff',
+	                size: 12
+	            },
+				right: {
+					marginB: 7,
+					marginL: 20,
+					marginR: 20,
+					w: 120,
+					h: 35,
+					corner: 5,
+					bg: '#ef4646',
+					color:'#fff',
+					size: 12
+				}
+	        }
+	    },function(ret,err){
+			if (ret.eventType == 'left') {
+	            var dialogBox = api.require('dialogBox');
+	            dialogBox.close({
+	                dialogName: 'alert'
+	            });
+	        } else if(ret.eventType == 'right') {
+				var dialogBox = api.require('dialogBox');
+				dialogBox.close({
+					dialogName: 'alert'
+				});
+				jumpToWin('usercenter/charge','充值')
+			}
+		});
+	}else{
+		if(checkNum(minNum)){
+			api.prompt({
+				title:'请输入交易密码',
+				type:'password',
+				buttons: ['确定', '取消']
+			}, function(ret, err){
+				if(ret.buttonIndex==1){
+					tenderNowApiPost(ret.text,function(ret,err){
+						if(ret.code == '1'){
+							jumpToWin('tenderSuccess','投资成功',
+								{'b_projecttitle':$('.b_projecttitle').html(),'amount':$('#moneyNum').val(),
+								backEnable:false}
+							)
+						}
+					})
+				}
+			});
+		}
+	}
+
+
+}
+
+
+// 投资请求方法
+function tenderNowApiPost(tdPassword,callback){
+	var bid = api.pageParam.bid
+	var amount = $('#moneyNum').val()
+	var token = getToken()
+	if(tdPassword == null||tdPassword==''){
+		showToastMsg('密码不能为空')
+		return
+	}
+	var values = {
+		token:token,
+		b_id:bid,
+		Amount:amount,
+		trader_password:tdPassword
+	}
+	if(type == 1){
+		values.uic_id = couponId
+	}else if(type == 2){
+		values.uc_id = couponId
+	}
+	apiPost({
+		url:'tender_action',
+		values:values,
+		fun:callback
+	})
+}
+</script>
+</html>

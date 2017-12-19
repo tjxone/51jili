@@ -38,14 +38,14 @@
 <script>
   apiready = function(){
     var param = api.pageParam
-    $('.success-b h1').html('您已经成功投资￥：'+param.amount+'元')
+    $('.success-b h1').html('您已经成功购买债权￥：'+param.amount+'元')
     $('.success-b p').html('项目编号：'+param.b_projecttitle)
   }
   function jumpAndRefresh(index){
 	  var frameName = '';
 	  jumpToIndex(index)
 	  if(index = 1){
-		  frameName = 'investFrame0'
+		  frameName = 'investFrame1'
 	  }else{
 		  frameNmae = 'frame'+index
 	  }

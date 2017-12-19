@@ -158,6 +158,7 @@ function refreshData(params, isNeedToJumpLogin) {
                     //如果不跳转登陆，则直接发请求
                     apiPost(params)
                 }else{
+                    showToastMsg('请重新登陆')
                   // 如果需要跳转登陆，则跳转登陆页登陆
                   setTimeout(function(){
                     jumpToWin('login','登陆',params)
