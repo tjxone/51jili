@@ -31,12 +31,18 @@
                     <li class="conduct" data-num="{{$value.t_id}}">
                         <div class="tou-list-t">
                             <h1 style="padding-left:10px;">
-                                {{$value.bt_name}}
-                                <span>{{$value.b_projecttitle}}</span>
+                                <img src="{{$value.bt_img}}" alt="">
+                                <span style="color:#333">{{$value.b_projecttitle}}</span>
                             </h1>
+                            {{if $value.t_transfer_status=='可转让'}}
                             <em>
-                              {{$value.b_status_tip}}
+                            {{else}}
+                            <em style="color:#ccc;border-color:#ccc">
+                            {{/if}}
+                              {{$value.t_transfer_status}}
                             </em>
+
+
                         </div>
                         <div class="tou-list-b clearfix">
                             <div class="tou-list-b-l">
@@ -85,10 +91,8 @@
                     token: '',
                     t_transfer_status: status
                 },
-                loginParams: {
-                    slidBackEnabled: false,
-                    isbackToIndex: true
-                },
+                slidBackEnabled: false,
+                isbackToIndex: true,
                 fun: function (ret, err) {
                     var data = ret.data;
                     var html = template('mytransferBox',data);
