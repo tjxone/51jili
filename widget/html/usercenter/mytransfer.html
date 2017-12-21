@@ -34,12 +34,12 @@
                                 <img src="{{$value.bt_img}}" alt="">
                                 <span style="color:#333">{{$value.b_projecttitle}}</span>
                             </h1>
-                            {{if $value.t_transfer_status=='可转让'}}
+                            {{if $value.t_transfer_status_tip=='可转让'}}
                             <em>
                             {{else}}
                             <em style="color:#ccc;border-color:#ccc">
                             {{/if}}
-                              {{$value.t_transfer_status}}
+                              {{$value.t_transfer_status_tip}}
                             </em>
 
 
