@@ -39,15 +39,22 @@
             <ul id="invest">
                 <script id="investBox" type="text/html">
                     {{each}}
-                    <li class="conduct" tapmode onclick="jumpToWin('usercenter/myinvestDetail','项目详情',{
-                        t_id:{{$value.t_id}}
-                    })">
+                    <li class="
+                    {{if $value.b_status=='release'||$value.b_status=='fullmark'}}
+                        conduct
+                    {{else if $value.b_status =='repayment'}}
+                        {{if $value.t_transfer_status==0||$value.t_transfer_status==1}}
+                            conduct
+                        {{/if}}
+                    {{/if}}
+                    " tapmode
+                    onclick="jumpToWin('usercenter/myinvestDetail','项目详情',{t_id:{{$value.t_id}}})">
                         <div class="tou-list-t">
                             <h1 style="padding:0 10px;">
                                 <p>{{$value.bt_name}}<span style="margin-left:5px;">{{$value.b_projecttitle}}</span></p>
                             </h1>
                             <em>
-                              {{$value.b_status}}
+                              {{$value.b_status_tip}}
                             </em>
                         </div>
                         <div class="tou-list-b clearfix">

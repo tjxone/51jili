@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no,minimal-ui">
+	<meta name="keywords" content="集利财富，集利网，投资理财，网络理财，个人理财，互联网理财，互联网金融，固定收益，本息保障，个人贷款，网络贷款，网络借贷，小额贷款，信用贷款，担保贷款，网贷平台，投融资平台">
+	<meta name="description" content="集利财富：安全可信赖的投资理财平台，为大众用户提供低门槛、可信赖、有保障的投资理财服务！在集利财富，足不出户、轻点鼠标，即可便捷投资、安享收益！">
+	<meta name="apple-mobile-web-app-title" content="集利财富，点滴投资，聚集好利，安全可信赖的投资理财平台" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<link rel="stylesheet" href="../../css/fontello.css">
+	<link rel="stylesheet" href="../../css/swiper.min.css">
+	<link rel="stylesheet" href="../../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../../css/common.css">
+	<title>债权立即投资－集利财富</title>
+</head>
+<body>
+	<div class="main">
+		<div class="toubian-info">
+			<ul>
+				<li>
+					<span>转让项目</span>
+					<em class="color3 fs14 item-name">
+					<i class="fs18 color2" data-name="供应链">供应链GYL002857</i>
+					</em>
+				</li>
+				<li>
+					<span>原始金额</span>
+					<em class="color4 fs14">
+						￥
+						<i class="fs20">--.--</i>
+					</em>
+				</li>
+        		<li>
+					<span>剩余待收本金</span>
+					<em class="color4 fs14">
+						￥
+						<i class="fs20">--.--</i>
+					</em>
+				</li>
+                <li>
+                    <span>剩余待收利息</span>
+                    <em class="color4 fs14">
+                        ￥
+                        <i class="fs20">--.--</i>
+                    </em>
+                </li>
+				<li>
+					<span>剩余期限</span>
+					<em class="color4 fs14">
+						<i class="fs20">--</i>
+					</em>
+				</li>
+                <li>
+                    <span>转让期</span>
+                    <em class="color-red fs14 pay-ch">
+						<!-- <input type="text" name="ass_time" placeholder="请输入转让期" value="">天 -->
+                        <select name="" id="">
+                            <option value="1">1天</option>
+                            <option value="1">2天</option>
+                            <option value="1">3天</option>
+                            <option value="1">4天</option>
+                            <option value="1">5天</option>
+                            <option value="1">6天</option>
+                            <option value="1">7天</option>
+                        </select>
+					</em>
+                </li>
+				<li>
+					<span>转让价格</span>
+					<em class="color-red  fs14">
+						<i class="color4 fs20">--.--</i>
+                        元
+					</em>
+				</li>
+			</ul>
+		</div>
+		<button tapmode type="button" class="btn toubiao-btn">立即转让</button>
+		<script id="tenderNow_template" type="text/html">
+			{{set d=$data}}
+			<div class="toubian-info">
+				<ul>
+					<li class="bName">
+						<span>转让项目</span>
+						<em class="color3 fs14 item-name">
+						<i class="fs18 color2" >{{d.bt_name}}{{d.b_projecttitle}}</i>
+						</em>
+					</li>
+					<li>
+						<span>原始金额</span>
+						<em class="color4 fs14">
+							￥
+							<i class="fs20">{{d.t_investment}}</i>
+						</em>
+					</li>
+					<li>
+						<span>剩余待收本金</span>
+						<em class="color4 fs14">
+                            ￥
+							<i class="fs20">{{d.total_not_receiv_capital}}</i>
+						</em>
+
+					</li>
+					<li class="yutime">
+						<span>剩余待收利息</span>
+						<em class="color4 fs14">
+							<i class="fs20">{{d.yu_time}}天</i>
+						</em>
+					</li>
+					<li class="canUseMoney">
+						<span>剩余期限</span>
+						<em class="color4 fs14">
+							￥
+							<i class="fs20">{{d.yu_time}}</i>
+						</em>
+					</li>
+                    <li>
+                        <span>转让期</span>
+                        <em class="color-red fs14 pay-ch">
+    						<!-- <input type="text" name="ass_time" placeholder="请输入转让期" value="">天 -->
+                            <select name="" id="">
+                                <option value="1">1天</option>
+                                <option value="1">2天</option>
+                                <option value="1">3天</option>
+                                <option value="1">4天</option>
+                                <option value="1">5天</option>
+                                <option value="1">6天</option>
+                                <option value="1">7天</option>
+                            </select>
+    					</em>
+                    </li>
+                    <li>
+                        <span>转让价格</span>
+                        <em class="color-red fs14">
+                            <i class="color4 fs20">{{d.total_not_receiv}}</i>
+                            元
+                        </em>
+                    </li>
+				</ul>
+			</div>
+
+			<button class="btn toubiao-btn"
+            {{if d.mytransfer_status!='立即转让'}}
+                style="background:#ccc;"
+            {{/if}}
+             tapmode type="button" onclick="tenderNow()">{{d.mytransfer_status}}</button>
+
+		</script>
+</div>
+</body>
+<script src="../../script/jquery.js"></script>
+<script src="../../script/common.js"></script>
+<script src="../../script/template-web.js"></script>
+<script src="../../script/template-filter.js"></script>
+<script src="../../script/bootstrap.min.js"></script>
+<script>
+apiready = function(){
+	refreshFrameData();
+	refreshHeader()
+}
+
+function refreshFrameData(){
+	var b_id = api.pageParam.b_id
+	var t_id = api.pageParam.t_id
+	refreshData({
+		url:'mytransfer_details',
+		values:{
+			b_id:b_id,
+			t_id:t_id,
+			token:''
+		},
+		fun:function(ret,err){
+			var data = ret.data
+			if(ret.code==1){
+				//渲染数据
+				var tenderNowHTML = template('tenderNow_template' ,data);
+				$('.main').html(tenderNowHTML);
+
+			}
+		}
+	},false)
+}
+
+
+function tenderNow(){
+	var yu = Number($('.canUseMoney i').html().replace(/\,/g,''));
+	var amount = Number($('.transferAmount i').html().replace(/\,/g,''));
+	if(yu < amount){
+		var dialogBox = api.require('dialogBox');
+	    dialogBox.alert({
+	        texts: {
+	            content: '你的可投余额不足',
+	            leftBtnTitle: '再逛逛',
+				rightBtnTitle: '去充值'
+	        },
+	        styles: {
+	            bg: '#fff',
+	            w: 300,
+	            corner:5,
+	            title: {
+	                marginT: 0,
+	                titleSize: 0,
+	                titleColor: '#000'
+	            },
+	            content: {
+	                color: '#000',
+	                size: 14
+	            },
+	            left: {
+	                marginB: 7,
+	                marginL: 20,
+	                marginR: 20,
+	                w: 120,
+	                h: 35,
+	                corner: 5,
+	                bg: '#ef4646',
+	                color:'#fff',
+	                size: 12
+	            },
+				right: {
+					marginB: 7,
+					marginL: 20,
+					marginR: 20,
+					w: 120,
+					h: 35,
+					corner: 5,
+					bg: '#ef4646',
+					color:'#fff',
+					size: 12
+				}
+	        }
+	    },function(ret,err){
+			if (ret.eventType == 'left') {
+	            var dialogBox = api.require('dialogBox');
+	            dialogBox.close({
+	                dialogName: 'alert'
+	            });
+	        } else if(ret.eventType == 'right') {
+				var dialogBox = api.require('dialogBox');
+				dialogBox.close({
+					dialogName: 'alert'
+				});
+				jumpToWin('usercenter/charge','充值')
+			}
+		});
+	}else{
+		api.prompt({
+			title:'请输入交易密码',
+			type:'password',
+			buttons: ['确定', '取消']
+		}, function(ret, err){
+			if(ret.buttonIndex==1){
+				tenderNowApiPost(ret.text,function(ret,err){
+					if(ret.code == '1'){
+						var amount = $('.transferAmount i').html().replace(/\,/g,'');
+						var bname = $('.bName i').html();
+						jumpToWin('transfer_tenderSuccess','投资成功',
+							{'b_projecttitle':bname,'amount':amount,backEnable:false}
+						)
+					}
+				})
+			}
+		});
+	}
+}
+
+
+// 投资请求方法
+function tenderNowApiPost(tdPassword,callback){
+	var b_id = api.pageParam.b_id
+	var t_id = api.pageParam.t_id
+	var tr_id = api.pageParam.tr_id
+	var t_tr_yutime = $('.yutime i').html().slice(0,-1)
+	var token = getToken()
+	var values = {
+		token:token,
+		b_id:b_id,
+		t_id:t_id,
+		tr_id:tr_id,
+		t_tr_yutime:t_tr_yutime,
+		trader_password:tdPassword
+	}
+
+	apiPost({
+		url:'transfer_action',
+		values:values,
+		fun:callback
+	})
+}
+</script>
+</html>

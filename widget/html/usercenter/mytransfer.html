@@ -28,7 +28,10 @@
             <div class="tab4-content tou-list tab4-list active">
                 <ul>
                     {{each}}
-                    <li class="conduct" data-num="{{$value.t_id}}">
+                    <li class="conduct" data-num="{{$value.t_id}}" tapmode
+                    {{if $value.t_transfer_status_tip=='可转让'}}
+                        onclick="jumpToWin('usercenter/mytransfer_release','债权转让',{b_id:{{$value.b_id}},t_id:{{$value.t_id}} })"
+                    {{/if}}>
                         <div class="tou-list-t">
                             <h1 style="padding-left:10px;">
                                 <img src="{{$value.bt_img}}" alt="">

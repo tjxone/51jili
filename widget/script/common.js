@@ -488,5 +488,5 @@ function getIsLogin(){
         key: 'islogin',
         sync:true
     });
-    return value ;
+    return value==''||value==undefined?false:value ;
 }
