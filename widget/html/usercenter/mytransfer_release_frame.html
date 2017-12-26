@@ -55,7 +55,7 @@
                     <span>转让期</span>
                     <em class="color-red fs14 pay-ch">
 						<!-- <input type="text" name="ass_time" placeholder="请输入转让期" value="">天 -->
-                        <select name="" id="">
+                        <select class="color4 fs18" id="">
                             <option value="1">1天</option>
                             <option value="1">2天</option>
                             <option value="1">3天</option>
@@ -101,35 +101,36 @@
 						</em>
 
 					</li>
-					<li class="yutime">
+					<li>
 						<span>剩余待收利息</span>
+						<em class="color4 fs14">
+                            ￥
+							<i class="fs20">{{d.total_not_receiv_interest}}</i>
+						</em>
+					</li>
+					<li class="yutime">
+						<span>剩余期限</span>
 						<em class="color4 fs14">
 							<i class="fs20">{{d.yu_time}}天</i>
 						</em>
 					</li>
-					<li class="canUseMoney">
-						<span>剩余期限</span>
-						<em class="color4 fs14">
-							￥
-							<i class="fs20">{{d.yu_time}}</i>
-						</em>
-					</li>
                     <li>
                         <span>转让期</span>
-                        <em class="color-red fs14 pay-ch">
-    						<!-- <input type="text" name="ass_time" placeholder="请输入转让期" value="">天 -->
-                            <select name="" id="">
-                                <option value="1">1天</option>
-                                <option value="1">2天</option>
-                                <option value="1">3天</option>
-                                <option value="1">4天</option>
-                                <option value="1">5天</option>
-                                <option value="1">6天</option>
-                                <option value="1">7天</option>
+                        <em class="color-red pay-ch">
+                            <select name="transferTime" class=" fs18 color4" id="">
+                                <% if(d.diffday>=7){ %>
+                                    <% for(var i=0;i<7;i++){ %>
+                                    <option value="<%= i+1 %>"><%= i+1 %>天</option>
+                                    <% }%>
+                                <% }else{ %>
+                                    <% for(var i=0;i<d.diffday-1;i++){ %>
+                                    <option value="<%= i+1 %>"><%= i+1 %>天</option>
+                                    <% }%>
+                                <% } %>
                             </select>
     					</em>
                     </li>
-                    <li>
+                    <li class="amount">
                         <span>转让价格</span>
                         <em class="color-red fs14">
                             <i class="color4 fs20">{{d.total_not_receiv}}</i>
@@ -160,8 +161,8 @@ apiready = function(){
 }
 
 function refreshFrameData(){
-	var b_id = api.pageParam.b_id
 	var t_id = api.pageParam.t_id
+    var b_id = api.pageParam.b_id
 	refreshData({
 		url:'mytransfer_details',
 		values:{
@@ -183,106 +184,44 @@ function refreshFrameData(){
 
 
 function tenderNow(){
-	var yu = Number($('.canUseMoney i').html().replace(/\,/g,''));
-	var amount = Number($('.transferAmount i').html().replace(/\,/g,''));
-	if(yu < amount){
-		var dialogBox = api.require('dialogBox');
-	    dialogBox.alert({
-	        texts: {
-	            content: '你的可投余额不足',
-	            leftBtnTitle: '再逛逛',
-				rightBtnTitle: '去充值'
-	        },
-	        styles: {
-	            bg: '#fff',
-	            w: 300,
-	            corner:5,
-	            title: {
-	                marginT: 0,
-	                titleSize: 0,
-	                titleColor: '#000'
-	            },
-	            content: {
-	                color: '#000',
-	                size: 14
-	            },
-	            left: {
-	                marginB: 7,
-	                marginL: 20,
-	                marginR: 20,
-	                w: 120,
-	                h: 35,
-	                corner: 5,
-	                bg: '#ef4646',
-	                color:'#fff',
-	                size: 12
-	            },
-				right: {
-					marginB: 7,
-					marginL: 20,
-					marginR: 20,
-					w: 120,
-					h: 35,
-					corner: 5,
-					bg: '#ef4646',
-					color:'#fff',
-					size: 12
+	api.prompt({
+		title:'请输入交易密码',
+		type:'password',
+		buttons: ['确定', '取消']
+	}, function(ret, err){
+		if(ret.buttonIndex==1){
+			tenderNowApiPost(ret.text,function(ret,err){
+				if(ret.code == '1'){
+					var amount = $('.amount i').html().replace(/\,/g,'')
+					var bname = $('.bName i').html();
+					jumpToWin('usercenter/mytransfer_tenderSuccess','投资成功',
+						{'b_projecttitle':bname,'amount':amount,backEnable:false}
+					)
 				}
-	        }
-	    },function(ret,err){
-			if (ret.eventType == 'left') {
-	            var dialogBox = api.require('dialogBox');
-	            dialogBox.close({
-	                dialogName: 'alert'
-	            });
-	        } else if(ret.eventType == 'right') {
-				var dialogBox = api.require('dialogBox');
-				dialogBox.close({
-					dialogName: 'alert'
-				});
-				jumpToWin('usercenter/charge','充值')
-			}
-		});
-	}else{
-		api.prompt({
-			title:'请输入交易密码',
-			type:'password',
-			buttons: ['确定', '取消']
-		}, function(ret, err){
-			if(ret.buttonIndex==1){
-				tenderNowApiPost(ret.text,function(ret,err){
-					if(ret.code == '1'){
-						var amount = $('.transferAmount i').html().replace(/\,/g,'');
-						var bname = $('.bName i').html();
-						jumpToWin('transfer_tenderSuccess','投资成功',
-							{'b_projecttitle':bname,'amount':amount,backEnable:false}
-						)
-					}
-				})
-			}
-		});
-	}
+			})
+		}
+	});
 }
 
 
 // 投资请求方法
 function tenderNowApiPost(tdPassword,callback){
-	var b_id = api.pageParam.b_id
-	var t_id = api.pageParam.t_id
-	var tr_id = api.pageParam.tr_id
-	var t_tr_yutime = $('.yutime i').html().slice(0,-1)
+    var t_id = api.pageParam.t_id
+    var transfer_money = $('.amount i').html().replace(/\,/g,'')
+    var yutime = $('.yutime i').html().replace(/\天/,'')
+    var TransferTime = $('select[name="transferTime"]').val()
 	var token = getToken()
 	var values = {
 		token:token,
-		b_id:b_id,
 		t_id:t_id,
-		tr_id:tr_id,
-		t_tr_yutime:t_tr_yutime,
+        transfer_money:transfer_money,
+        limitDay:yutime,
+		TransferTime:TransferTime,
 		trader_password:tdPassword
 	}
 
 	apiPost({
-		url:'transfer_action',
+		url:'mytransfer_action',
 		values:values,
 		fun:callback
 	})

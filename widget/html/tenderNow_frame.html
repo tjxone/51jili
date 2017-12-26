@@ -188,12 +188,13 @@ function inputNum(){
 		},
 		blur:function(){
 			$('body').animate({'scrollTop':0},200)
+			checkNum(minNum)
 		},
 		input:function(){
-			var _this = $(this)
+			var num = $('#moneyNum').val()
 			// $('body').animate({'scrollTop':0},200)
 			// 验证输入金额
-			if(checkNum(minNum)){
+			if(num>minNum){
 				// 计算收益
 				calculateInvest()
 			}else{
@@ -202,9 +203,9 @@ function inputNum(){
 			}
 		},
 		propertychange:function(){
-			var _this = $(this)
+			var num = $('#moneyNum').val()
 			// 验证输入金额
-			if(checkNum(minNum)){
+			if(num>minNum){
 				// 计算收益
 				calculateInvest()
 			}else{
