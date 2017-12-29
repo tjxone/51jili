@@ -44,7 +44,54 @@
                 </h2>
             </li>
         </ul>
+        <script id="msg_template" type="text/html">
+            {{set d = $data}}
+            {{ each d v}}
+            <li>
+                <div class="msg-list-r">
+                    <div class="msg-list-r-info">
+                        <span class="rotate45"></span>
+                        <h1>{{v.title}}</h1>
+                        <p>{{v.content}}</p>
+                    </div>
+                </div>
+                <h2 style="position:relative">
+                    {{if v.b_id!=null}}
+                    <span style="position: absolute;left: 5px;color:#428bca" tapmode onclick="jumpToWin('investmentDetail','项目详情',{bid:{{v.b_id}}})">项目详情</span>
+                    {{/if}}
+                    <img src="../../image/icon16.png" alt="">{{v.date_time|couponDateFormat}}
+                </h2>
+            </li>
+            {{/each}}
+        </script>
     </div>
 </body>
+<script src="../../script/jquery.js"></script>
+<script src="../../script/common.js"></script>
+<script src="../../script/template-web.js"></script>
+<script src="../../script/template-filter.js"></script>
+<script>
+    var limit = 20;
+    var offset = 0;
+    apiready = function() {
+        refreshFrameData();
+    }
 
+    function refreshFrameData() {
+        refreshData({
+            url:'msg',
+             values: {
+                token: '',
+                limit: limit,
+                offset: offset
+            },
+            fun:function(ret,err){
+                var data =ret.data;
+                var html = template('msg_template',data);
+                $('.msg-list').html(html);
+                api.parseTapmode();
+            }
+        });
+    }
+</script>
 </html>

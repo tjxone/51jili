@@ -20,40 +20,111 @@
     .tou-list-t em {
         width: 100px;
     }
+    .coupoin_jili{
+        font-size: 16px;
+        padding:10px 20px;
+        border-top: 1px solid #eee;
+        line-height: 30px;
+    }
+    .coupoin_jili img{
+        height: 24px;
+        margin-right: 10px;
+        vertical-align: middle;
+    }
 </style>
 
 <body>
     <div class="main">
         <div class="tab4-content tou-list tab4-list active">
-            <ul>
-                <li class="conduct">
-                    <div class="tou-list-t">
-                        <h1>
-                            <img src="https://www.51jili.com/attachment/display/3316" alt="">
-                            <span>DBT002699</span>
-                        </h1>
-                        <em>
-                          第二期还款中
-                        </em>
-                    </div>
-                    <div class="tou-list-b clearfix">
-                        <div class="tou-list-b-l">
-                            <p><span>9</span>%</p>
-                            <em>预期年化收益率</em>
+            <ul id="invest">
+                <script id="investBox" type="text/html">
+                    {{each}}
+                    <li class="
+                    {{if $value.b_status=='release'||$value.b_status=='fullmark'}}
+                        conduct
+                    {{else if $value.b_status =='repayment'}}
+                        {{if $value.t_transfer_status==0||$value.t_transfer_status==1}}
+                            conduct
+                        {{/if}}
+                    {{/if}}
+                    " tapmode
+                    onclick="jumpToWin('usercenter/myinvestDetail','项目详情',{t_id:{{$value.t_id}}})">
+                        <div class="tou-list-t">
+                            <h1 style="padding:0 10px;">
+                                <p>{{$value.bt_name}}<span style="margin-left:5px;">{{$value.b_projecttitle}}</span></p>
+                            </h1>
+                            <em>
+                              {{$value.b_status_tip}}
+                            </em>
                         </div>
-                        <div class="tou-list-b-c">
-                            <p><span>9</span>个月</p>
-                            <em>项目期限</em>
+                        <div class="tou-list-b clearfix">
+                            <div class="tou-list-b-l">
+                                <p>{{$value.b_interest_rate}}</p>
+                                <em>预期年化收益率</em>
+                            </div>
+                            <div class="tou-list-b-c">
+                                <p>{{$value.loandeadline}}</p>
+                                <em>项目期限</em>
+                            </div>
+                            <div class="tou-list-b-r">
+                                <p>{{$value.t_investment}}</p>
+                                <em>投标金额(元)</em>
+                            </div>
                         </div>
-                        <div class="tou-list-b-r">
-                            <p>¥<span>10672</span></p>
-                            <em>投标金额(元)</em>
+                        {{if $value.use_irc!='no' || $value.use_uc!= 'no'}}
+                        <div class="coupoin_jili">
+                            <img src="../../image/add_coupon.png" alt="">
+                            <span>
+                                <i>已使用1%加息券 加息30天</i>
+                            </span>
                         </div>
-                    </div>
-                </li>
+                        {{/if}}
+                    </li>
+                    {{/each}}
+                </script>
             </ul>
         </div>
     </div>
+    <script src="../../script/jquery.js"></script>
+    <script src="../../script/common.js"></script>
+    <script src="../../script/template-web.js"></script>
+    <script>
+        apiready = function() {
+            refreshFrameData();
+        }
+
+        function refreshFrameData() {
+            var name = api.pageParam.name;
+            var b_status;
+            if(name == '全部投资'){
+                b_status = 4;
+            }else if(name == '等待生效'){
+                b_status = 1;
+            }else if(name == '正在回款'){
+                b_status = 2;
+            }else if(name == '历史投资'){
+                b_status = 3;
+            }
+            refreshData({
+                url:'myinvest',
+                 values: {
+                    token: '',
+                    b_status: b_status
+                },
+                loginParams: {
+                    slidBackEnabled: false,
+                    isbackToIndex: true
+                },
+                fun:function(ret,err){
+                    console.log(JSON.stringify(ret));
+                    var data =ret.data;
+                    var html = template('investBox',data);
+                    $('#invest').html(html);
+                    api.parseTapmode();
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>

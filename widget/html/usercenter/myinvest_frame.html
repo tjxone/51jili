@@ -47,19 +47,19 @@
                 var url = '';
                 switch (i) {
                     case 0:
-                        url = './fundrecord.html';
+                        url = './myinvest.html';
                         name = '全部投资';
                         break;
                     case 1:
-                        url = './fundrecord.html';
+                        url = './myinvest.html';
                         name = '等待生效';
                         break;
                     case 2:
-                        url = './fundrecord.html';
+                        url = './myinvest.html';
                         name = '正在回款';
                         break;
                     case 3:
-                        url = './fundrecord.html';
+                        url = './myinvest.html';
                         name = '历史投资';
                         break;
                 }
@@ -82,6 +82,7 @@
                 },
                 scrollEnabled: false,
                 index: 0,
+                scrollEnabled:true,
                 frames: frames
             }, function(ret, err) {
                 var index = ret.index;

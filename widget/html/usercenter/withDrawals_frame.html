@@ -49,20 +49,20 @@
                             <small class="icon-down-open-big"></small>
                         </li>
                         <li>
-                            <input type="text" placeholder="请确认提现金额" id="amount">
+                            <input type="number" placeholder="请确认提现金额" id="amount">
                             <i>
                               <img src="../../image/icon7.png" alt="">
                             </i>
                         </li>
                         <li>
-                            <input type="text" placeholder="请输入您的交易密码" id="trader">
+                            <input type="password" placeholder="请输入您的交易密码" id="trader">
                             <i>
                               <img src="../../image/pwd.png" alt="">
                             </i>
                         </li>
                     </ul>
+                    <button class="btn toubiao-btn" tapmode onclick="action()">申请提现</button>
                 </script>
-                <button class="btn toubiao-btn" tapmode onclick="action()">申请提现</button>
             </div>
             <h1 class="color4 tip-h">
                 <img src="../../image/icon9.png" alt=""> 温馨提示
@@ -74,33 +74,44 @@
         </div>
         <div class="nav-list" id="nav-list2">
             <div class="reward-list">
-                <ul>
-                    <li class="on">
-                        <div class="reward-list-t">
-                            <div class="reward-l">
-                                <span class="color-red fs16">
-                                    ¥
-                                    <i class="fs20">100.</i>
-                                    00
-                                </span>
+                <ul id="rewardListBox">
+                    <script id="rewardList" type="text/html">
+                        {{each list}}
+                        <li class="on">
+                            <div class="reward-list-t">
+                                <div class="reward-l">
+                                    <span class="color-red fs16">
+                                        ¥
+                                        <i class="fs20">{{$value.w_amount}}</i>
+                                    </span>
+                                </div>
+                                <div class="reward-list-del" tapmode onclick="pwdModal(this)" data-wid="{{$value.w_id}}">撤销提现</div>
                             </div>
-                            <a class="reward-list-del">撤销提现</a>
-                        </div>
-                        <div class="reward-slide">
-                            <div class="reward-list-b">
-                                <div class="reward-l">提现状态</div>
-                                <div class="reward-r color4 fs16">等待审核</div>
+                            <div class="reward-slide">
+                                <div class="reward-list-b">
+                                    <div class="reward-l">提现状态</div>
+                                    {{if $value.w_amount == 1 || $value.w_amount ==2}}
+                                    <div class="reward-r color4 fs16">等待审核</div>
+                                    {{else if $value.w_amount ==3}}
+                                    <div class="reward-r color4 fs16">已经审核,待转账</div>
+                                    {{else if $value.w_amount == 4}}
+                                    <div class="reward-r color4 fs16">已转账</div>
+                                    {{else if $value.w_amount == 5}}
+                                    <div class="reward-r color4 fs16">打回</div>
+                                    {{/if}}
+                                </div>
+                                <div class="reward-list-b">
+                                    <div class="reward-l">提现银行卡</div>
+                                    <div class="reward-r color2 fs16">{{$value.a_account}}</div>
+                                </div>
+                                <div class="reward-list-b">
+                                    <div class="reward-l">提现状态</div>
+                                    <div class="reward-r color2 fs16">{{$value.w_add_time|fromDate}}</div>
+                                </div>
                             </div>
-                            <div class="reward-list-b">
-                                <div class="reward-l">提现银行卡</div>
-                                <div class="reward-r color2 fs16">中国工商银行[621****1091]</div>
-                            </div>
-                            <div class="reward-list-b">
-                                <div class="reward-l">提现状态</div>
-                                <div class="reward-r color2 fs16">2017.09.26 10:59:08</div>
-                            </div>
-                        </div>
-                    </li>
+                        </li>
+                        {{/each}}
+                    </script>
                 </ul>
             </div>
         </div>
@@ -148,6 +159,7 @@
     <script src="../../script/bootstrap.min.js"></script>
     <script src="../../script/common.js"></script>
     <script src="../../script/template-web.js"></script>
+    <script src="../../script/template-filter.js"></script>
 </body>
 <script>
     apiready = function() {
@@ -174,6 +186,22 @@
                 api.parseTapmode();
             }
         });
+        refreshData({
+            url: "withdrawals_processing",
+            values: {
+                token: ''
+            },
+            loginParams: {
+                slidBackEnabled: false,
+                isbackToIndex: true
+            },
+            fun: function(ret, err) {
+                console.log(JSON.stringify(ret));
+                var data = ret.data;
+                var html = template('rewardList', data);
+                $('#rewardListBox').html(html);
+            }
+        });
     }
 
     function use(tap) {
@@ -194,13 +222,57 @@
     }
 
     function action() {
+        var token = getToken();
+        var amount = $('#amount').val();
+        var trader = $('#trader').val();
+        var bankid = $('#cardInput').data('num');
         apiPost({
-
-        })
+            url: 'withdrawals_action',
+            values: {
+                token: token,
+                amount: amount,
+                trader_password: trader,
+                bankid: bankid
+            },
+            fun: function(ret, err) {
+                console.log(JSON.stringify(ret));
+                if (ret.code == 1) {
+                    jumpToWin('usercenter/withdrawals_success', '提现成功');
+                } else {
+                    showToastMsg(ret.msg);
+                }
+            }
+        });
     }
 
     function cardModal(type) {
         $('#bankModal').modal(type);
+    }
+
+    function pwdModal(tag) {
+        var token = getToken();
+        var w_id = $(tag).data('wid');
+        api.prompt({
+            title: '请输入交易密码,并确认',
+            type: 'password',
+            buttons: ['确定', '取消']
+        }, function(ret, err) {
+            var index = ret.buttonIndex;
+            var text = ret.text;
+            if (index == 1) {
+                apiPost({
+                    url: 'withdrawals_cancel',
+                    values: {
+                        token: token,
+                        w_id: w_id,
+                        trader_password: text
+                    },
+                    fun: function(ret, err) {
+                        showToastMsg(ret.msg);
+                    }
+                });
+            }
+        });
     }
 </script>
 

@@ -23,37 +23,87 @@
 </style>
 
 <body>
-    <div class="main">
-        <div class="tab4-content tou-list tab4-list active">
-            <ul>
-                <li class="conduct">
-                    <div class="tou-list-t">
-                        <h1>
-                            <img src="https://www.51jili.com/attachment/display/3316" alt="">
-                            <span>DBT002699</span>
-                        </h1>
-                        <em>
-                          转让
-                        </em>
-                    </div>
-                    <div class="tou-list-b clearfix">
-                        <div class="tou-list-b-l">
-                            <p><span>9</span>%</p>
-                            <em>预期年化收益率</em>
+    <div class="main" id="mytransfer">
+        <script id="mytransferBox" type="text/html">
+            <div class="tab4-content tou-list tab4-list active">
+                <ul>
+                    {{each}}
+                    <li class="conduct" data-num="{{$value.t_id}}" tapmode
+                    {{if $value.t_transfer_status_tip=='可转让'}}
+                        onclick="jumpToWin('usercenter/mytransfer_release','债权转让',{b_id:{{$value.b_id}},t_id:{{$value.t_id}} })"
+                    {{/if}}>
+                        <div class="tou-list-t">
+                            <h1 style="padding-left:10px;">
+                                <img src="{{$value.bt_img}}" alt="">
+                                <span style="color:#333">{{$value.b_projecttitle}}</span>
+                            </h1>
+                            {{if $value.t_transfer_status_tip=='可转让'}}
+                            <em>
+                            {{else}}
+                            <em style="color:#ccc;border-color:#ccc">
+                            {{/if}}
+                              {{$value.t_transfer_status_tip}}
+                            </em>
+
+
                         </div>
-                        <div class="tou-list-b-c">
-                            <p><span>9</span>个月</p>
-                            <em>项目期限</em>
+                        <div class="tou-list-b clearfix">
+                            <div class="tou-list-b-l">
+                                <p>{{$value.Rate}}{{if $value.IncreasedRate != '0%'}}+{{$value.IncreasedRate}}{{/if}}</p>
+                                <em>预期年化收益率</em>
+                            </div>
+                            <div class="tou-list-b-c">
+                                <p>{{$value.loandeadline}}天</p>
+                                <em>项目期限</em>
+                            </div>
+                            <div class="tou-list-b-r">
+                                <p>¥<span>{{$value.t_investment}}</span></p>
+                                <em>投标金额(元)</em>
+                            </div>
                         </div>
-                        <div class="tou-list-b-r">
-                            <p>¥<span>10672</span></p>
-                            <em>投标金额(元)</em>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
+                    </li>
+                    {{/each}}
+                </ul>
+            </div>
+        </script>
     </div>
+    <script src="../../script/jquery.js"></script>
+    <script src="../../script/common.js"></script>
+    <script src="../../script/template-web.js"></script>
+    <script>
+        var status;
+        apiready = function(){
+            refreshFrameData();
+        }
+        function refreshFrameData() {
+            var name = api.pageParam.name;
+            if (name == '全部') {
+                status = null;
+            } else if (name == '未转让') {
+                status = 0;
+            } else if (name == '转让中') {
+                status = 1;
+            } else if (name == '已转让') {
+                status = 2;
+            } else if (name == '已成交') {
+                status = 3;
+            }
+            refreshData({
+                url: 'mytransfer',
+                values: {
+                    token: '',
+                    t_transfer_status: status
+                },
+                slidBackEnabled: false,
+                isbackToIndex: true,
+                fun: function (ret, err) {
+                    var data = ret.data;
+                    var html = template('mytransferBox',data);
+                    $('#mytransfer').html(html);
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>

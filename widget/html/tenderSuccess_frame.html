@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1,minimal-ui">
+	<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no,minimal-ui">
 	<meta name="keywords" content="集利财富，集利网，投资理财，网络理财，个人理财，互联网理财，互联网金融，固定收益，本息保障，个人贷款，网络贷款，网络借贷，小额贷款，信用贷款，担保贷款，网贷平台，投融资平台">
 	<meta name="description" content="集利财富：安全可信赖的投资理财平台，为大众用户提供低门槛、可信赖、有保障的投资理财服务！在集利财富，足不出户、轻点鼠标，即可便捷投资、安享收益！">
 	<meta name="apple-mobile-web-app-title" content="集利财富，点滴投资，聚集好利，安全可信赖的投资理财平台" />
@@ -12,51 +12,49 @@
 	<link rel="stylesheet" href="../css/swiper.min.css">
 	<link rel="stylesheet" href="../css/bootstrap.min.css">
 	<link rel="stylesheet" href="../css/common.css">
-	<style>
-		body{
-			background:rgba(0,0,0,0);
-		}
-	</style>
-	<title>侧边栏</title>
+  <title>投标成功－集利财富</title>
 </head>
-<body tapmode>
-
+<body>
+	<div class="main">
+		<div class="success-b">
+			<img src="../image/success.png">
+			<h1></h1>
+			<p></p>
+		</div>
+		<div class="btn-item">
+			<ul class="clearfix">
+				<li>
+					<div class="bg-blue" tapmode onclick="jumpAndRefresh(1)">继续投资</div>
+				</li>
+				<li>
+					<div class="bg-red" tapmode onclick="jumpToIndex(2)">个人中心</div>
+				</li>
+			</ul>
+		</div>
+	</div>
 </body>
 <script src="../script/jquery.js"></script>
 <script src="../script/common.js"></script>
 <script>
-apiready = function(){
-	var param = api.pageParam
-	var pubtimeData = param.pubtime
-	var rateData = param.rate
-	var bt_codeData = param.bt_code
-	api.openFrame({
-	    name: 'investmentClassify_frame',
-	    url: './investmentClassify_frame.html',
-	    rect: {
-	        x: 0,
-	        y: 0,
-	        w: 'auto',
-	        h: 'auto'
-	    },
-			animation:{
-				type:'movein',
-				subType:'from_right'
-			},
-	    bounces: false,
-		pageParam:{
-			pubtime:pubtimeData,
-			rate:rateData,
-			bt_code:bt_codeData
-		}
-	});
+  apiready = function(){
+    var param = api.pageParam
+    $('.success-b h1').html('您已经成功投资￥：'+param.amount+'元')
+    $('.success-b p').html('项目编号：'+param.b_projecttitle)
+  }
+  function jumpAndRefresh(index){
+	  var frameName = '';
+	  jumpToIndex(index)
+	  if(index = 1){
+		  frameName = 'investFrame0'
+	  }else{
+		  frameNmae = 'frame'+index
+	  }
+	  api.execScript({
+		  name:'index',
+	      frameName: frameName,
+	      script: 'api.refreshHeaderLoading();'
+	  });
 
-}
-window.onload = function(){
-	//加载后确定高度
-	$('body').height(screen.height)
-
-}
+  }
 </script>
-
 </html>

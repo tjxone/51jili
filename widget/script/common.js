@@ -15,7 +15,13 @@ const appkey = 'vxCdATZ76WeqjhF3ZNHu';
 const appver = '2.6.0';
 const apptype = 'ios';
 // const baseUrl = 'http://ksh.51jili.com/api/';
+<<<<<<< HEAD
 const baseUrl = 'https://www.51jili.com/api/';
+=======
+const baseUrl = 'http://bugfix.51jili.com/api/';
+// const baseUrl = 'https://www.51jili.com/api/';
+// const baseUrl = 'http://192.168.20.4/api/';
+>>>>>>> 1ba58efb1482979d325aa9c8442a7b103a19e218
 
 function apiPost(params,isUseProgress) {
     //引入加密模块
@@ -38,7 +44,7 @@ function apiPost(params,isUseProgress) {
     valuesObj.apptype = apptype;
     for (var item in valuesObj) {
         // php接受post的值若为空，则不接受这个键名，并且后台序列化加密的键名里面不出现
-        if (valuesObj[item] != '' || valuesObj[item] == 0) {
+        if (valuesObj[item] != null && valuesObj[item] != 'null') {
             var temp = item + ':' + valuesObj[item];
             arr.push(temp);
         }
@@ -61,9 +67,18 @@ function apiPost(params,isUseProgress) {
         if (ret.status) {
             hash = ret.value;
             valuesObj.sign = hash;
+            for(var item in valuesObj){
+                if(valuesObj[item]==null || valuesObj[item]=='null'){
+                    delete valuesObj[item]
+                }
+            }
             console.log('发送请求的数据' + JSON.stringify(valuesObj))
                 //显示等待中准备发送请求
+<<<<<<< HEAD
             if(isUseProgress!=undefined){
+=======
+            if(isUseProgress==undefined){
+>>>>>>> 1ba58efb1482979d325aa9c8442a7b103a19e218
               showWaitingProgress();
             }
             api.ajax({
@@ -107,7 +122,12 @@ function apiPost(params,isUseProgress) {
                         //登陆过期后登陆状态设置false
                         api.setPrefs({
                             key: 'islogin',
-                            value: 'notlogin'
+                            value: {'value':false,'username':'','uid':''}
+                        });
+                        // 关闭输入密码窗口
+                        var dialogBox = api.require('dialogBox');
+                        dialogBox.close({
+                            dialogName: 'alert'
                         });
                         //跳转登陆界面
                         jumpToWin('login','登陆',params)
@@ -146,6 +166,7 @@ function refreshData(params, isNeedToJumpLogin) {
                     //如果不跳转登陆，则直接发请求
                     apiPost(params)
                 }else{
+                    showToastMsg('请重新登陆')
                   // 如果需要跳转登陆，则跳转登陆页登陆
                   setTimeout(function(){
                     jumpToWin('login','登陆',params)
@@ -177,7 +198,7 @@ function showWaitingProgress() {
 //**消息提醒toast
 //**
 function showToastMsg(content) {
-    var duration = 2000;
+    var duration = 3000;
     if (content.length > 30) {
         duration = 5000
     }
@@ -298,6 +319,7 @@ function jumpToIndex(index) {
 //** bid number 项目id号(必填)
 //**
 function jumpToWinAfterJudggingLogin(name, title, newParams) {
+<<<<<<< HEAD
     api.getPrefs({
         key: 'islogin'
     }, function(ret, err){
@@ -347,19 +369,55 @@ function jumpToWinAfterJudggingLogin(name, title, newParams) {
     });
 
 }
+=======
+>>>>>>> 1ba58efb1482979d325aa9c8442a7b103a19e218
 
-
-function getToken(newParams) {
-    var token = api.getPrefs({
-        key: 'token',
-        sync: true
-    });
-    if (token) {
-        return token;
-    } else {
-        jumpToWin('login', '登陆', newParams);
+    var islogin = JSON.parse(getIsLogin())
+    alert( 'islogin状态'+JSON.stringify(islogin) );
+    if( islogin.value == true ){
+      // 默认设置
+      var defaultParams = {
+          name: name,
+          title: title,
+          slidBackEnabled: true,
+          backEnable: true,
+          isbackToIndex: false,
+          prevPage: api.frameName,
+          prevWin: api.winName
+      };
+      //继承新设置
+      var params = Object.assign(defaultParams, newParams)
+      api.openWin({
+          name: params.name,
+          url: 'widget://html/publicHeader.html',
+          pageParam: params,
+          slidBackEnabled: params.slidBackEnabled,
+          animation:{
+              type:'movein',
+              duration:200
+          }
+      })
+    }else{
+        api.confirm({
+            title: '未登录',
+            msg: '系统检测到您未登录',
+            buttons: ['去登陆', '再逛逛']
+        }, function(ret, err){
+            if(ret.buttonIndex == 1){
+                var defaultParams = {
+                    slidBackEnabled: true,
+                    backEnable: true,
+                    isbackToIndex: false,
+                    prevPage: api.frameName,
+                    prevWin: api.winName
+                };
+                var params = Object.assign(defaultParams, newParams)
+                jumpToWin('login','登陆',params)
+            }
+        });
     }
 }
+
 
 function refreshHeader() {
     api.setRefreshHeaderInfo({
@@ -380,4 +438,115 @@ function getToken() {
         key: 'token',
         sync: true
     });
+}
+
+function customAlert(content,btnTitle,callback){
+    var dialogBox = api.require('dialogBox');
+    dialogBox.alert({
+        texts: {
+            content: content,
+            leftBtnTitle: btnTitle
+        },
+        styles: {
+            bg: '#fff',
+            w: 300,
+            corner:5,
+            title: {
+                marginT: 0,
+                titleSize: 0,
+                titleColor: '#000'
+            },
+            content: {
+                color: '#000',
+                size: 14
+            },
+            left: {
+                marginB: 7,
+                marginL: 20,
+                marginR: 20,
+                w: 260,
+                h: 35,
+                corner: 5,
+                bg: '#ef4646',
+                color:'#fff',
+                size: 12
+            }
+        }
+    },callback);
+}
+
+function alertForRetractingKeyboard(content,btnTitle){
+    customAlert(content,btnTitle,function(ret,err){
+        if (ret.eventType == 'left') {
+            var dialogBox = api.require('dialogBox');
+            dialogBox.close({
+                dialogName: 'alert'
+            });
+            dialogBox.close({
+                dialogName: 'input'
+            });
+        }
+    })
+}
+
+function getPhone(){
+    return api.getPrefs({
+        key:'phone',
+        sync:true
+    });
+}
+
+function gesturePassword(fName){
+    // 监听进入后台
+    api.addEventListener({
+        name:'pause'
+    }, function(ret, err){
+        // alert('应用进入后台');
+        var timer = new Date().getTime()
+        api.setPrefs({
+            key: 'pauseTime',
+            value: timer
+        });
+    });
+    // 监听回到前台
+    api.addEventListener({
+        name:'resume'
+    }, function(ret, err){
+        // alert('应用回到前台');
+        var islogin = getIsLogin()
+        if(islogin.value == true){
+            api.getPrefs({
+                key: 'pauseTime'
+            }, function(ret, err){
+                var delay = 1000
+                alert(Number(ret.value)+delay)
+                if( new Date().getTime()>Number(ret.value)+delay ){
+                    api.openWin({
+                        name: 'gesturePassword',
+                        url: 'widget://gesturePassword.html',
+                        slidBackEnabled:false,
+                        animation:{
+                          type:'none'
+                        }
+                    });
+                }
+            });
+        }
+    });
+}
+
+//设置islogin
+function setIsLogin(param){
+    api.setPrefs({
+        key: 'islogin',
+        value: param
+    });
+}
+// 读取islogin
+function getIsLogin(){
+    var value = api.getPrefs({
+        key: 'islogin',
+        sync:true
+    });
+    return value==''||value==undefined?false:value ;
 }

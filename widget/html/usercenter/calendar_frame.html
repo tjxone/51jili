@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no,minimal-ui">
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="keywords" content="集利财富，集利网，投资理财，网络理财，个人理财，互联网理财，互联网金融，固定收益，本息保障，个人贷款，网络贷款，网络借贷，小额贷款，信用贷款，担保贷款，网贷平台，投融资平台">
+  <meta name="description" content="集利财富：安全可信赖的投资理财平台，为大众用户提供低门槛、可信赖、有保障的投资理财服务！在集利财富，足不出户、轻点鼠标，即可便捷投资、安享收益！">
+  <meta name="apple-mobile-web-app-title" content="集利财富，点滴投资，聚集好利，安全可信赖的投资理财平台" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" href="../../css/fontello.css">
+  <link rel="stylesheet" href="../../css/swiper.min.css">
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../css/common.css">
+  <link rel="stylesheet" href="../../css/fcode.css">
+  <title>回款日历</title>
+  <style type="text/css">
+    .received-list li img {
+      display: block;
+    }
+  
+    .received-list li small {
+      top: 50%;
+      margin-top: -12px;
+    }
+  
+    .received-list li span {
+      top: 50%;
+      margin-top: -12px;
+      margin-left: -40px;
+    }
+  
+    #Calendar td {
+      color: #000;
+      background:#fff;
+      cursor: pointer;
+      font-size: 14px;
+      padding: 15px 1px;
+      position: relative;
+      text-align:center;
+    }
+  
+    #Calendar thead td {
+      background: #f6f6f6 none repeat scroll 0 0;
+      text-align: center;
+    }
+  
+    #Calendar tbody td.active {
+      background: #ef4646 none repeat scroll 0 0;
+      color: #fff;
+    }
+  
+    #Calendar tbody td em {
+      background: #ef4646 none repeat scroll 0 0;
+      border-radius: 5px;
+      color: #fff;
+      display: inline-block;
+      font-size: 12px;
+      height: 24px;
+      line-height: 24px;
+      position: absolute;
+      right: 0px;
+      text-align: center;
+      top: 0px;
+      width: 20px;
+    }
+  
+    #Calendar tbody td em i {
+      border-color: transparent #ef4646 transparent transparent;
+      border-style: solid;
+      border-width: 6px;
+      display: inline-block;
+      left: -12px;
+      position: absolute;
+      top: 6px;
+    }
+  
+    #Calendar tbody td.active em {
+      background: #fff none repeat scroll 0 0;
+      color: #ef4646;
+    }
+  
+    #Calendar tbody td.active em i {
+      border-color: transparent #fff transparent transparent;
+    }
+  </style>
+</head>
+<body>
+    <div class="main">
+      <script type="text/html" id="date">
+        <h1 class="title">
+          <span></span>
+          <i class="dateTitle">{{year}}年{{month}}月回款日历</i>
+        </h1>
+        <div class="pay-c-ca" style="margin-bottom:12px;">
+          <input type="month" name="search_name" 　id="ServiceChargeTime" class="input-medium" value="{{year}}-{{month}}">
+          <button type="button" class="btn btn-primary" id="search_calendar_now" style="padding:2px 12px;">查询</button>
+        </div>
+      </script>
+      <div class="pay-c-list">
+        <div class="u-c-list-l">
+          <div class="fc-week" id="Calendar" data-year="" data-month="">
+            <table style="width:100%;">
+              <thead>
+                <tr>
+                  <td class="fc-w">日</td>
+                  <td class="fc-w">一</td>
+                  <td class="fc-w">二</td>
+                  <td class="fc-w">三</td>
+                  <td class="fc-w">四</td>
+                  <td class="fc-w">五</td>
+                  <td class="fc-w">六</td>
+                </tr>
+              </thead>
+              <tbody>
+    
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+<script src="../../script/jquery.js"></script>
+<script src="../../script/template-web.js"></script>
+<script src="../../script/common.js"></script>
+<script src="../../script/highcharts.src.js"></script>
+<script src="../../script/WdatePicker.js"></script>
+<script>
+      apiready = function () {
+        refreshFrameData();
+        getToday();
+      }
+      function getToday(){
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = date.getMonth()+1;
+        var data = {
+          year:year,
+          month:month
+        }
+        var html = template('date',data);
+        $('.main').prepend(html);
+        $('#search_calendar_now').on('click', function () {
+          setTimeout(function(){
+            var settingDay = $('.input-medium').val()
+            var settingYear =settingDay.substring(0,4);
+            var settingMonth = settingDay.substring(5,7);
+            var token = getToken();
+            apiPost({
+              url: 'calendar',
+              values: {
+                token: token,
+                year: settingYear,
+                month: settingMonth
+              },
+              fun:function(ret,err){
+                $('.dateTitle').text(settingYear+'年'+settingMonth+'月回款日历');
+                Calendar(settingYear, settingMonth, ret.data);
+              }
+            })
+          },0)
+        });
+      }
+      function refreshFrameData() {
+        refreshData({
+          url:'calendar',
+          values:{
+            token:'',
+            year:'2017',
+            month:'12'
+          },
+          loginParams: {
+            slidBackEnabled: false,
+            isbackToIndex: true
+          },
+          fun:function(ret,err){
+            console.log(ret.data);
+            Calendar('2017','12',ret.data);
+          }
+        });
+      }
+      function Calendar(year, month, data) {
+          var s = '';
+          for (var i = 0; i < 42; i++) {
+            if ((i % 7) == 0) s += '<tr class="fc-d">';
+            s += '<td class="fc-day " data-boxnumber="' + i + '"><span></span></td>';
+            if ((i % 7) == 6) s += '</tr>';
+          }
+          $('#Calendar tbody').html(s);
+
+          // 初始化日历
+          var k = getdaysinonemonth(year, month);
+          var l = getfirstday(year, month);
+          var d = new Date()
+          var vYear = d.getFullYear()
+          var vMon = d.getMonth() + 1
+          var vDay = d.getDate();
+          var f = false;
+          if (year == vYear && month == vMon) {
+            f = true;
+          };
+          setcalender(k, l, f, vDay);
+          getInfo(data, year, month, l);
+
+          //算某个月的总天数
+          function getdaysinonemonth(year, month) {
+            month = parseInt(month, 10);
+            var d = new Date(year, month, 0);
+            return d.getDate();
+          }
+          //算某个月的第一天是星期几
+          function getfirstday(year, month) {
+            month = month - 1;
+            var d = new Date(year, month, 1);
+            return d.getDay();
+          }
+          function setcalender(days, weekday, f, vDay) {
+            //往日历中填入日期
+            var a = 1;
+            for (var j = 0; j < 6; j++) {
+              for (var i = 0; i < 7; i++) {
+                if (j == 0 && i < weekday) {
+                  $("#Calendar tbody tr").eq(0).find('td').eq(i).attr('data-num', '');
+                  $("#Calendar tbody tr").eq(0).find("td span").eq(i).html("");
+                  $("#Calendar tbody tr").eq(0).find("td span").eq(i).removeClass("usedate");
+                } else {
+                  if (a <= days) {
+                    $("#Calendar tbody tr").eq(j).find('td').eq(i).attr('data-num', a);
+                    $("#Calendar tbody tr").eq(j).find("td span").eq(i).html(a);
+                    $("#Calendar tbody tr").eq(j).find("td span").eq(i).addClass("usedate");
+                    a++;
+                  } else {
+                    $("#Calendar tbody tr").eq(j).find('td').eq(i).attr('data-num', '');
+                    $("#Calendar tbody tr").eq(j).find("td span").eq(i).html("");
+                    $("#Calendar tbody tr").eq(j).find("td span").eq(i).removeClass("usedate");
+                    a = days + 1;
+                  }
+                }
+              }
+            }
+            // alert(f)
+            if (f) {
+              $('td[data-num=' + vDay + ']').addClass('active');
+            };
+            if ($("#Calendar tbody tr:last-child").find('td').eq(0).find('span').html() == '') {
+              $("#Calendar tbody tr:last-child").css({ 'display': 'none' })
+            }
+          }
+
+          function getInfo(data, year, month, l) {
+            $.each(data, function (i, n) {
+              if (n.Repayments != undefined) {
+                if (n.Repayments.count != undefined && n.Repayments.count > 0) {
+                  $('td[data-num=' + n.number + ']').append('<em>' + n.Repayments.count + '笔<i></i></em>');
+                  $('td[data-num=' + n.number + ']').bind('click', function () {
+                    var mydate = year + month;
+                    // location.href = '/user_center/mycalendar_details/137/' + mydate + '/' + n.number;
+                  })
+                };
+              }
+
+            });
+          }
+        }
+</script>
+</html>

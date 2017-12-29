@@ -14,17 +14,92 @@
 
 </body>
 <script src="script/jquery.js"></script>
+<script src="script/common.js"></script>
 <script>
 apiready = function(){
-  api.openWin({
-      name: 'index',
-      url: './html/index.html',
-      slidBackEnabled:false,
-      animation:{
-        type:'none'
-      }
-  });
+
+  var ajpush = api.require('ajpush');
+
+    ajpush.init(function(ret) {
+        if (ret && ret.status){
+            // alert(JSON.stringify(ret))
+        }
+    });
+
+    ajpush.setListener(function(ret) {
+        if (ret){
+            // alert(JSON.stringify(ret))
+        }
+    });
+
+    //安卓点击通知栏回调
+    api.addEventListener({
+        name: 'appintent'
+    }, function(ret, err) {
+        if (ret && ret.appParam.ajpush) {
+            // alert(JSON.stringify(ret))
+            var ajpush = ret.appParam.ajpush;
+            var id = ajpush.id;
+            var title = ajpush.title;
+            var content = ajpush.content;
+            var extra = ajpush.extra;
+        }
+    })
+
+    //ios点击通知栏回调
+    api.addEventListener({
+        name: 'noticeclicked'
+    }, function(ret, err) {
+        // alert(JSON.stringify(ret))
+        if (ret && ret.value) {
+            var ajpush = ret.value;
+            var content = ajpush.content;
+            var extra = ajpush.extra;
+        }
+    })
+
+    //指定别名和标签推送
+    var param = {alias:'myalias',tags:['tag1','tag2']};
+    ajpush.bindAliasAndTags(param,function(ret) {
+        var statusCode = ret.statusCode;
+    });
+    // ajpush.getRegistrationId(function(ret) {
+    //     if (ret){
+    //         alert(JSON.stringify(ret))
+    //     }
+    // });
+
+
+
+    //屏蔽安卓的返回键
+    api.addEventListener({
+        name: 'keyback'
+    }, function(ret, err){
+
+    });
+
+    var islogin = getIsLogin()
+    if(islogin.value == true){
+        api.openFrame({
+            name: 'gesturePassword',
+            url: 'widget://gesturePassword.html',
+            slidBackEnabled:false,
+            animation:{
+              type:'none'
+            }
+        });
+    }else{
+        api.openWin({
+            name: 'index',
+            url: 'widget://html/index.html',
+            slidBackEnabled:false,
+            animation:{
+              type:'none'
+            }
+        });
+    }
 }
+
 
 </script>
 </html>

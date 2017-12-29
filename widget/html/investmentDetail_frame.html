@@ -54,19 +54,19 @@
 			<li>
 				<div>
 					<span>还款方式：</span>
-						<em>每期还息到期还本</em>
+						<em>----</em>
 				</div>
 			</li>
 			<li>
 				<div>
 					<span>项目名称：</span>
-					<em>支付工程款</em>
+					<em>----</em>
 				</div>
 			</li>
 			<li>
 				<div>
 					<span>预计起息日：</span>
-					<em>募集满T+1工作日</em>
+					<em>----</em>
 				</div>
 			</li>
 			<li>
@@ -78,13 +78,13 @@
 				</div>
 			</li>
       <li>
-				<div tapmode onclick="open51Url('investment/fx/21/1','风险提示书')">
+				<div>
 					<span>风险提示：</span>
 					<em class="color4">风险提示书<i class="icon-right-open-big"></i></em>
 				</div>
 			</li>
       <li>
-        <div tapmode onclick="jumpToWin('agency','推荐机构')">
+        <div >
           <span>推荐机构：</span>
           <em class="color4 tjjg">----</em>
         </div>
@@ -93,31 +93,31 @@
 	</div>
   <div class="detail-style">
     <ul>
-      <li tapmode onclick="jumpToWin('investmentDescription','项目描述')">
+      <li >
         <div>
           <span>项目描述：</span>
 					<em class="color1"><i class="icon-right-open-big"></i></em>
         </div>
       </li>
-      <li tapmode onclick="jumpToWin('borrowerInfo','借款人信息')">
+      <li >
         <div>
           <span>借贷方信息：</span>
 					<em class="color1"><i class="icon-right-open-big"></i></em>
         </div>
       </li>
-      <li tapmode onclick="jumpToWin('safeGuard','保障措施')">
+      <li >
         <div>
           <span>保障措施：</span>
 					<em class="color1"><i class="icon-right-open-big"></i></em>
         </div>
       </li>
-      <li tapmode onclick="jumpToWin('bidRecord','购标记录')">
+      <li >
         <div>
           <span>投标记录：</span>
 					<em class="color1"><i class="icon-right-open-big"></i></em>
         </div>
       </li>
-      <li tapmode onclick="open51Url('investment/fy/21/1','相关费用')">
+      <li >
 				<div href="/investment/fy/21">
 					<span>相关费用：</span>
 					<em class="color4">相关费用<i class="icon-right-open-big"></i></em>
@@ -134,6 +134,9 @@
 				{{/if}}
 				{{if d.b_assignbiddding==1}}
 				<img class="yu" src="../image/yu.png">
+				{{/if}}
+				{{if d.is_hot==1}}
+				<em style="background: url(../image/hot.png) no-repeat;background-size: 100% 100%;"></em>
 				{{/if}}
 			</h3>
 			<div class="detail-b-info">
@@ -180,7 +183,7 @@
 				<li>
 					<div>
 						<span>项目名称：</span>
-						<em>{{d.b_projecttitle}}</em>
+						<em>{{d.projectname}}</em>
 					</div>
 				</li>
 				<li>
@@ -205,7 +208,11 @@
 						<em class="color4">风险提示书<i class="icon-right-open-big"></i></em>
 					</div>
 				</li>
+<<<<<<< HEAD
 				{{if d.investment_db}}
+=======
+				{{if d.db_id!=''}}
+>>>>>>> 1ba58efb1482979d325aa9c8442a7b103a19e218
 				<li>
 					<div tapmode onclick="jumpToWin('agency','{{d.db_title}}',{db_id:{{d.db_id}} })">
 						<span>推荐机构：</span>
@@ -235,6 +242,15 @@
 						<em class="color1"><i class="icon-right-open-big"></i></em>
 					</div>
 				</li>
+<<<<<<< HEAD
+=======
+				<li tapmode onclick="jumpToWinAfterJudggingLogin('investmentRepaymentplan','还款计划',{b_id:{{d.b_id}},b_repayment_way:'{{d.b_repayment_way}}',b_status_name:'{{d.b_status_name}}'})">
+					<div>
+						<span>还款计划：</span>
+						<em class="color1"><i class="icon-right-open-big"></i></em>
+					</div>
+				</li>
+>>>>>>> 1ba58efb1482979d325aa9c8442a7b103a19e218
 				<li tapmode onclick="jumpToWinAfterJudggingLogin('bidRecord','购标记录',{b_id:{{d.b_id}}})">
 					<div>
 						<span>投标记录：</span>
@@ -261,13 +277,15 @@
 <script src="../script/template-filter.js"></script>
 <script>
 	apiready = function(){
-			refreshFrameData();
-			refreshHeader()
+		refreshFrameData()
+		refreshHeader()
+		// gesturePassword('investmentDetail_frame')
 
 	}
 
 	function refreshFrameData(){
 
+<<<<<<< HEAD
 			var bid = api.pageParam.bid
 			refreshData({
 					url:'investment_details',
@@ -288,57 +306,84 @@
 								if(data.b_assignbiddding==1){
 										assignpwdPrompt(data)
 								}
+=======
+		var bid = api.pageParam.bid
+		refreshData({
+			url:'investment_details',
+			values:{
+				b_id:bid,
+				token:''
+			},
+			fun:function(ret,err){
+				console.log(JSON.stringify(ret.data))
+				// var json = '{"code":"1","msg":"操作成功","data":{"ac_balances":"0.00","bt_name":"供应链","bt_img":"http://ksh.51jili.com/attachment/display/3310","b_projecttitle":"GYL002886","b_minimum":"100","Rate":"9%","IncreasedRate":"1%","b_interest_rate":"9%","loandeadline":"3个月","b_need_loan":"10,000","b_actual_loan":"1,200","b_can_cast_loan":"8,800.00","b_effective_date":"1510646207","progress":"12.00%","b_status_name":"立即投标","db_id":"13","db_title":"集成金融财富中心","b_repayment_way":"每期还息到期还本","expected_income":"225.00","b_assignbiddding":"1","b_assignpwd":"123456","is_hot":"0","canrsecoupon":"0","add_i":"1%","yuji_qixiri":"募集满T+1工作日","fx_url":"/investment/fx/21/1","fx_tip":"风险提示书","p_qixiri":"募集完毕后下一工作日起息","is_graceperiod":"","ispen_sing":true,"grant":0}}'
+				// var data = JSON.parse(json).data;
+>>>>>>> 1ba58efb1482979d325aa9c8442a7b103a19e218
 
-								//渲染数据
-								var investmentDetailHTML = template('investmentDetail_template' ,data);
-								$('body').html(investmentDetailHTML);
-								drawCircle()
+				var data = ret.data
+				data.b_id = bid;
 
-								// 如果标状态为立即投标，则开启倒计时
-								if(data.b_status_name == '立即投标'){
-										countdownStart(data.b_effective_date)
-								}
+				if(ret.code==1){
+					//有预约的话弹窗输入预约码
+					if(data.b_assignbiddding==1){
+						assignpwdPrompt(data)
+					}
 
+<<<<<<< HEAD
 								//渲染立即投标按钮
 								changeBtn(data)
 
+=======
+					//渲染数据
+					var investmentDetailHTML = template('investmentDetail_template' ,data);
+					$('body').html(investmentDetailHTML);
+					drawCircle()
+>>>>>>> 1ba58efb1482979d325aa9c8442a7b103a19e218
 
-						}
+					// 如果标状态为立即投标，则开启倒计时
+					if(data.b_status_name == '立即投标'){
+						countdownStart(data.b_effective_date)
 					}
-			},false)
+
+					//渲染立即投标按钮
+					changeBtn(data)
+				}
+			}
+		},false)
 	}
 
 	function countdownStart (timeStamp){
 		setInterval(function(){
-				var remainTime = timeStamp*1000-Date.parse(new Date())
-				var day = numFormat(parseInt(remainTime/1000/60/60/24))
-				var hour = numFormat(parseInt((remainTime/1000/60/60)%24))
-				var minute = numFormat(parseInt((remainTime/1000/60)%60))
-				var second = numFormat((remainTime/1000)%60)
-				var countdownHTML = `<span class="time day">${day}</span><span>天 </span>
-				<span class="time hour">${hour}</span><span>:</span>
-				<span class="time minute">${minute}</span><span>:</span>
-				<span class="time second">${second}</span>`
+			var remainTime = timeStamp*1000-Date.parse(new Date())
+			var day = numFormat(parseInt(remainTime/1000/60/60/24))
+			var hour = numFormat(parseInt((remainTime/1000/60/60)%24))
+			var minute = numFormat(parseInt((remainTime/1000/60)%60))
+			var second = numFormat((remainTime/1000)%60)
+			var countdownHTML = `<span class="time day">${day}</span><span>天 </span>
+			<span class="time hour">${hour}</span><span>:</span>
+			<span class="time minute">${minute}</span><span>:</span>
+			<span class="time second">${second}</span>`
 
-				$('.countdown > div > em').html(countdownHTML)
+			$('.countdown > div > em').html(countdownHTML)
 		},1000)
-
 	}
 
 	function numFormat(num){
-			if(num<10){
-					return '0'+num
-			}else{
-					return num
-			}
+		if(num<10){
+			return '0'+num
+		}else{
+			return num
+		}
 	}
 
 	function assignpwdPrompt(data){
+		if(api.systemType=='ios'){
 			api.prompt({
-					title:'请输入预约码',
-					type:'number',
-					buttons: ['确定', '取消']
+				title:'请输入预约码',
+				type:'number',
+				buttons: ['确定', '取消']
 			}, function(ret, err){
+<<<<<<< HEAD
 				// alert(ret.buttonIndex)
 					if(ret.buttonIndex==1){
 							if(ret.text.length<6||ret.text.length>8){
@@ -357,8 +402,118 @@
 							api.closeWin()
 					}else if(ret.buttonIndex==0){
 							assignpwdPrompt()
+=======
+			// alert(ret.buttonIndex)
+				if(ret.buttonIndex==1){
+					if(ret.text.length<6||ret.text.length>8){
+						showToastMsg('预约码必须为6-8位纯数字')
+						assignpwdPrompt(data)
+					}else{
+						if(ret.text==data.b_assignpwd){
+							showToastMsg('预约码正确')
+							// alert('预约码正确进入标详情')
+						}else{
+							showToastMsg('预约码不正确')
+							assignpwdPrompt(data)
+						}
+>>>>>>> 1ba58efb1482979d325aa9c8442a7b103a19e218
 					}
+				}else if(ret.buttonIndex==2){
+					api.closeWin()
+				}else if(ret.buttonIndex==0){
+					assignpwdPrompt(data)
+				}
 			});
+		}else if(api.systemType=='android'){
+			var dialogBox = api.require('dialogBox')
+			dialogBox.input({
+			    keyboardType: 'number',
+			    texts: {
+			        title: '请输入预约码',
+			        placeholder: '请输入预约码',
+			        leftBtnTitle: '取消',
+			        rightBtnTitle: '确定'
+			    },
+			    styles: {
+			        bg: '#fff',
+			        corner: 2,
+			        w: 300,
+			        h: 120,
+			        title: {
+			            h: 20,
+			            alignment: 'center',
+			            size: 14,
+			            color: '#000'
+			        },
+			        input: {
+			            h: 20,
+			            marginT: 6,
+						marginUD: 6,
+			            textSize: 14,
+			            textColor: '#000'
+			        },
+			        dividingLine: {
+			            width: 0,
+			        },
+			        left: {
+			            bg: 'rgba(0,0,0,0)',
+			            color: '#007FFF',
+			            size: 12
+			        },
+			        right: {
+			            bg: 'rgba(0,0,0,0)',
+			            color: '#007FFF',
+			            size: 12
+			        }
+			    }
+			}, function(ret) {
+			    if (ret.eventType == 'left') {
+			        var dialogBox = api.require('dialogBox');
+			        dialogBox.close({
+			            dialogName: 'input'
+			        });
+					api.closeWin()
+			    }else if(ret.eventType == 'right'){
+					if(ret.text.length<6||ret.text.length>8){
+						alert('预约码必须为6-8位纯数字')
+					}else{
+						if(ret.text==data.b_assignpwd){
+							alertForRetractingKeyboard('预约码输入正确','继续投资')
+						}else{
+							alert('预约码不正确')
+						}
+					}
+				}
+			});
+		}
+	}
+
+	function changeBtn(data){
+		if(data.b_status_name=='立即投标'){
+			$('.footer-btn > div').css('background','#ef4646').html(data.b_status_name).on('click',function(){
+				// 发送请求检查三个项目（未写）
+				// 是否登陆过期
+				// 是否实名认证
+				// 是否设置交易密码
+				// 是否进行风险承受能力评估
+				refreshData({
+					url:'user_status',
+					values:{
+						token:''
+					},
+					fun:function(ret,err){
+						console.log(JSON.stringify(ret))
+						if(ret.code == 1){
+							jumpToWinAfterJudggingLogin('tenderNow','立即投标',{bid:api.pageParam.bid})
+						}
+					}
+				})
+
+			})
+			api.parseTapmode();
+		}else{
+			$('.footer-btn > div').html(data.b_status_name)
+		}
 	}
 
 	function changeBtn(data){

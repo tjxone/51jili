@@ -1,17 +1,17 @@
-template.defaults.imports.rateFormat = function(value){
+template.defaults.imports.rateFormat = function(value) {
     return parseFloat(value)
 }
-template.defaults.imports.classifyFormat = function(value){
-    switch (value){
-      case 'pubtime':
-      return '期限'
-      break;
-      case 'rate':
-      return '收益'
-      break;
-      case 'bdtype':
-      return '项目'
-      break;
+template.defaults.imports.classifyFormat = function(value) {
+    switch (value) {
+        case 'pubtime':
+            return '期限'
+            break;
+        case 'rate':
+            return '收益'
+            break;
+        case 'bdtype':
+            return '项目'
+            break;
     }
 }
 template.defaults.imports.effectiveDateFormat = function(value){
@@ -42,5 +42,40 @@ template.defaults.imports.detailDateFormat = function(value){
 }
 
 template.defaults.imports.fix2 = function(value){
+<<<<<<< HEAD
     return Number(value).toFixed(2)
+=======
+    return value==0?Number(value).toFixed(2):value
+}
+
+template.defaults.imports.couponDateFormat = function(value){
+    var couponDate = new Date(Number(value)*1000)
+    var year = couponDate.getFullYear();
+    var month = couponDate.getMonth()+1
+    var day = couponDate.getDate()
+    var hour = couponDate.getHours()
+    var minute = couponDate.getMinutes()
+     return `${year}-${month}-${day} ${hour}:${minute}`
+}
+
+template.defaults.imports.loandeadlineFormat = function(value){
+    if (value.indexOf('月')>0)
+        return `<em class="fs20">${value.slice(0,-2)}</em><i>个月</i>`
+    else if (value.indexOf('天')>0){
+        return `<em class="fs20">${value.slice(0,-1)}</em><i>天</i>`
+    }
+}
+
+template.defaults.imports.repaymentPlanDataFormat = function(value){
+    return new Date(Number(value)*1000).toLocaleDateString().replace(/\//g,"-")
+}
+
+template.defaults.imports.fromDate = function(value) {
+    var value = new Date(value * 1000).toLocaleDateString().replace(/\//g, "-") + ' ' + new Date(value * 1000).toTimeString().substr(0, 8);
+    return value;
+}
+
+template.defaults.imports.numberFormat = function(value){
+    return value.replace(/\,/g,"")
+>>>>>>> 1ba58efb1482979d325aa9c8442a7b103a19e218
 }

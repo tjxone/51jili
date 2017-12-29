@@ -15,15 +15,30 @@
 	<title>消息管理－集利财富</title>
   <style>
     .couponList{
-      padding:10px 30px 0px 30px;
+      padding:10px 30px 10px 30px;
       background:#fff;
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
     }
 
-    .couponList li{
+		.couponList ul{
+			width:100%;
+		}
+
+    .couponList li.coupon{
       position:relative;
       padding-top:10px;
-      border-bottom:1px solid #999;
+			margin-bottom: 10px;
+			border-left: 5px solid #ef4646;
+			padding-left: 10px;
     }
+
+		.couponList > div{
+			font-size:16px;
+			text-align: center;
+		}
 
     .couponList em{
     	display:inline-block;
@@ -41,40 +56,118 @@
     	background-image:url('../image/ok1.png')
     }
 
-    .couponList li h3{
+    .couponList li.coupon h3{
       font-size:20px;
       color:#777
     }
 
-    .couponList li h5{
+    .couponList li.coupon h5{
       padding-top:5px;
       padding-bottom:10px;
     }
   </style>
 </head>
 <body>
-  <div class="couponList">
-    <ul>
-      <li tapmode onclick="changeClass(this)">
+
+      <!-- <li class="coupon" tapmode onclick="changeClass(this)">
         <h3>加息(月标可用)：1%</h3>
         <h5>有效期：2017-11-22 15:16</h5>
         <em class="active"></em>
       </li>
-      <li tapmode onclick="changeClass(this)">
+      <li class="coupon" tapmode onclick="changeClass(this)">
         <h3>加息(月标可用)：1%</h3>
         <h5>有效期：2017-11-22 15:16</h5>
         <em class=""></em>
-      </li>
-    </ul>
-  </div>
-</div>
+      </li> -->
+			<!-- <li class="empty">
+				<div>
+					您没有可用的加息券或代金券~
+				</div>
+			</li> -->
+	<script id="couponList_template" type="text/html">
+		<div class="couponList">
+		  	<ul>
+				{{set d = $data}}
+				{{each d value key}}
+				{{if value.type==1}}
+				<li class="coupon" data-type='{{value.type}}' data-couponId='{{value.uic_id}}' tapmode onclick="changeClass(this)">
+					<h3>{{value.name}}：{{value.uic_rate}}%</h3>
+					<h5>有效期：{{value.uic_end_time|couponDateFormat}}</h5>
+					<em class=""></em>
+				</li>
+				{{else if value.type==2}}
+				<li class="coupon" data-type='{{value.type}}' data-couponId='{{value.uc_id}}' tapmode onclick="changeClass(this)">
+					<h3>{{value.name}}：{{value.uc_rate}}%</h3>
+					<h5>有效期：{{value.uc_end_time|couponDateFormat}}</h5>
+					<em class=""></em>
+				</li>
+				{{/if}}
+				{{/each}}
+			</ul>
+		</div>
+	</script>
+
 </body>
 <script src="../script/jquery.js"></script>
 <script src="../script/common.js"></script>
+<script src="../script/template-web.js"></script>
+<script src="../script/template-filter.js"></script>
 <script>
+	apiready = function(){
+		refreshFrameData();
+		refreshHeader()
+	}
+
+	function refreshFrameData(){
+		var bid = api.pageParam.bid
+		var amount = api.pageParam.amount
+		refreshData({
+			url:'get_reward',
+			values:{
+				b_id:bid,
+				amount:amount,
+				token:''
+			},
+			fun:function(ret,err){
+				// var json = '{"code":"1","msg":"操作成功","data":[{"uic_id":"102300","u_id":"15877","irc_id":"104","b_id":"0","t_id":"0","uic_rate":"1","uic_day":"360","uic_start_time":"1508743020","uic_end_time":"1511335020","uic_bid_type":"[\"GYL\"]","uic_can_use_time":"360","uic_can_use_amount":"100","uic_assign":"0","uic_month_day":"2","uic_status":"0","type":1,"name":"加息(月标可用)","end_time":"2017-11-22 15:17"},{"uic_id":"102300","u_id":"15877","irc_id":"104","b_id":"0","t_id":"0","uic_rate":"1","uic_day":"360","uic_start_time":"1508743020","uic_end_time":"1511335020","uic_bid_type":"[\"GYL\"]","uic_can_use_time":"360","uic_can_use_amount":"100","uic_assign":"0","uic_month_day":"2","uic_status":"0","type":1,"name":"加息(月标可用)","end_time":"2017-11-22 15:17"}]}'
+				// var data = JSON.parse(json).data
+				var data = ret.data
+				// var data = []
+				if(ret.code==1){
+					if(data!=[]&&data!=''&&data!=[{}]&&data!={}){
+						//渲染数据
+						var couponListHTML = template('couponList_template' ,data);
+						$('body').html(couponListHTML);
+						api.parseTapmode();
+					}else{
+						$('body').css('height',window.innerHeight)
+						var emptyHTML = `<div class="couponList" style="background:#edf3f8">
+						<div>您没有可用的加息券或代金券~</div>
+						</div>`
+						$('body').html(emptyHTML);
+					}
+				}
+			}
+		},false)
+	}
+
 	function changeClass(tag){
+		//改变样式
 		$('.couponList li em').removeClass('active');
 		$(tag).find('em').toggleClass('active')
+		// 整理数据
+		var type = $(tag).attr('data-type')
+		var couponId = $(tag).attr('data-couponId')
+		var couponName = $(tag).find('h3').html()
+		// 计算收益
+		api.execScript({
+		    name: 'tenderNow',
+		    frameName: 'tenderNow_frame',
+		    script: 'calculateInvest('+couponId+','+type+',"'+couponName+'")'
+		});
+		// 关闭收益权窗口
+		api.closeWin()
+
 	}
 </script>
 </html>

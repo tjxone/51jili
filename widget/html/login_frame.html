@@ -76,39 +76,43 @@
 
                     api.setPrefs({
                         key: 'islogin',
-                        value: 'logined'
+                        value: {'value':true,'username':ret.data.username,'uid':ret.data.uid}
+                    });
+                    api.setPrefs({
+                        key:'phone',
+                        value:ret.data.phone
                     });
 
-										var preWin = api.pageParam.prevWin
-										var prevPage = api.pageParam.prevPage
-										// 如果有frameName
-										if(prevPage != ''){
-												// 指定一个frame刷新页面
-												alert('指定刷新页面'+preWin+prevPage)
-												api.execScript({
-														name:preWin,
-												    frameName: prevPage,
-												    script: 'refreshFrameData()'
-												});
-												// 关闭登陆窗口，返回上一个页面
-												api.closeWin()
-										}else{
-  											//如果没有frameName，但是有prevWin==index则刷新用户中心数据
-  											if(preWin == 'index'){
-  													// 指定用户中心刷新页面
-  													// api.execScript({
-  													// 		name:preWin,
-  													//     frameName: 'frame2',
-  													//     script: 'refreshFrameData()'
-  													// });
-  													// 返回用户中心页面
+					var preWin = api.pageParam.prevWin
+					var prevPage = api.pageParam.prevPage
+					// 如果有frameName
+					if(prevPage != ''){
+						// 指定一个frame刷新页面
+						alert('指定刷新页面'+preWin+prevPage)
+						api.execScript({
+								name:preWin,
+						    frameName: prevPage,
+						    script: 'refreshFrameData()'
+						});
+						// 关闭登陆窗口，返回上一个页面
+						api.closeWin()
+					}else{
+					//如果没有frameName，但是有prevWin==index则刷新用户中心数据
+    					if(preWin == 'index'){
+    							// 指定用户中心刷新页面
+    							// api.execScript({
+    							// 		name:preWin,
+    							//     frameName: 'frame2',
+    							//     script: 'refreshFrameData()'
+    							// });
+    							// 返回用户中心页面
                             api.execScript({
                                 name: 'index',
                                 script: "randomSwitchBtn($('.footer-nav li:eq(2)')[0],false)",
                             })
                             api.closeWin()
-  											}
-										}
+    					}
+					}
                 }
             }
         }

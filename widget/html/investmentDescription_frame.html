@@ -54,6 +54,7 @@
 <script src="../script/template-filter.js"></script>
 <script>
 		apiready = function(){
+<<<<<<< HEAD
 				refreshFrameData();
 				refreshHeader()
 		}
@@ -75,6 +76,28 @@
 
 						}
 				})
+=======
+			refreshFrameData();
+			refreshHeader()
+		}
+		function refreshFrameData(){
+			var bid = api.pageParam.b_id
+			refreshData({
+				url:'investment_descition',
+				values:{
+					token:'',
+					b_id:bid
+				},
+				fun:function(ret,err){
+					console.log(JSON.stringify(ret))
+					if(ret.code==1){
+							var data = ret.data
+							var investmentDescitionHTML = template('investmentDescition_template' ,data);
+							$('.tab1-list').html(investmentDescitionHTML);
+					}
+				}
+		})
+>>>>>>> 1ba58efb1482979d325aa9c8442a7b103a19e218
 		}
 </script>
 </html>

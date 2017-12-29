@@ -553,7 +553,7 @@ header {
     display: flex;
     justify-content: space-between;
     padding-top: 20px;
-    align-items: flex-end;
+    align-items: center;
 }
 
 .nei-title .hideBack {
@@ -592,6 +592,7 @@ header {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    position: relative;
 }
 
 .nei-title a {
@@ -2065,7 +2066,7 @@ header {
 .received-list li span {
     position: absolute;
     top: 10px;
-    left: 50%;
+    left: 60%;
     display: inline-block;
     margin-left: -5px
 }
@@ -2838,18 +2839,18 @@ header {
 
 .nav-list-screen li i {
     position: absolute;
-    top: 10px;
-    right: 0;
-    color: #333
+    right: 5px;
+    color: #333;
+    top:12px;
 }
 
-.nav-list-screen li i:before {
+/*.nav-list-screen li i:before {
     content: '\e8c7'
-}
+}*/
 
-.nav-list-screen li.current i:before {
+/*.nav-list-screen li.current i:before {
     content: '\e8c8'
-}
+}*/
 
 .nav-list-screen li.current i,
 .nav-list-screen li.current span {
@@ -4163,3 +4164,15 @@ header {
         transform: scaleX(1);
     }
 }
+<<<<<<< HEAD
+=======
+
+
+.desc .icon-up-dir{
+    color:#ddd
+}
+
+.asc .icon-down-dir{
+    color:#ddd
+}
+>>>>>>> 1ba58efb1482979d325aa9c8442a7b103a19e218

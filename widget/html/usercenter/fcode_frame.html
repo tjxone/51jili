@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no,minimal-ui">
+    <meta name="format-detection" content="telephone=no" />
     <meta name="keywords" content="集利财富，集利网，投资理财，网络理财，个人理财，互联网理财，互联网金融，固定收益，本息保障，个人贷款，网络贷款，网络借贷，小额贷款，信用贷款，担保贷款，网贷平台，投融资平台">
     <meta name="description" content="集利财富：安全可信赖的投资理财平台，为大众用户提供低门槛、可信赖、有保障的投资理财服务！在集利财富，足不出户、轻点鼠标，即可便捷投资、安享收益！">
     <meta name="apple-mobile-web-app-title" content="集利财富，点滴投资，聚集好利，安全可信赖的投资理财平台" />
@@ -16,40 +17,88 @@
     <link rel="stylesheet" href="../../css/fcode.css">
     <title>朋友码</title>
 </head>
+<style>
+    #share-img {
+        text-align: center;
+    }
+</style>
 
 <body>
-    <div class="received-t">
-        <h1>我的邀请码</h1>
-        <p class="color-red">
-            <span>13026727****</span>
-        </p>
-    </div>
-    <div class="invite-t">
-        <ul class="clearfix">
-            <li>
-                <div class="bg-red color5 friend" tapmode>已注册好友
-                    <em class="fs16">1</em> 人
-                </div>
-            </li>
-            <li>
-                <div class="color2 reward" tapmode>分红<em class="fs16 color-red">0.00</em>元</div>
-            </li>
-        </ul>
+    <div id="fcode">
+        <script id="fcodeBox" type="text/html">
+            <div class="received-t">
+                <h1>我的邀请码</h1>
+                <p class="color-red">
+                    <span>{{fcode}}</span>
+                </p>
+            </div>
+            <div class="invite-t">
+                <ul class="clearfix">
+                    <li>
+                        <div class="bg-red color5 friend" tapmode onclick="jumpToWin('usercenter/fcodeFriend', '已注册好友')">已注册好友
+                            <em class="fs16">{{fcode_count}}</em> 人
+                        </div>
+                    </li>
+                    <li>
+                        <div class="color2 reward" tapmode>分红<em class="fs16 color-red">{{ac_redamount}}</em>元</div>
+                    </li>
+                </ul>
+            </div>
+        </script>
     </div>
     <h1 class="title">
         <span></span> 投资管理
-        <em class="fr color4">《奖励规则》</em>
+        <em class="fr color4" tapmode onclick="open51Url('api/fcode_rule','朋友码规则')">《奖励规则》</em>
     </h1>
-
+    <div class="invite-share">
+        <div id="share-img"></div>
+    </div>
 </body>
 <script src="../../script/jquery.js"></script>
+<script src="../../script/template-web.js"></script>
 <script src="../../script/common.js"></script>
+<script src="../../script/qrcode.js"></script>
 <script>
     apiready = function() {
-        $('.friend').on('touchend', function() {
-            jumpToWin('./fcodeFriend', '已注册好友');
-        });
+        refreshFrameData();
+    }
 
+    function refreshFrameData() {
+        refreshData({
+            url: 'fcode_url',
+            values: {
+                token: ''
+            },
+            loginParams: {
+                slidBackEnabled: false,
+                isbackToIndex: true
+            },
+            fun: function(ret, err) {
+                $('#share-img').qrcode({
+                    width: 200,
+                    height: 200,
+                    text: ret.data.url
+                });
+            }
+        });
+        refreshData({
+            url: 'fcode',
+            values: {
+                token: ''
+            },
+            loginParams: {
+                slidBackEnabled: false,
+                isbackToIndex: true
+            },
+            fun: function(ret, err) {
+                var data = ret.data;
+                if (ret.code == 1) {
+                    var html = template('fcodeBox', data);
+                    $('#fcode').html(html);
+                    api.parseTapmode();
+                }
+            }
+        });
     }
 </script>
 

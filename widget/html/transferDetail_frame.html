@@ -1,0 +1,310 @@
+<html lang="en">
+<head manifest="/static/mobile/app.manifest">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no,minimal-ui">
+	<meta name="keywords" content="集利财富，集利网，投资理财，网络理财，个人理财，互联网理财，互联网金融，固定收益，本息保障，个人贷款，网络贷款，网络借贷，小额贷款，信用贷款，担保贷款，网贷平台，投融资平台">
+	<meta name="description" content="集利财富：安全可信赖的投资理财平台，为大众用户提供低门槛、可信赖、有保障的投资理财服务！在集利财富，足不出户、轻点鼠标，即可便捷投资、安享收益！">
+	<meta name="apple-mobile-web-app-title" content="集利财富，点滴投资，聚集好利，安全可信赖的投资理财平台">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<link rel="stylesheet" href="../css/fontello.css">
+	<link rel="stylesheet" href="../css/swiper.min.css">
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/common.css">
+	<title>债权转让－集利财富</title>
+</head>
+<body style="margin-bottom:70px;">
+	<div class="received-t" style="border-bottom: none">
+		<h1>转让金额</h1>
+        <p class="color-red">￥<span>--.--</span></p>
+        <h1>转让价格</h1>
+		<p class="color-red">￥<span>--.--</span></p>
+	</div>
+	<div class="invite-t">
+		<ul class="clearfix">
+			<li class="">
+                <div class="color3" style="border-radius: 30px;">收益<em class="fs16 color4">--.--</em>元</div>
+			</li>
+			<li>
+				<div class="color3" style="border-radius: 30px;">期限<em class="fs16 color4">--</em>天</div>
+			</li>
+		</ul>
+	</div>
+	<div class="detail-num ass-num">
+		<ul class="clearfix">
+			<li style="width: 40%;">
+				<div class="">
+					<p>原项目募集金额</p>
+					<p><span class="color2">--.--</span>元</p>
+				</div>
+			</li>
+			<li style="width: 60%;">
+				<div class="detail-num-b clearfix">
+					<div style="width: 60%;">
+						<p>预期年化收益率</p>
+						<p>
+							<span class="color2">--</span>%
+						</p>
+					</div>
+					<div style="width: 40%;">
+						<p>借款期限</p>
+						<p><span class="color2">--</span>天</p>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+	<div class="detail-style">
+		<ul>
+			<li>
+				<div>
+					<span>还款方式：</span>
+					<em class="color2">----</em>
+				</div>
+			</li>
+            <li>
+				<div>
+					<span>项目名称：</span>
+					<em class="color2">----</em>
+				</div>
+			</li>
+            <li>
+				<div>
+					<span>风险提示：</span>
+					<em class="color4">风险提示书<i class="icon-right-open-big"></i></em>
+				</div>
+			</li>
+			<li>
+			  <div tapmode onclick="">
+				<span>推荐机构：</span>
+				<em class="color4 tjjg">----</em>
+			  </div>
+			</li>
+            <li>
+				<div>
+					<span>债权转让服务介绍：</span>
+					<em class="color4">债权转让专题<i class="icon-right-open-big"></i></em>
+				</div>
+			</li>
+		</ul>
+	</div>
+	<div class="detail-style">
+      <ul>
+        <li tapmode onclick="jumpToWin('investmentDescription','项目描述')">
+          <div>
+            <span>项目描述：</span>
+  				<em class="color1"><i class="icon-right-open-big"></i></em>
+          </div>
+        </li>
+        <li tapmode onclick="jumpToWin('borrowerInfo','借款人信息')">
+          <div>
+            <span>借贷方信息：</span>
+  				<em class="color1"><i class="icon-right-open-big"></i></em>
+          </div>
+        </li>
+        <li tapmode onclick="jumpToWin('safeGuard','保障措施')">
+          <div>
+            <span>保障措施：</span>
+  				<em class="color1"><i class="icon-right-open-big"></i></em>
+          </div>
+        </li>
+        <li tapmode onclick="jumpToWin('bidRecord','购标记录')">
+          <div>
+            <span>还款计划：</span>
+  				<em class="color1"><i class="icon-right-open-big"></i></em>
+          </div>
+        </li>
+      </ul>
+    </div>
+	<script id="transferDetail_template" type="text/html">
+		{{set d = $data}}
+		<div class="received-t" style="border-bottom: none">
+			<h1>转让金额</h1>
+	        <p class="color-red">￥<span>{{d.yu_capital}}</span></p>
+	        <h1>转让价格</h1>
+			<p class="color-red">￥<span>{{d.t_transfer_amount}}</span></p>
+		</div>
+		<div class="invite-t">
+			<ul class="clearfix">
+				<li class="">
+	                <div class="color3" style="border-radius: 30px;">收益<em class="fs16 color4">{{d.yu_interest}}</em>元</div>
+				</li>
+				<li>
+					<div class="color3" style="border-radius: 30px;">期限<em class="fs16 color4">{{d.yu_time}}</em>天</div>
+				</li>
+			</ul>
+		</div>
+		<div class="detail-num ass-num">
+			<ul class="clearfix">
+				<li style="width: 40%;">
+					<div class="">
+						<p>原项目募集金额</p>
+						<p><span class="color2">{{d.b_actual_loan}}</span>元</p>
+					</div>
+				</li>
+				<li style="width: 60%;">
+					<div class="detail-num-b clearfix">
+						<div style="width: 60%;">
+							<p>预期年化收益率</p>
+							<p>
+								<span class="color2">{{d.Rate.slice(0,-1)}}</span>%
+							</p>
+						</div>
+						<div style="width: 40%;">
+							<p>借款期限</p>
+							<p><span class="color2">{{d.loandeadline}}</span>天</p>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="detail-style">
+			<ul>
+				<li>
+					<div>
+						<span>还款方式：</span>
+						<em class="color2">{{d.b_repayment_way}}</em>
+					</div>
+				</li>
+	            <li>
+					<div>
+						<span>项目名称：</span>
+						<em class="color2">{{d.projectname}}</em>
+					</div>
+				</li>
+				<li>
+					<div tapmode onclick="open51Url('/investment/fx/21/1','风险提示书')">
+						<span>风险提示：</span>
+						<em class="color4">风险提示书<i class="icon-right-open-big"></i></em>
+					</div>
+				</li>
+				{{if d.db_id != null}}
+				<li>
+					<div tapmode onclick="jumpToWin('agency','{{d.db_title}}',{db_id:{{d.db_id}} })">
+						<span>推荐机构：</span>
+						<em class="color4 tjjg">{{d.db_title}}</em>
+					</div>
+				</li>
+				{{/if}}
+	            <li>
+					<div>
+						<span>债权转让服务介绍：</span>
+						<em class="color4">债权转让专题<i class="icon-right-open-big"></i></em>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="detail-style">
+	      <ul>
+	        <li tapmode onclick="jumpToWinAfterJudggingLogin('investmentDescription','项目描述',{b_id:{{d.b_id}}})">
+	          <div>
+	            <span>项目描述：</span>
+	  				<em class="color1"><i class="icon-right-open-big"></i></em>
+	          </div>
+	        </li>
+	        <li tapmode onclick="jumpToWinAfterJudggingLogin('borrowerInfo','借款人信息',{b_id:{{d.b_id}}})">
+	          <div>
+	            <span>借贷方信息：</span>
+	  				<em class="color1"><i class="icon-right-open-big"></i></em>
+	          </div>
+	        </li>
+	        <li tapmode onclick="jumpToWin('safeGuard','保障措施',{b_id:{{d.b_id}}})">
+	          <div>
+	            <span>保障措施：</span>
+	  				<em class="color1"><i class="icon-right-open-big"></i></em>
+	          </div>
+	        </li>
+			<li tapmode onclick="jumpToWinAfterJudggingLogin('repaymentPlan','还款计划',{b_id:{{d.b_id}},tr_id:{{d.tr_id}} })">
+				<div>
+					<span>还款计划：</span>
+					<em class="color1"><i class="icon-right-open-big"></i></em>
+				</div>
+			</li>
+	      </ul>
+		  <div class="footer-btn" style="position:fixed;bottom:0;left:0;width:100%" tapmode >
+			  <div style="background:#ccc">- - - -</div>
+		  </div>
+	    </div>
+	</script>
+</body>
+<script src="../script/jquery.js"></script>
+<script src="../script/common.js"></script>
+<script src="../script/template-web.js"></script>
+<script src="../script/template-filter.js"></script>
+<script>
+apiready = function(){
+	refreshFrameData()
+	refreshHeader()
+}
+
+function refreshFrameData(){
+
+	var b_id = api.pageParam.b_id
+	var t_id = api.pageParam.t_id
+	var tr_id = api.pageParam.tr_id
+
+	refreshData({
+		url:'transfer_details',
+		values:{
+			tr_id:tr_id,
+			b_id:b_id,
+			t_id:t_id,
+			token:''
+		},
+		fun:function(ret,err){
+			var data = ret.data
+			data.b_id = b_id
+			data.tr_id = tr_id
+			data.t_id = t_id
+			if(ret.code==1){
+
+				//渲染数据
+				var transferDetailHTML = template('transferDetail_template' ,data);
+				$('body').html(transferDetailHTML);
+
+				//渲染立即投标按钮
+				changeBtn(data)
+			}
+
+		}
+	},false)
+}
+
+function changeBtn(data){
+	if(data.t_status=='立即投标'){
+		$('.footer-btn > div').css('background','#ef4646').html(data.t_status).on('click',function(){
+			// 发送请求检查三个项目（未写）
+			// 是否登陆过期
+			// 是否实名认证
+			// 是否设置交易密码
+			// 是否进行风险承受能力评估
+			refreshData({
+				url:'user_status',
+				values:{
+					token:''
+				},
+				fun:function(ret,err){
+					console.log(JSON.stringify(ret))
+					if(ret.code == 1){
+						jumpToWinAfterJudggingLogin('transfer_tenderNow','债权购买',{'b_id':data.b_id,'t_id':data.t_id,'tr_id':data.tr_id})
+					}
+				}
+			})
+		})
+		api.parseTapmode();
+	}else if(data.t_status=='请登录'){
+		$('.footer-btn > div').css('background','#ef4646').html(data.t_status).on('click',function(){
+			jumpToWin('login','登陆')
+		})
+		api.parseTapmode();
+	}else if(data.t_status=='请充值'){
+		$('.footer-btn > div').css('background','#ef4646').html(data.t_status).on('click',function(){
+			jumpToWin('usercenter/charge','充值')
+		})
+		api.parseTapmode();
+	}else{
+		$('.footer-btn > div').html(data.t_status)
+	}
+}
+</script>
+</html>

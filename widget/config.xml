@@ -59,11 +59,13 @@
 	<permission name="bootCompleted" />
 
 	<permission name="hardware" />
-  <feature name="unionPay">
-    <param name="urlScheme" value="unionPayA6052214405912" />
-  </feature>
 
 	<feature name="unionPay">
 			<param name="urlScheme" value="unionPayA6052214405912" />
 	</feature>
+
+    <feature name="ajpush">
+        <param name="app_key" value="e661fe3221979b5a820f1bfc" />
+        <param name="channel" value="51jili" />
+    </feature>
 </widget>
