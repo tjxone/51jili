@@ -14,33 +14,85 @@
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
     <link rel="stylesheet" href="../../css/common.css">
     <title>消息管理</title>
+    <style>
+        .dateBox{
+            background:#fff;
+            position:fixed;
+            width:100%;
+            z-index:1000;
+            top:-100px;
+            opacity:0;
+            left:0;
+            font-size:14px;
+            display: flex;
+            border-bottom: 1px solid #e43934;
+        }
+        .dateBox > .container-left{
+            padding:15px;
+        }
+        .dateBox > .container-left > p {
+            margin-top:5px;
+        }
+        .dateBox > .container-left input{
+            border-radius: 5px;
+            border-color:#e5e5e5;
+            outline: none;
+            background:#edf3f8;
+            max-width:70%;
+            min-width:100px;
+        }
+        .dateBox > .container-right{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .dateBox > .container-right button{
+            background:#e4393c;
+            border-radius:8px;
+            border:none;
+            outline: none;
+            color:#fff;
+            font-size:14px;
+            padding:10px 20px;
+        }
+    </style>
 </head>
-
 <body>
+    <div class="dateBox">
+        <div class="container-left">
+            <p>
+                <span>起始日期：</span>
+                <input type="date">
+            </p>
+            <p>
+                <span>结束日期：</span>
+                <input type="date">
+            </p>
+        </div>
+        <div class="container-right" onclick="closeDateBox()">
+            <button>查询</button>
+        </div>
+    </div>
+    <button onclick="showDateBox()">show</button>
     <div class="main">
         <ul class="tab4-content msg-list">
             <li>
                 <div class="msg-list-r">
                     <div class="msg-list-r-info">
                         <span class="rotate45"></span>
-                        <h1>收到一张加息券</h1>
-                        <p>尊敬的JL13026727502您好，您收到了1张【集车贷新品加息1%】天标券，有效期30天，请尽快使用。</p>
+                        <h1 ><i style="background:#e5e5e5">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </i></h1>
+                        <p>
+                            <i style="background:#e5e5e5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>
+                        </p>
                     </div>
                 </div>
-                <h2>
-                    <img src="../../image/icon16.png" alt=""> 2017-10-30 19:39:38
-                </h2>
-            </li>
-            <li>
-                <div class="msg-list-r">
-                    <div class="msg-list-r-info">
-                        <span class="rotate45"></span>
-                        <h1>收到一张加息券</h1>
-                        <p>尊敬的JL13026727502您好，您收到了1张【集车贷新品加息1%】天标券，有效期30天，请尽快使用。</p>
-                    </div>
-                </div>
-                <h2>
-                    <img src="../../image/icon16.png" alt=""> 2017-10-30 19:39:38
+                <h2 style="position:relative;">
+                    <img src="../../image/icon16.png" alt="">
+                    <span style="background:#e5e5e5;">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </span>
                 </h2>
             </li>
         </ul>
@@ -92,6 +144,20 @@
                 api.parseTapmode();
             }
         });
+    }
+
+    function showDateBox(){
+        $('.dateBox').animate({
+            top:0,
+            opacity:1
+        },250)
+    }
+
+    function closeDateBox(){
+        $('.dateBox').animate({
+            top:'-100px',
+            opacity:0
+        },300)
     }
 </script>
 </html>

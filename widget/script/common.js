@@ -15,7 +15,8 @@ const appkey = 'vxCdATZ76WeqjhF3ZNHu';
 const appver = '2.6.0';
 const apptype = 'ios';
 // const baseUrl = 'http://ksh.51jili.com/api/';
-const baseUrl = 'http://bugfix.51jili.com/api/';
+// const baseUrl = 'http://bugfix.51jili.com/api/';
+const baseUrl = 'http://bugfix.51jili.com/api2/';
 // const baseUrl = 'https://www.51jili.com/api/';
 // const baseUrl = 'http://192.168.20.4/api/';
 
@@ -116,11 +117,11 @@ function apiPost(params,isUseProgress) {
                             key: 'islogin',
                             value: {'value':false,'username':'','uid':''}
                         });
-                        // 关闭输入密码窗口
-                        var dialogBox = api.require('dialogBox');
-                        dialogBox.close({
-                            dialogName: 'alert'
-                        });
+                        // // 关闭输入密码窗口
+                        // var dialogBox = api.require('dialogBox');
+                        // dialogBox.close({
+                        //     dialogName: 'alert'
+                        // });
                         //跳转登陆界面
                         jumpToWin('login','登陆',params)
                     }

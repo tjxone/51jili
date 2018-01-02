@@ -79,11 +79,16 @@
             $('.rightPlace > h2').css('left','20px')
         }
 
-        // //如果是投标详情页，显示立即投标按钮
-        // if(api.winName == 'investmentDetail'){
-        //   //渲染投标数据
-        //   $('.footer-btn').show()
-        // }
+        //如果是投标详情页，显示立即投标按钮
+        if(api.winName == 'usercenter/msg'){
+          //渲染投标数据
+          $('.rightPlace').html('日期筛选').css('width','60px').on('click',function(){
+              api.execScript({
+                  frameName: 'usercenter/msg_frame',
+                  script: 'alert(1)'
+              });
+          })
+        }
 
         //是否需要返回键
         if (typeof(param.backEnable) != 'undefined' && !param.backEnable) {

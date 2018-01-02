@@ -633,6 +633,10 @@ header {
     display: inline-block;
     color: #fff;
     align-items: flex-end;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width:50px;
 }
 
 .nei-title div i {
@@ -2373,7 +2377,8 @@ header {
 .msg-list-r-info p {
     color: #999;
     font-size: 14px;
-    line-height: 24px
+    line-height: 24px;
+    word-wrap: break-word;
 }
 
 .msg-list-r-info p em {
