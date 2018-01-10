@@ -62,18 +62,17 @@
         <div class="container-left">
             <p>
                 <span>起始日期：</span>
-                <input type="date">
+                <input type="date" id="s_time">
             </p>
             <p>
                 <span>结束日期：</span>
-                <input type="date">
+                <input type="date" id="e_time">
             </p>
         </div>
-        <div class="container-right" onclick="closeDateBox()">
+        <div class="container-right" onclick="closeAndRefrashDateBox()">
             <button>查询</button>
         </div>
     </div>
-    <button onclick="showDateBox()">show</button>
     <div class="main">
         <ul class="tab4-content msg-list">
             <li>
@@ -96,6 +95,10 @@
                 </h2>
             </li>
         </ul>
+        <div class="tou-list-tip" style="text-align: center;padding: 10px;font-size: 16px;color: #999;">
+        下拉加载更多
+            <i class="icon-angle-double-down"></i>
+        </div>
         <script id="msg_template" type="text/html">
             {{set d = $data}}
             {{ each d v}}
@@ -109,7 +112,7 @@
                 </div>
                 <h2 style="position:relative">
                     {{if v.b_id!=null}}
-                    <span style="position: absolute;left: 5px;color:#428bca" tapmode onclick="jumpToWin('investmentDetail','项目详情',{bid:{{v.b_id}}})">项目详情</span>
+                    <span style="position: absolute;left: 5px;color:#428bca" tapmode onclick="jumpToWin('investmentDetail','项目详情',{bid:{{v.b_id}}})">投资项目详情</span>
                     {{/if}}
                     <img src="../../image/icon16.png" alt="">{{v.date_time|couponDateFormat}}
                 </h2>
@@ -125,11 +128,21 @@
 <script>
     var limit = 20;
     var offset = 0;
+    var isDateBoxOpen = false;
     apiready = function() {
         refreshFrameData();
+        refreshHeader()
+        bottomRefresh()
+        $(window).scroll(function(e){
+            if($('.dateBox').position().top==0){
+                closeDateBox()
+            }
+        })
     }
 
     function refreshFrameData() {
+        closeDateBox()
+        offset = 0
         refreshData({
             url:'msg',
              values: {
@@ -147,17 +160,88 @@
     }
 
     function showDateBox(){
-        $('.dateBox').animate({
-            top:0,
-            opacity:1
-        },250)
+        if(isDateBoxOpen){
+            closeDateBox()
+        }else{
+            $('.dateBox').animate({
+                top:0,
+                opacity:1
+            },250)
+            isDateBoxOpen = true
+        }
+
+
     }
 
+    function closeAndRefrashDateBox(){
+        msgPost()
+        closeDateBox()
+        $('body').scrollTop(0)
+    }
     function closeDateBox(){
+        isDateBoxOpen = false
         $('.dateBox').animate({
             top:'-100px',
             opacity:0
         },300)
+    }
+
+    function msgPost(isBottomRefresh){
+        var s_time = $('#s_time').val()
+        var e_time = $('#e_time').val()
+        var token = getToken()
+        if(s_time=='')s_time = 0
+        if(e_time=='')e_time = toDate(new Date())
+        if(isBottomRefresh==undefined){
+            offset = 0
+        }
+        apiPost({
+            url:'msg',
+            values:{
+                token:token,
+                limit:limit,
+                offset:offset,
+                s_time:s_time,
+                e_time:e_time
+            },
+            fun:function(ret,err){
+                var data =ret.data;
+                var html = template('msg_template',data);
+                if(isBottomRefresh==true){
+                    if(ret.data==''){
+                        showToastMsg('已经到底了')
+                        showDateBox()
+                        $('.tou-list-tip').context
+                    }else{
+                        $('.msg-list').append(html)
+                        api.parseTapmode();
+                    }
+                }
+                if(isBottomRefresh==undefined){
+                    if(ret.data==''){
+                        showToastMsg('没有符合条件的消息了')
+                        showDateBox()
+                    }else{
+                        $('.msg-list').html(html);
+                        api.parseTapmode();
+                    }
+
+                }
+            }
+        },false)
+    }
+    // 底部上拉刷新事件
+    function bottomRefresh(){
+        api.addEventListener({
+            name: 'scrolltobottom',
+                extra:{
+                    threshold:100
+                }
+        }, function(ret, err){
+            //页数加1，然后刷新分类数据
+            offset++
+            msgPost(true)
+        });
     }
 </script>
 </html>

@@ -16,6 +16,7 @@
 </head>
 <body>
 	<!--======================= 头部 =====================-->
+	<!-- <div class="topfix" style="height:20px;background:#e43936"></div> -->
 	<header class="logo-header">
 		<div class="logo">
 			<img src="../image/logo.png" title="" alt="">
@@ -25,19 +26,22 @@
 		</div>
 	</header>
 	<div class="banner">
-		<div class="swiper-container luobo">
+		<div class="swiper-container lunbo">
 			<div class="swiper-wrapper">
-        <div class="swiper-slide">
-					<!-- <img src="https://www.51jili.com/attachment/display/3378" alt="手机-新人专享"> -->
-				</div>
-        <div class="swiper-slide">
-					<!-- <img src="https://www.51jili.com/attachment/display/3357" alt="手机-信息披露"> -->
-				</div>
-        <div class="swiper-slide">
-					<!-- <img src="https://www.51jili.com/attachment/display/3345" alt="手机-六重保障"> -->
-				</div>
-      </div>
+		        <div class="swiper-slide">
+							<!-- <img src="https://www.51jili.com/attachment/display/3378" alt="手机-新人专享"> -->
+						</div>
+		        <div class="swiper-slide">
+							<!-- <img src="https://www.51jili.com/attachment/display/3357" alt="手机-信息披露"> -->
+						</div>
+		        <div class="swiper-slide">
+							<!-- <img src="https://www.51jili.com/attachment/display/3345" alt="手机-六重保障"> -->
+						</div>
+		      </div>
+		</div>
 	    <div class="swiper-pagination"></div>
+<p>12321</p>
+		<button onclick="nextpage()">next</button>
 
 			<script id="indexLunbo_template" type="text/html">
 				<div class="swiper-wrapper">
@@ -48,31 +52,29 @@
 						{{/if}}
 					style="background-image:url('{{value.a_img_url}}');"></div>
 					{{/each}}
-	      </div>
+	      		</div>
 		    <div class="swiper-pagination"></div>
 			</script>
-
-		</div>
-	</div
+	</div>
 		<div class="platform ">
 			<div class="platform-announcement">
 				<i><img src="../image/laba.png"></i>
 				<div class="platform-warp txtMarquee-left swiper-container" id="platform-warp">
-						<ul class="infoList swiper-wrapper">
-              <li class="swiper-slide">
+				<ul class="infoList swiper-wrapper">
+              		<li class="swiper-slide">
 
-              </li>
-          	</ul>
-						<script id="platform_template" type="text/html">
-							<ul class="infoList swiper-wrapper">
-								{{each notice value key}}
-								<li class="swiper-slide swiper-no-swiping" tapmode onclick="open51Url('{{value.url}}','{{value.a_title}}')">
-									{{value.a_title}}
-								</li>
-								{{/each}}
-							</ul>
-						</script>
+              		</li>
+          		</ul>
 				</div>
+				<script id="platform_template" type="text/html">
+					<ul class="infoList swiper-wrapper">
+						{{each notice value key}}
+						<li class="swiper-slide swiper-no-swiping" tapmode onclick="open51Url('{{value.url}}','{{value.a_title}}')">
+							{{value.a_title}}
+						</li>
+						{{/each}}
+					</ul>
+				</script>
 			</div>
 			<div class="platform-advantage">
 				<ul class="clearfix">
@@ -196,11 +198,46 @@
 <script>
   apiready = function(){
 		isShowNavBar()
-		refreshHeader()
+		// refreshHeader()
 		refreshFrameData()
 		// gesturePassword('frame0')
 
   }
+  var mySwiper
+  function nextpage(){
+	  mySwiper.slideNext()
+  }
+  // / start()
+  // unction delet(){
+  // if(typeof(mySwiper)!='undefined'&&typeof(mySwiper.destroy)!='undefined'){
+  // 	alert(1)
+  // 	mySwiper.destroy();
+  // }
+  //
+  //
+  // unction start(){
+  //    mySwiper = new Swiper ('.lunbo', {
+  //    	direction: 'horizontal',
+  //    	loop: true,
+  //    	speed:300,
+  //    	autoplay:3000,
+  //    	observer:true,
+  //    	observeParents:true,
+  //    	pagination: '.swiper-pagination',
+  //    	onTouchStart:function(swiper){
+  //    		swiper.update()
+  //    		console.log('start'+JSON.stringify(swiper.touches))
+  //    	},
+  //    	onTouchEnd:function(swiper){
+  //    		console.log('end'+JSON.stringify(swiper.touches));
+  //    		endx = swiper.touches.currentX
+  //    		if(swiper.touches.startX>endx){
+  //    			console.log('next')
+  //    			swiper.slideNext()
+  //    		}
+  //    	}
+  //    })
+  //
 
 	function refreshFrameData(){
 		refreshData({
@@ -211,31 +248,57 @@
 					var data = ret.data;
 					// var json = '{"code":"1","msg":"操作成功","data":{"advs_one":[{"a_img_url":"https://www.51jili.com/attachment/display/3428","a_url":"/single/index/228/1","a_title":"手机-集车贷"},{"a_img_url":"https://www.51jili.com/attachment/display/3419","a_url":"/article/notices/183/399/1","a_title":"手机-合作"},{"a_img_url":"https://www.51jili.com/attachment/display/3378","a_url":"/giftcoupon/novice/1","a_title":"手机-新人专享"},{"a_img_url":"https://www.51jili.com/attachment/display/3357","a_url":"","a_title":"手机-信息披露"},{"a_img_url":"https://www.51jili.com/attachment/display/3345","a_url":"","a_title":"手机-六重保障"}],"recommend":[{"b_id":"2825","bt_name":"集利宝","bt_img":"https://www.51jili.com/attachment/display/3314","b_projecttitle":"JLB002825","Rate":"9.2%","IncreasedRate":"1%","b_interest_rate":"9.2%","b_need_loan":"500,000.00","b_actual_loan":"9,395.00","b_can_cast_loan":"490,605.00","progress":"1.88%","loandeadline":"12个月","b_status_name":"投标中","is_hot":"1","canrsecoupon":"1","b_assignbiddding":"0","add_i":"1%"}],"notice":[{"a_id":"399","a_title":"集利财富成为广州金融风险监测防控中心首批达成合作平台","n_id":"183","a_fileurl1":"","url":"/article/notices/183/399/1"},{"a_id":"398","a_title":"关于集利财富乔迁新址公告","n_id":"183","a_fileurl1":"","url":"/article/notices/183/398/1"},{"a_id":"397","a_title":"关于400客服热线电话更改公告","n_id":"183","a_fileurl1":"","url":"/article/notices/183/397/1"},{"a_id":"396","a_title":"关于400客服电话升级的公告","n_id":"183","a_fileurl1":"","url":"/article/notices/183/396/1"},{"a_id":"395","a_title":"集利财富2017国庆假期业务受理公告","n_id":"183","a_fileurl1":"","url":"/article/notices/183/395/1"},{"a_id":"394","a_title":"关于平台系统服务器升级的公告","n_id":"183","a_fileurl1":"","url":"/article/notices/183/394/1"},{"a_id":"393","a_title":"集利4周年第二波活动开启，供应链全项目期加息1%","n_id":"183","a_fileurl1":"","url":"/article/notices/183/393/1"},{"a_id":"392","a_title":"集利4周年活动月，周年狂欢节正式开启","n_id":"183","a_fileurl1":"","url":"/article/notices/183/392/1"},{"a_id":"391","a_title":"集利4周年系列活动：七夕之约鲜花节","n_id":"183","a_fileurl1":"","url":"/article/notices/183/391/1"},{"a_id":"390","a_title":"安贷无忧理财周加息2.4%","n_id":"183","a_fileurl1":"","url":"/article/notices/183/390/1"}]}}'
 					// var data = JSON.parse(json).data;
+
 					//渲染轮播数据
-					var luoboHTML = template('indexLunbo_template',data);
-					$('.luobo').html(luoboHTML);
-					var mySwiper = new Swiper ('.luobo', {
-						direction: 'horizontal',
-						initialSlide:0,
-						loop: true,
-						speed:300,
-						autoplay:3000,
-						pagination: '.swiper-pagination',
-						onTouchMove:function(){
-								// 触摸移动时禁止页面弹动和下拉刷新
-								api.setFrameAttr({
-								    name: 'frame0',
-								    bounces: false,
-								});
+					// var lunboHTML = template('indexLunbo_template',data);
+					// $('.lunbo').html(lunboHTML);
+					// var mySwiper = new Swiper ('.lunbo', {
+					// 	direction: 'horizontal',
+					// 	loop: true,
+					// 	speed:300,
+					// 	autoplay:3000,
+					// 	observer:true,
+					// 	observeParents:true,
+					// 	pagination: '.swiper-pagination',
+					// 	onTouchStart:function(swiper){
+					//        	console.log('start'+JSON.stringify(swiper.touches))
+				    //    	},
+				    //    	onTouchEnd:function(swiper){
+					// 		console.log('end'+JSON.stringify(swiper.touches))
+				    //    		endx = swiper.touches.currentX
+				    //    		if(swiper.touches.startX>endx){
+				    //    			console.log('next')
+					// 			mySwiper.slideNext()
+				    //    		}
+				    //    	}
+					// })
+
+					//将图片地址组成数组
+		            var picturePaths = [];
+					var advs_one = ret.data.advs_one;
+		            for(var adv of advs_one){
+		              picturePaths.push(adv.a_img_url);
+		            }
+		            // 加载轮播图片
+		            var UIScrollPicture = api.require('UIScrollPicture');
+		            UIScrollPicture.open({
+						rect: {
+						    x: 0,
+						    y: 20,
+						    w: api.winWidth,
+						    h: 200
 						},
-						onTouchEnd:function(){
-							// 触摸结束时允许页面弹动和下拉刷新
-								api.setFrameAttr({
-								    name: 'frame0',
-								    bounces: true
-								});
-						}
-					})
+			            data:{
+			        	    paths:picturePaths
+			            },
+						contentMode: 'scaleToFill',
+						interval: 3,
+						fixedOn: api.frameName,
+						loop: true,
+						fixed: false
+		            },function(ret,err){
+						alert(JSON.stringify(ret))
+					});
 
 					//渲染公告数据
 					var platformHTML = template('platform_template' ,data);
@@ -246,7 +309,8 @@
 						speed:300,
 						autoplay:3000,
 						noSwiping:true,
-						noSwipingClass:'swiper-no-swiping'
+						noSwipingClass:'swiper-no-swiping',
+
 					})
 					//左右滑动时禁止下拉刷新
 

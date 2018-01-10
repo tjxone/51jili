@@ -627,12 +627,14 @@ header {
 /*新版*/
 
 .nei-title div {
-    /*position: absolute;*/
     top: 10px;
     z-index: 10;
     display: inline-block;
     color: #fff;
     align-items: flex-end;
+}
+
+.nei-title div.msg{
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;

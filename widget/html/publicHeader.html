@@ -68,6 +68,7 @@
 
         // 如果winName为tenderNowCoupon
         if(api.winName == 'tenderNowCoupon'){
+
             $('.rightPlace').html('不使用礼券').on('click',function(){
                 api.execScript({
                     name: 'tenderNow',
@@ -81,13 +82,14 @@
 
         //如果是投标详情页，显示立即投标按钮
         if(api.winName == 'usercenter/msg'){
-          //渲染投标数据
-          $('.rightPlace').html('日期筛选').css('width','60px').on('click',function(){
-              api.execScript({
-                  frameName: 'usercenter/msg_frame',
-                  script: 'alert(1)'
-              });
-          })
+            $('.nei-title div').addClass('msg')
+              //渲染投标数据
+            $('.rightPlace').html('日期筛选').css('width','60px').on('click',function(){
+                api.execScript({
+                    frameName: 'usercenter/msg_frame',
+                    script: 'showDateBox()'
+                });
+            })
         }
 
         //是否需要返回键

@@ -64,6 +64,7 @@
             switch (i) {
                 case 0:
                     url = './frame0.html';
+                    bounces = false
                     break;
                 case 1:
                     url = './investment.html';
@@ -126,7 +127,7 @@
           api.execScript({
               name:'index',
               frameName: 'frame0',
-              script: 'isShowNavBar()'
+              script: 'isShowNavBar();refreshFrameData()'
           });
           api.execScript({
               name:'index',

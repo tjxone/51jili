@@ -30,10 +30,17 @@ function apiPost(params,isUseProgress) {
     if (typeof(params.userAgent) == 'undefined' && !params.hasOwnProperty('userAgent')) {
         params.userAgent = userAgentDefalut;
     };
+    // 如果values不存在
     if (typeof(params.values) == 'undefined' && !params.hasOwnProperty('values')) {
         valuesObj = {};
     } else {
         valuesObj = params.values;
+    }
+
+    if (typeof(isUseProgress) == 'undefined' ) {
+        isUseProgress = true;
+    }else{
+        isUseProgress = false
     }
 
     valuesObj.time = Date.parse(new Date());
@@ -71,7 +78,7 @@ function apiPost(params,isUseProgress) {
             }
             console.log('发送请求的数据' + JSON.stringify(valuesObj))
                 //显示等待中准备发送请求
-            if(isUseProgress==undefined){
+            if(isUseProgress==true){
               showWaitingProgress();
             }
             api.ajax({
@@ -490,4 +497,13 @@ function getIsLogin(){
         sync:true
     });
     return value==''||value==undefined?false:value ;
+}
+
+//日期转换
+function toDate(newdate){
+    var year = newdate.getFullYear()
+    var month = newdate.getMonth()
+    var date = newdate.getDate()
+    var thisdate = year+'-'+(month+1)+'-'+date;
+    return thisdate
 }
