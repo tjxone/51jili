@@ -40,8 +40,6 @@
 		      </div>
 		</div>
 	    <div class="swiper-pagination"></div>
-<p>12321</p>
-		<button onclick="nextpage()">next</button>
 
 			<script id="indexLunbo_template" type="text/html">
 				<div class="swiper-wrapper">
@@ -287,6 +285,19 @@
 						    y: 20,
 						    w: api.winWidth,
 						    h: 200
+						},
+						styles:{
+							indicator:{
+								dot:{
+									w:12,
+									h:12,
+									r:6,
+									margin:6
+								},
+								align:'center',
+								color:'rgba(0,0,0,0.5)',
+								activeColor:'#f88d25'
+							}
 						},
 			            data:{
 			        	    paths:picturePaths
