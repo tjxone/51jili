@@ -2072,7 +2072,7 @@ header {
 .received-list li span {
     position: absolute;
     top: 10px;
-    left: 60%;
+    left: 50%;
     display: inline-block;
     margin-left: -5px
 }
@@ -2083,7 +2083,7 @@ header {
 
 .received-list li small {
     position: absolute;
-    top: 10px;
+    top: 14px;
     right: 10px;
     display: inline-block
 }

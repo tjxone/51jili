@@ -14,11 +14,80 @@
     <link rel="stylesheet" href="../../css/swiper.min.css">
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
     <link rel="stylesheet" href="../../css/common.css">
+    <style>
+    .received-list li img {
+        display: block;
+        height: 30px;
+        margin-right: 5px;
+    }
+
+    .received-list li span {
+        top: 50%;
+        margin-top: -12px;
+        margin-left: -40px;
+    }
+
+    .received-list li small {
+        font-size: 14px;
+    }
+
+    .received-list li small .qishu{
+        color:#333;
+    }
+    </style>
     <link rel="stylesheet" href="../../css/income.css">
     <title>收益概况</title>
 </head>
 
 <body id="income">
+    <!-- <div class="received-t">
+        <h1>总收益</h1>
+        <p class="color-red">
+            ¥
+            <span>100.22</span>
+        </p>
+    </div>
+    <div class="detail-num">
+        <ul class="clearfix">
+            <li>
+                <p>待收收益</p>
+                <div class="color2">
+                    ¥
+                    <span>1222200.00</span>
+                </div>
+            </li>
+            <li>
+                <p>已收收益</p>
+                <div class="color2">
+                    ¥
+                    <span>1002222.00</span>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="main">
+        <h1 class="title">
+            <span></span> 收益详情
+        </h1>
+        <div class="received-list">
+            <ul>
+                <li>
+                    <span>
+                      2018-11-11
+                    </span>
+                    <em class="color2">
+                      <img src="" alt="">
+                      <div>集房宝jfb</div>
+                    </em>
+
+                    <small class="color-red ">
+                        <div class="qishu">第<b class="color-red">2</b>期/共12期</div>
+                        <div>待收款<i class="color4">20.00</i></div>
+                    </small>
+                </li>
+            </ul>
+        </div>
+    </div> -->
     <script id="incomeBox" type="text/html">
         <div class="received-t">
             <h1>总收益</h1>
@@ -51,27 +120,36 @@
             </h1>
             <div class="received-list">
                 <ul>
+                    跳转到我的投资详情页面
                     {{each list}}
                     <li>
+                        <span>
+                          {{$value.ide_due_date|repaymentPlanDataFormat}}
+                        </span>
                         <em class="color2">
-                          <div>{{$value.ide_due_date|fromDate}}</div>
+                          <img src="{{$value.img_url}}" alt="">
                           <div>{{$value.b_projecttitle}}</div>
                         </em>
-                        <span>
-                          <i class="color4">{{$value.total_cost}}</i>
-                        </span>
+
                         <small class="color-red ">
-                            {{if $value.ide_status ==1}}
-                                待收款
-                            {{else if $value.ide_status == 2}}
-                                已收款
-                            {{else if $value.ide_status==3}}
-                                已取消
-                            {{else if $value.ide_status==4}}
-                                卖出债权已结算
-                            {{/if}}
+                            <div class="qishu">
+
+                                    第<b class="color-red">{{$value.ide_repayment_period}}</b>期/共{{$value.ide_number_periods}}期</div>
+
+                            <div>
+                                {{if $value.ide_status ==1}}
+                                    待收款
+                                {{else if $value.ide_status == 2}}
+                                    已收款
+                                {{else if $value.ide_status==3}}
+                                    已取消
+                                {{else if $value.ide_status==4}}
+                                    卖出债权已结算
+                                {{/if}}
+                                <i class="color4">{{$value.total_cost}}</i></div>
                         </small>
                     </li>
+
                     {{/each}}
                 </ul>
             </div>

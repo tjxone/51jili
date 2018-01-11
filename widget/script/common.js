@@ -496,7 +496,7 @@ function getIsLogin(){
         key: 'islogin',
         sync:true
     });
-    return value==''||value==undefined?false:value ;
+    return (value==''||value==undefined) ? false : value ;
 }
 
 //日期转换

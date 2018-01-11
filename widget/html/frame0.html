@@ -193,6 +193,7 @@
 <script src="../script/common.js"></script>
 <script src="../script/template-web.js"></script>
 <script src="../script/indexAnimation.js"></script>
+<script src="../script/lib.js"></script>
 <script>
   apiready = function(){
 		isShowNavBar()
@@ -201,41 +202,6 @@
 		// gesturePassword('frame0')
 
   }
-  var mySwiper
-  function nextpage(){
-	  mySwiper.slideNext()
-  }
-  // / start()
-  // unction delet(){
-  // if(typeof(mySwiper)!='undefined'&&typeof(mySwiper.destroy)!='undefined'){
-  // 	alert(1)
-  // 	mySwiper.destroy();
-  // }
-  //
-  //
-  // unction start(){
-  //    mySwiper = new Swiper ('.lunbo', {
-  //    	direction: 'horizontal',
-  //    	loop: true,
-  //    	speed:300,
-  //    	autoplay:3000,
-  //    	observer:true,
-  //    	observeParents:true,
-  //    	pagination: '.swiper-pagination',
-  //    	onTouchStart:function(swiper){
-  //    		swiper.update()
-  //    		console.log('start'+JSON.stringify(swiper.touches))
-  //    	},
-  //    	onTouchEnd:function(swiper){
-  //    		console.log('end'+JSON.stringify(swiper.touches));
-  //    		endx = swiper.touches.currentX
-  //    		if(swiper.touches.startX>endx){
-  //    			console.log('next')
-  //    			swiper.slideNext()
-  //    		}
-  //    	}
-  //    })
-  //
 
 	function refreshFrameData(){
 		refreshData({
@@ -273,43 +239,58 @@
 
 					//将图片地址组成数组
 		            var picturePaths = [];
+					var titlesAndUrls = [];
 					var advs_one = ret.data.advs_one;
 		            for(var adv of advs_one){
 		              picturePaths.push(adv.a_img_url);
+					  var temp = {};
+					  temp.url = adv.a_url
+					  temp.title = adv.a_title
+					  titlesAndUrls.push(temp);
 		            }
+					setStorage('picturePaths',picturePaths)
+					setStorage('titlesAndUrls',titlesAndUrls)
 		            // 加载轮播图片
-		            var UIScrollPicture = api.require('UIScrollPicture');
-		            UIScrollPicture.open({
-						rect: {
-						    x: 0,
-						    y: 20,
-						    w: api.winWidth,
-						    h: 200
-						},
-						styles:{
-							indicator:{
-								dot:{
-									w:12,
-									h:12,
-									r:6,
-									margin:6
-								},
-								align:'center',
-								color:'rgba(0,0,0,0.5)',
-								activeColor:'#f88d25'
-							}
-						},
-			            data:{
-			        	    paths:picturePaths
-			            },
-						contentMode: 'scaleToFill',
-						interval: 3,
-						fixedOn: api.frameName,
-						loop: true,
-						fixed: false
-		            },function(ret,err){
-						alert(JSON.stringify(ret))
-					});
+
+					var topHeight = $('.logo-header')[0].offsetHeight;
+					openBanner(topHeight)
+		            // UIScrollPicture.open({
+					// 	rect: {
+					// 	    x: 0,
+					// 	    y: topHeight,
+					// 	    w: api.winWidth,
+					// 	    h: 200
+					// 	},
+					// 	styles:{
+					// 		indicator:{
+					// 			dot:{
+					// 				w:12,
+					// 				h:12,
+					// 				r:6,
+					// 				margin:6
+					// 			},
+					// 			align:'center',
+					// 			color:'rgba(0,0,0,0.5)',
+					// 			activeColor:'#f88d25'
+					// 		}
+					// 	},
+			        //     data:{
+			        // 	    paths:JSON.parse(localStorage.picturePaths)
+			        //     },
+					// 	contentMode: 'scaleToFill',
+					// 	interval: 3,
+					// 	fixedOn: api.frameName,
+					// 	loop: true,
+					// 	fixed: false
+		            // },function(ret,err){
+					// 	if(ret.status&&ret.eventType=='click'){
+					// 		var index = ret.index
+					// 		var titlesAndUrls = readStorage('titlesAndUrls')
+					// 		if(titlesAndUrls[index].url!==''){
+					// 			open51Url(titlesAndUrls[index].url,titlesAndUrls[index].title)
+					// 		}
+					// 	}
+					// });
 
 					//渲染公告数据
 					var platformHTML = template('platform_template' ,data);
@@ -337,15 +318,60 @@
 	}
 
 	function isShowNavBar(){
+		var UIScrollPicture = api.require('UIScrollPicture');
+		UIScrollPicture.close()
 		// 判断是否login
 		var islogin = JSON.parse(getIsLogin());
 		if(islogin.value == true){
 			$('.logo-header').css('display','none')
+			openBanner(0)
 		}else{
 			$('.logo-header').css('display','block')
+			var topHeight = $('.logo-header')[0].offsetHeight;
+			openBanner(topHeight)
 		}
 	}
 
+	function openBanner(y){
+		var UIScrollPicture = api.require('UIScrollPicture');
+		UIScrollPicture.open({
+			rect: {
+				x: 0,
+				y: y,
+				w: api.winWidth,
+				h: 200
+			},
+			styles:{
+				indicator:{
+					dot:{
+						w:12,
+						h:12,
+						r:6,
+						margin:6
+					},
+					align:'center',
+					color:'rgba(0,0,0,0.5)',
+					activeColor:'#f88d25'
+				}
+			},
+			data:{
+				paths:readStorage('picturePaths')
+			},
+			contentMode: 'scaleToFill',
+			interval: 3,
+			fixedOn: api.frameName,
+			loop: true,
+			fixed: false
+		},function(ret,err){
+			if(ret.status&&ret.eventType=='click'){
+				var index = ret.index
+				var titlesAndUrls = readStorage('titlesAndUrls')
+				if(titlesAndUrls[index].url!==''){
+					open51Url(titlesAndUrls[index].url,titlesAndUrls[index].title)
+				}
+			}
+		});
+	}
 
 </script>
 </html>
