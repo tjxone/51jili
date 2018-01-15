@@ -34,12 +34,15 @@
     .received-list li small .qishu{
         color:#333;
     }
+    #income .main{
+        padding-bottom:30px;
+    }
     </style>
     <link rel="stylesheet" href="../../css/income.css">
     <title>收益概况</title>
 </head>
 
-<body id="income">
+<body >
     <!-- <div class="received-t">
         <h1>总收益</h1>
         <p class="color-red">
@@ -87,7 +90,12 @@
                 </li>
             </ul>
         </div>
+    </div>
+    <div class="tou-list-tip" style="text-align: center;padding: 10px;font-size: 16px;color: #999;">
+    下拉加载更多
+        <i class="icon-angle-double-down"></i>
     </div> -->
+    <div id="income"></div>
     <script id="incomeBox" type="text/html">
         <div class="received-t">
             <h1>总收益</h1>
@@ -120,9 +128,9 @@
             </h1>
             <div class="received-list">
                 <ul>
-                    跳转到我的投资详情页面
+                    跳转到新版还款计划（参照网利宝）
                     {{each list}}
-                    <li>
+                    <li tapmode onclick="jumpToWin('usercenter/myinvestDetail','投资详情',{t_id:{{$value.ide_t_id}}})">
                         <span>
                           {{$value.ide_due_date|repaymentPlanDataFormat}}
                         </span>
@@ -149,12 +157,47 @@
                                 <i class="color4">{{$value.total_cost}}</i></div>
                         </small>
                     </li>
-
                     {{/each}}
                 </ul>
             </div>
         </div>
+        <div class="tou-list-tip" style="text-align: center;padding: 10px;font-size: 16px;color: #999;">
+
+        </div>
     </script>
+    <script id="incomelist_template" type="text/html">
+        {{each $data}}
+        <li tapmode onclick="jumpToWin('usercenter/myinvestDetail','投资详情',{t_id:{{$value.ide_t_id}}})">
+            <span>
+              {{$value.ide_due_date|repaymentPlanDataFormat}}
+            </span>
+            <em class="color2">
+              <img src="{{$value.img_url}}" alt="">
+              <div>{{$value.b_projecttitle}}</div>
+            </em>
+
+            <small class="color-red ">
+                <div class="qishu">
+
+                        第<b class="color-red">{{$value.ide_repayment_period}}</b>期/共{{$value.ide_number_periods}}期</div>
+
+                <div>
+                    {{if $value.ide_status ==1}}
+                        待收款
+                    {{else if $value.ide_status == 2}}
+                        已收款
+                    {{else if $value.ide_status==3}}
+                        已取消
+                    {{else if $value.ide_status==4}}
+                        卖出债权已结算
+                    {{/if}}
+                    <i class="color4">{{$value.total_cost}}</i></div>
+            </small>
+        </li>
+        {{/each}}
+    </script>
+
+    </body>
     <script src="../../script/jquery.js"></script>
     <script src="../../script/common.js"></script>
     <script src="../../script/template-web.js"></script>
@@ -162,28 +205,109 @@
     <script>
         apiready = function() {
             refreshFrameData();
+
         }
 
+        var offset,
+        limit = 20;
         function refreshFrameData() {
+            offset = 0
             refreshData({
                 url: 'income',
                 values: {
-                    token: ''
+                    token: '',
+                    limit:limit,
+                    offset:offset
                 },
                 loginParams: {
                     slidBackEnabled: false,
                     isbackToIndex: true
                 },
                 fun: function(ret, err) {
-                    console.log(JSON.stringify(ret));
-                    var data = ret.data;
-                    var html = template('incomeBox', data);
-                    $('#income').html(html);
-                    api.parseTapmode();
+                    // var data = ret.data;
+                    var data = JSON.parse('{"income_ds":"7.70","income_ss":"15.33","income_total":"23.03","list":null}')
+                    if(ret.code==1){
+                        if(data.list!=null){
+                            var html = template('incomeBox', data);
+                            $('#income').html(html);
+                            api.parseTapmode();
+                            if(data.list.length>=20){
+                                $('.tou-list-tip')
+                                .html('下拉加载更多<i class="icon-angle-double-down"></i>')
+                                bottomRefresh()
+                            }else{
+                                $('.tou-list-tip').html('已经到底了')
+                            }
+
+                        }else{
+                            var html = template('incomeBox', data);
+                            $('#income').html(html);
+                            api.parseTapmode();
+                            var html = `<div style="color:#666;font-size: 16px;padding: 150px 0;text-align: center">
+                                            您目前没有收益记录 <a onclick="jumpAndRefresh(1)" style="color:#ef4646;text-decoration: underline;">现在投资</a>
+                                        </div>`
+                            $('.received-list').html(html);
+                        }
+                    }
                 }
             });
         }
+
+        function incomePost(){
+            var token = getToken()
+            apiPost({
+                url:'income',
+                values:{
+                    token:token,
+                    limit:limit,
+                    offset:offset
+                },
+                fun:function(ret,err){
+                    if(ret.code==1){
+                        if(ret.data.list==''){
+                            showToastMsg('已经到底了')
+                            $('.tou-list-tip').html('已经到底了')
+                        }else{
+                            var data = ret.data.list;
+                            var html = template('incomelist_template', data);
+                            $('.received-list ul').append(html)
+                            api.parseTapmode();
+                        }
+                    }
+                }
+            })
+        }
+
+        // 底部上拉刷新事件
+        function bottomRefresh(){
+            api.addEventListener({
+                name: 'scrolltobottom',
+                    extra:{
+                        threshold:100
+                    }
+            }, function(ret, err){
+                //页数加1，然后刷新分类数据
+                offset++
+                incomePost()
+            });
+        }
+
+        function jumpAndRefresh(index){
+      	  var frameName = '';
+      	  jumpToIndex(index)
+      	  if(index = 1){
+      		  frameName = 'investFrame0'
+      	  }else{
+      		  frameName = 'frame'+index
+      	  }
+      	  api.execScript({
+      		  name:'index',
+      	      frameName: frameName,
+      	      script: 'apiready=function(){api.refreshHeaderLoading();}'
+      	  });
+
+        }
     </script>
-</body>
+
 
 </html>

@@ -205,29 +205,31 @@
                 e_time:e_time
             },
             fun:function(ret,err){
-                var data =ret.data;
-                var html = template('msg_template',data);
-                if(isBottomRefresh==true){
-                    if(ret.data==''){
-                        showToastMsg('已经到底了')
-                        $('.tou-list-tip').html('已经到底了')
-                        showDateBox()
-                        $('.tou-list-tip').context
-                    }else{
-                        $('.msg-list').append(html)
-                        api.parseTapmode();
+                if(ret.coed==1){
+                    var data =ret.data;
+                    var html = template('msg_template',data);
+                    if(isBottomRefresh==true){
+                        if(ret.data==''){
+                            showToastMsg('已经到底了')
+                            $('.tou-list-tip').html('已经到底了')
+                            showDateBox()
+                        }else{
+                            $('.msg-list').append(html)
+                            api.parseTapmode();
+                        }
                     }
-                }
-                if(isBottomRefresh==undefined){
-                    if(ret.data==''){
-                        showToastMsg('没有符合条件的消息了')
-                        showDateBox()
-                    }else{
-                        $('.msg-list').html(html);
-                        api.parseTapmode();
-                    }
+                    if(isBottomRefresh==undefined){
+                        if(ret.data==''){
+                            showToastMsg('没有符合条件的消息了')
+                            showDateBox()
+                        }else{
+                            $('.msg-list').html(html);
+                            api.parseTapmode();
+                        }
 
+                    }
                 }
+
             }
         },false)
     }

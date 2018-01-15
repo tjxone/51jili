@@ -15,115 +15,180 @@
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
     <link rel="stylesheet" href="../../css/common.css">
     <link rel="stylesheet" href="../../css/fundrecord.css">
-    <title></title>
+    <style>
+        #fundrecord .main{
+            padding-bottom:0;
+        }
+    </style>
+    <title>资金记录分页</title>
 </head>
 
 <body id="fundrecord">
-    <h1></h1>
+    <div class="main">
+        <div class="reward-list">
+            <ul>
+
+            </ul>
+        </div>
+    </div>
+    <div class="tou-list-tip" style="text-align: center;padding: 20px;font-size: 16px;color: #999;">
+
+    </div>
     <script id="fundrecordBox" type="text/html">
-        <div class="main">
-            <div class="reward-list">
-                <ul>
-                    {{each}}
-                    <li class="on">
-                        <div class="reward-slide">
-                            <div class="reward-list-b">
-                                <div class="reward-l color2">{{$value.ac_datetime}}</div>
-                                <div class="reward-r">{{$value.b_projecttitle}}</div>
-                            </div>
-                            <div class="reward-list-b">
-                                <div class="reward-l">{{$value.ac_title}}</div>
-                                {{if $value.ac_revexp == 0}}
-                                <div class="reward-r record-add">
-                                    + {{$value.ac_amount}}
-                                </div>
-                                {{else}}
-                                <div class="reward-r record-minus">
-                                    - {{$value.ac_amount}}
-                                </div>
-                                {{/if}}
-                            </div>
-                        </div>
-                    </li>
-                    {{/each}}
-                </ul>
+    {{each}}
+    <li class="on">
+        <div class="reward-slide">
+            <div class="reward-list-b">
+                <div class="reward-l color2">{{$value.ac_datetime}}</div>
+                <div class="reward-r">{{$value.b_projecttitle}}</div>
+            </div>
+            <div class="reward-list-b">
+                <div class="reward-l">{{$value.ac_title}}</div>
+                {{if $value.ac_revexp == 0}}
+                <div class="reward-r record-add">
+                    + {{$value.ac_amount}}
+                </div>
+                {{else}}
+                <div class="reward-r record-minus">
+                    - {{$value.ac_amount}}
+                </div>
+                {{/if}}
             </div>
         </div>
+    </li>
+    {{/each}}
     </script>
+
 </body>
 <script src="../../script/jquery.js"></script>
 <script src="../../script/common.js"></script>
 <script src="../../script/template-web.js"></script>
 <script>
     apiready = function() {
-        refreshFrameData();
+        refreshFrameData()
+
     }
 
+    var type,offset,
+    limit = 20;
     function refreshFrameData() {
+        var name = api.pageParam.name
+        switch(name){
+            case '全部':
+                type = null
+                break;
+            case '投标':
+                type = 0
+                break;
+            case '充值':
+                type = 1
+                break;
+            case '提现':
+                type = 2
+                break;
+            case '还款':
+                type = 3
+                break;
+            case '转让':
+                type = 4
+                break;
+            case '赎回':
+                type = 5
+                break;
+            case '其它':
+                type = 6
+                break;
+        }
+
+        offset = 0;
         refreshData({
             url: 'fundrecord',
             values: {
-                token: ''
+                token: '',
+                type:type,
+                offset:offset,
+                limit:limit
             },
-            loginParams: {
-                slidBackEnabled: false,
-                isbackToIndex: true
-            },
+            slidBackEnabled: false,
+            isbackToIndex: true,
             fun: function(ret, err) {
                 var data = ret.data;
-                var result = [];
-                var name = api.pageParam.name;
-                if (name == '全部') {
-                    data.forEach(function(e, index) {
-                        result.push(e);
-                    });
-                } else if (name == '投标') {
-                    data.forEach(function(e, index) {
-                        if (e.ac_type == 0) {
-                            result.push(e);
-                        }
-                    });
-                } else if (name == '充值') {
-                    data.forEach(function(e, index) {
-                        if (e.ac_type == 1) {
-                            result.push(e);
-                        }
-                    });
-                } else if (name == '提现') {
-                    data.forEach(function(e, index) {
-                        if (e.ac_type == 2) {
-                            result.push(e);
-                        }
-                    });
-                } else if (name == '还款') {
-                    data.forEach(function(e, index) {
-                        if (e.ac_type == 3) {
-                            result.push(e);
-                        }
-                    });
-                } else if (name == '转让') {
-                    data.forEach(function(e, index) {
-                        if (e.ac_type == 4) {
-                            result.push(e);
-                        }
-                    });
-                } else if (name == '赎回') {
-                    data.forEach(function(e, index) {
-                        if (e.ac_type == 5) {
-                            result.push(e);
-                        }
-                    });
-                } else if (name == '其它') {
-                    data.forEach(function(e, index) {
-                        if (e.ac_type == 6) {
-                            result.push(e);
-                        }
-                    });
+                if(data!=null){
+                    var html = template('fundrecordBox', data);
+                    $('#fundrecord ul').html(html);
+                    api.parseTapmode();
+                    if(data.length>=20){
+                        $('.tou-list-tip')
+                        .html('下拉加载更多<i class="icon-angle-double-down"></i>')
+                        bottomRefresh()
+                    }else{
+                        $('.tou-list-tip').html('已经到底了')
+                    }
+
+                }else{
+                    var html = `<div style="color:#666;font-size: 16px;padding: 150px 0;text-align: center">
+                                    您目前没有资金记录 <a onclick="jumpAndRefresh(1)" style="color:#ef4646;text-decoration: underline;">现在投资</a>
+                                </div>`
+                    $('#fundrecord ul').html(html);
                 }
-                var html = template('fundrecordBox', result);
-                $('#fundrecord').html(html);
-                api.parseTapmode();
+
             }
         });
+    }
+
+    //上拉刷新
+    function fundrecordPost(){
+        var token = getToken()
+        apiPost({
+            url:'fundrecord',
+            values:{
+                token:token,
+                type:type,
+                offset:offset,
+                limit:limit
+            },
+            fun:function(ret,err){
+                var data = ret.data
+                if(ret.code==1){
+                    if(data!=null){
+                        var html = template('fundrecordBox',data)
+                        $('.reward-list ul').append(html)
+                    }else{
+                        showToastMsg('已经到底了')
+                        $('.tou-list-tip').html('已经到底了')
+                    }
+
+                }
+            }
+        },false)
+    }
+
+    function bottomRefresh(){
+        api.addEventListener({
+            name: 'scrolltobottom',
+                extra:{
+                    threshold:100
+                }
+        }, function(ret, err){
+            //页数加1，然后刷新分类数据
+            offset++
+            fundrecordPost()
+        });
+    }
+
+    function jumpAndRefresh(index){
+      var frameName = '';
+      jumpToIndex(index)
+      if(index = 1){
+          frameName = 'investFrame0'
+      }else{
+          frameName = 'frame'+index
+      }
+      api.execScript({
+          name:'index',
+          frameName: frameName,
+          script: 'apiready=function(){api.refreshHeaderLoading();}'
+      });
+
     }
 </script>
