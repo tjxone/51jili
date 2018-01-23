@@ -552,7 +552,7 @@ header {
     background: #ef4646;
     display: flex;
     justify-content: space-between;
-    padding-top: 20px;
+    /*padding-top: 20px;*/
     align-items: center;
 }
 

@@ -18,7 +18,7 @@
 
 <body>
   <div class="login" style="padding-bottom: 20px;">
-    <formid="pwd_form">
+    <form id="pwd_form">
       <ul class="login-input">
         <h1 class="title" style="text-align: left;">
           <span></span>
@@ -99,6 +99,7 @@
         var code =$('#msgcode').val();
         var newpw = $('#newpw').val();
         var cfpw = $('#cfpw').val();
+        alert(1)
         apiPost({
           url:'reset_password',
           values:{

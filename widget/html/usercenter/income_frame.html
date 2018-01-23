@@ -224,8 +224,8 @@
                     isbackToIndex: true
                 },
                 fun: function(ret, err) {
-                    // var data = ret.data;
-                    var data = JSON.parse('{"income_ds":"7.70","income_ss":"15.33","income_total":"23.03","list":null}')
+                    var data = ret.data;
+                    // var data = JSON.parse('{"income_ds":"7.70","income_ss":"15.33","income_total":"23.03","list":null}')
                     if(ret.code==1){
                         if(data.list!=null){
                             var html = template('incomeBox', data);

@@ -14,6 +14,7 @@ const appid = '06wygzvDdr062rNwIXTC';
 const appkey = 'vxCdATZ76WeqjhF3ZNHu';
 const appver = '2.6.0';
 const apptype = 'ios';
+const base = 'http://bugfix.51jili.com/';
 // const baseUrl = 'http://ksh.51jili.com/api/';
 // const baseUrl = 'http://bugfix.51jili.com/api/';
 const baseUrl = 'http://bugfix.51jili.com/api2/';
@@ -219,7 +220,7 @@ function open51Url(jumpUrl, jumpTitle) {
         url: 'widget://html/urlWin.html',
         historyGestureEnabled: true,
         pageParam: {
-            url: 'https://www.51jili.com/' + jumpUrl,
+            url: base + jumpUrl,
             title: jumpTitle
         },
         animation: {
