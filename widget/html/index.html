@@ -161,10 +161,8 @@
         if (index == 2) {
             var islogin = getIsLogin()
             if(islogin.value == false){
-                alert('未登录')
                 jumpToWin('login','登陆',{slidBackEnabled:false})
             }else{
-                // alert('已登录')
                 api.setFrameGroupIndex({
                     name: 'indexFrameGroup',
                     index: index,

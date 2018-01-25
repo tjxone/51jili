@@ -321,7 +321,7 @@
 		var UIScrollPicture = api.require('UIScrollPicture');
 		UIScrollPicture.close()
 		// 判断是否login
-		var islogin = JSON.parse(getIsLogin());
+		var islogin = getIsLogin();
 		if(islogin.value == true){
 			$('.logo-header').css('display','none')
 			openBanner(0)

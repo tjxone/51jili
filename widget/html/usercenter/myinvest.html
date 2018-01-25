@@ -84,7 +84,11 @@
                 </script>
             </ul>
         </div>
+        <div class="tou-list-tip" style="text-align: center;padding: 10px;padding-bottom:30px;font-size: 16px;color: #999;">
+
+        </div>
     </div>
+</body>
     <script src="../../script/jquery.js"></script>
     <script src="../../script/common.js"></script>
     <script src="../../script/template-web.js"></script>
@@ -93,9 +97,11 @@
             refreshFrameData();
         }
 
+        var offset,b_status
+        limit=20;
         function refreshFrameData() {
+            offset = 0
             var name = api.pageParam.name;
-            var b_status;
             if(name == '全部投资'){
                 b_status = 4;
             }else if(name == '等待生效'){
@@ -109,22 +115,94 @@
                 url:'myinvest',
                  values: {
                     token: '',
-                    b_status: b_status
-                },
-                loginParams: {
-                    slidBackEnabled: false,
-                    isbackToIndex: true
+                    b_status: b_status,
+                    offset: offset,
+                    limit: limit
                 },
                 fun:function(ret,err){
-                    console.log(JSON.stringify(ret));
                     var data =ret.data;
-                    var html = template('investBox',data);
-                    $('#invest').html(html);
-                    api.parseTapmode();
+                    if(data!=null){
+                        var html = template('investBox',data);
+                        $('#invest').html(html);
+                        api.parseTapmode();
+                        if(data.length>=20){
+                            $('.tou-list-tip')
+                            .html('下拉加载更多<i class="icon-angle-double-down"></i>')
+                            bottomRefresh()
+                        }else{
+                            $('.tou-list-tip').html('已经到底了')
+                        }
+                    }else{
+                        var status
+                        if(b_status==4||b_status==1||b_status==3){
+                            status = '投资'
+                        }else if(b_status==2){
+                            status = '回款'
+                        }
+                        var html = `<div style="color:#666;font-size: 16px;padding: 150px 0;text-align: center">
+                                        您目前没有${status}记录 <a onclick="jumpAndRefresh(1)" style="color:#ef4646;text-decoration: underline;">现在投资</a>
+                                    </div>`
+                        $('.main').html(html);
+                    }
+
                 }
             });
         }
+
+        function jumpAndRefresh(index){
+          var frameName = '';
+          jumpToIndex(index)
+          if(index = 1){
+              frameName = 'investFrame0'
+          }else{
+              frameName = 'frame'+index
+          }
+          api.execScript({
+              name:'index',
+              frameName: frameName,
+              script: 'apiready=function(){api.refreshHeaderLoading();}'
+          });
+
+        }
+
+        function bottomRefresh(){
+            api.addEventListener({
+                name: 'scrolltobottom',
+                    extra:{
+                        threshold:100
+                    }
+            }, function(ret, err){
+                //页数加1，然后刷新分类数据
+                offset++
+                myinvestPost()
+            });
+        }
+        
+        function myinvestPost(){
+            var token = getToken()
+            apiPost({
+                url:'myinvest',
+                values:{
+                    token:token,
+                    b_status: b_status,
+                    offset: offset,
+                    limit: limit
+                },
+                fun:function(ret,err){
+                    var data = ret.data
+                    if(ret.code==1){
+                        if(data!=null){
+                            var html = template('investBox',data)
+                            $('#invest').append(html)
+                        }else{
+                            showToastMsg('已经到底了')
+                            $('.tou-list-tip').html('已经到底了')
+                        }
+                    }
+                }
+            },false)
+        }
     </script>
-</body>
+
 
 </html>

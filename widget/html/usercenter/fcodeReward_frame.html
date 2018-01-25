@@ -15,27 +15,32 @@
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
     <link rel="stylesheet" href="../../css/common.css">
     <link rel="stylesheet" href="../../css/fcode.css">
-    <title>朋友码</title>
+    <title>我的奖励</title>
 </head>
 
 <body>
     <div class="main">
         <div class="reward-list">
             <ul>
-                <li class="on">
-                    <div class="reward-list-t" tapmode onclick="slideDown(this)">
-                        <img src="../../image/friend.png" alt="">
-                        <span class="color2">JL*****8</span>
-                        <div class="reward-r 130"><img src="../../image/auth.png" width="25px" style="margin-right:10px">188****1648</div>
-                        <em class="icon-down-open-big fs20" stype="top:10px;"></em>
-                    </div>
-                    <div class="reward-slide">
-                        <div class="reward-list-b">
-                            <div class="reward-l no-invest">无投资</div>
-                            <div class="reward-r"></div>
+                <li class="" >
+					<div class="reward-list-t" onclick="slideDown(this)">
+						<div class="reward-l">
+                            <span class="color2">iea**</span>139****8092
                         </div>
-                    </div>
-                </li>
+                        <div class="reward-r">奖励<i class="color4">￥0.02</i></div>
+						<em class="icon-down-open-big fs20"></em>
+					</div>
+					<div class="reward-slide">
+						<div class="reward-list-b">
+							<div class="reward-l"><img src="/attachment/display/3316" style="margin-right: 5px;height: 30px;">DBT002580</div>
+							<div class="reward-r">￥610.00</div>
+						</div>
+						<div class="reward-list-b">
+							<div class="reward-l">360天</div>
+							<div class="reward-r">2017.10.11</div>
+						</div>
+					</div>
+				</li>
             </ul>
         </div>
         <script id="fcodeFriend_template" type="text/html">
@@ -44,24 +49,24 @@
                     {{set d=$data}}
                     {{each d value key}}
                     <li class="">
-                        <div class="reward-list-t" tapmode onclick="slideDown(this)">
-                            <img src="../../image/friend.png" alt="">
-                            <span class="color2">{{value.username}}</span>
-                            <div class="reward-r 130">
-                                {{if value.is_auth_truename==1}}
-                                <img src="../../image/auth.png" width="25px" style="margin-right:10px">
-                                {{/if}}
-                                {{value.phone}}
-
+                        <div class="reward-list-t" onclick="slideDown(this)">
+    						<div class="reward-l">
+                                <span class="color2">{{value.au_truename}}</span>
+                                {{value.au_phone}}
                             </div>
-                            <em class="icon-down-open-big fs20" stype="top:10px;"></em>
-                        </div>
-                        <div class="reward-slide" >
-                            <div class="reward-list-b">
-                                <div class="reward-l no-invest">{{value.is_invest}}</div>
-                                <div class="reward-r">{{value.VerifyIDTime}}</div>
-                            </div>
-                        </div>
+                            <div class="reward-r">奖励<i class="color4">￥{{value.real_income}}</i></div>
+    						<em class="icon-down-open-big fs20"></em>
+    					</div>
+    					<div class="reward-slide">
+    						<div class="reward-list-b">
+    							<div class="reward-l" tapmode onclick="jumpToWin('investmentDetail','项目详情',{bid:{{value.b_id}}})" style="color:#4f83be"><img src="{{value.bt_img}}" style="margin-right: 5px;height: 30px;">{{value.b_projecttitle}}</div>
+    							<div class="reward-r" style="line-height:30px">￥{{value.t_investment}}</div>
+    						</div>
+    						<div class="reward-list-b">
+    							<div class="reward-l">{{value.loandeadline}}</div>
+    							<div class="reward-r">{{value.pay_time}}</div>
+    						</div>
+    					</div>
                     </li>
                     {{/each}}
                 </ul>
@@ -83,7 +88,7 @@
     }
     function refreshFrameData() {
         refreshData({
-            url: 'fcode_friend',
+            url: 'fcode_reward',
             values: {
                 token: ''
             },

@@ -53,6 +53,7 @@
     <script>
         apiready = function(){
             refreshFrameData();
+            alert(api.winName)
         }
         function refreshFrameData() {
             refreshData({
@@ -60,12 +61,7 @@
                 values: {
                     token: ''
                 },
-                loginParams: {
-                    slidBackEnabled: false,
-                    isbackToIndex: true
-                },
                 fun: function (ret, err) {
-                    console.log(JSON.stringify(ret));
                     var data = ret.data;
                     var html = template('bankBox', data);
                     $('#bank').html(html);
@@ -81,7 +77,6 @@
                 buttons: ['确定', '取消']
             }, function (ret, err) {
                 var index = ret.buttonIndex;
-                console.log(index);
                 if(index ==1){
                     apiPost({
                         url: 'change_bank_use',

@@ -92,6 +92,14 @@
             })
         }
 
+        //如果是银行卡管理页面，显示添加银行卡按钮
+        if(api.winName == 'usercenter/bankmg'){
+              //渲染投标数据
+            $('.rightPlace i').addClass('icon-plus-1').on('click',function(){
+                jumpToWin('usercenter/bankadd','添加银行卡')
+            })
+        }
+
         //是否需要返回键
         if (typeof(param.backEnable) != 'undefined' && !param.backEnable) {
             $('.showBack').addClass('hideBack').removeClass('showBack');
@@ -150,7 +158,7 @@
           }else{
               //检查是否登陆了
               //无没登陆（因为登陆过期会设置islogin为false自动跳转登陆页）则返回两页
-              var islogin = JSON.parse(getIsLogin());
+              var islogin = getIsLogin();
               if(islogin.value == false){
                   // token没有和上一页不是首页
                   console.log('返回前两页')

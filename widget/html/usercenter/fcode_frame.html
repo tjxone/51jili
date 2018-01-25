@@ -58,7 +58,7 @@
                         </div>
                     </li>
                     <li>
-                        <div class="color2 reward" tapmode>分红<em class="fs16 color-red">{{ac_redamount}}</em>元</div>
+                        <div class="color2 reward" tapmode onclick="jumpToWin('usercenter/fcodeReward','我的奖励')">分红<em class="fs16 color-red">{{ac_redamount}}</em>元</div>
                     </li>
                 </ul>
             </div>
@@ -87,10 +87,6 @@
             values: {
                 token: ''
             },
-            loginParams: {
-                slidBackEnabled: false,
-                isbackToIndex: true
-            },
             fun: function(ret, err) {
                 $('#share-img').qrcode({
                     width: 200,
@@ -103,10 +99,6 @@
             url: 'fcode',
             values: {
                 token: ''
-            },
-            loginParams: {
-                slidBackEnabled: false,
-                isbackToIndex: true
             },
             fun: function(ret, err) {
                 var data = ret.data;

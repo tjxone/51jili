@@ -161,7 +161,7 @@
                 </ul>
             </div>
         </div>
-        <div class="tou-list-tip" style="text-align: center;padding: 10px;font-size: 16px;color: #999;">
+        <div class="tou-list-tip" style="text-align: center;padding: 10px;padding-bottom:20px;font-size: 16px;color: #999;">
 
         </div>
     </script>
@@ -227,11 +227,11 @@
                     var data = ret.data;
                     // var data = JSON.parse('{"income_ds":"7.70","income_ss":"15.33","income_total":"23.03","list":null}')
                     if(ret.code==1){
-                        if(data.list!=null){
+                        if(data.list.length!=0){
                             var html = template('incomeBox', data);
                             $('#income').html(html);
                             api.parseTapmode();
-                            if(data.list.length>=20){
+                            if(data.list.length>=limit){
                                 $('.tou-list-tip')
                                 .html('下拉加载更多<i class="icon-angle-double-down"></i>')
                                 bottomRefresh()
@@ -264,7 +264,7 @@
                 },
                 fun:function(ret,err){
                     if(ret.code==1){
-                        if(ret.data.list==''){
+                        if(ret.data.list.length==0){
                             showToastMsg('已经到底了')
                             $('.tou-list-tip').html('已经到底了')
                         }else{

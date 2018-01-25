@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no,minimal-ui">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="keywords" content="集利财富，集利网，投资理财，网络理财，个人理财，互联网理财，互联网金融，固定收益，本息保障，个人贷款，网络贷款，网络借贷，小额贷款，信用贷款，担保贷款，网贷平台，投融资平台">
+    <meta name="description" content="集利财富：安全可信赖的投资理财平台，为大众用户提供低门槛、可信赖、有保障的投资理财服务！在集利财富，足不出户、轻点鼠标，即可便捷投资、安享收益！">
+    <meta name="apple-mobile-web-app-title" content="集利财富，点滴投资，聚集好利，安全可信赖的投资理财平台" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="../../css/fontello.css">
+    <link rel="stylesheet" href="../../css/swiper.min.css">
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/common.css">
+    <title>添加银行卡</title>
+</head>
+
+<body>
+    <div class="login" style="padding-bottom: 20px;">
+		<form id="bank_form" method="POST">
+			<ul class="login-input">
+				<li>
+                <input type="text" name="username11" value="唐建兴" readonly="true" id="username11" style="padding-left: 70px;">
+					<b>户名</b>
+				</li>
+				<li>
+					<input type="text" name="yhcard" id="yhcard" placeholder="请输入银行卡账号" datatype="yhcard" style="padding-left: 70px;">
+					<b>卡号</b>
+				</li>
+				<li>
+					<input type="text" name="cardname" id="cardname" placeholder="请输入开户银行" style="padding-left: 70px;">
+					<b>银行</b>
+				</li>
+				<li>
+					<input type="text" name="a_subbranch" id="a_subbranch" placeholder="请输入银行卡支行名称"  style="padding-left: 70px;">
+					<b>支行</b>
+				</li>
+				<li>
+					<input type="password" name="tradepwd" id="tradepwd" placeholder="请输入交易密码"  style="padding-left: 70px;">
+					<b>密码</b>
+				</li>
+			</ul>
+			<button type="button" class="btn toubiao-btn">确定添加</button>
+		</form>
+
+	</div>
+</body>
+    <script src="../../script/jquery.js"></script>
+    <script src="../../script/common.js"></script>
+    <script src="../../script/template-web.js"></script>
+    <script>
+        $('.toubiao-btn').click(function(){
+            var a = $('#bank_form')[0];
+            for(var i = 0;i<a.length;i++ ){
+                console.log(a[i]);
+            }
+            // a.forEach(function(a,b){
+            //     console.log(a,b)
+            // })
+            // $(a).each(function(a,b){
+            //     console.log(a)
+            //     console.log(b)
+            // })
+
+        })
+    </script>
+</html>

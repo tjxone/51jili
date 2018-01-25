@@ -321,7 +321,7 @@ function jumpToIndex(index) {
 //**
 function jumpToWinAfterJudggingLogin(name, title, newParams) {
 
-    var islogin = JSON.parse(getIsLogin())
+    var islogin = getIsLogin()
     alert( 'islogin状态'+JSON.stringify(islogin) );
     if( islogin.value == true ){
       // 默认设置
@@ -467,8 +467,8 @@ function gesturePassword(fName){
             api.getPrefs({
                 key: 'pauseTime'
             }, function(ret, err){
-                var delay = 1000
-                alert(Number(ret.value)+delay)
+                var delay = 10000
+                // alert(Number(ret.value)+delay)
                 if( new Date().getTime()>Number(ret.value)+delay ){
                     api.openWin({
                         name: 'gesturePassword',
@@ -497,7 +497,7 @@ function getIsLogin(){
         key: 'islogin',
         sync:true
     });
-    return (value==''||value==undefined) ? false : value ;
+    return (value==''||value==undefined) ? false : JSON.parse(value);
 }
 
 //日期转换
