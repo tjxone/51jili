@@ -1,7 +1,7 @@
 //每个正则是用&&来分割，正则对应消息也使用&&分割
 jQuery.fn.valid = function(newParams){
         var defaultParams = {
-            callback:function(msg,this){
+            callback:function(msg,elm){
                 console.log(msg)
             },
             isAllCheck:false
@@ -25,6 +25,7 @@ jQuery.fn.valid = function(newParams){
             }
         }
 
+        var tempPower = 0;
         $(temparr).each(function(index,elm){
             //required的
             if($(this).attr('required')){
@@ -32,11 +33,12 @@ jQuery.fn.valid = function(newParams){
                     var requiredMsg = $(this).attr('required-msg')
                     param.callback(requiredMsg,this)
                     validPower--
+                    tempPower++
                     return param.isAllCheck
                 }
             }
             //data-reg的
-            if($(this).attr('data-reg')){
+            if(!$(this).attr('required')&&$(this).attr('data-reg')){
                 var regstr = $(this).attr('data-reg')
                 var regmsg = $(this).attr('reg-msg')
                 //分离每个正则
@@ -49,8 +51,9 @@ jQuery.fn.valid = function(newParams){
                     $(regarr).each(function(i,r){
                         var reg = new RegExp(r,'g')
                         if(!reg.test($(that).val())){
-                            param.callback(regMsgArr[i],,that)
+                            param.callback(regMsgArr[i],that)
                             validPower--
+                            tempPower++
                             return param.isAllCheck
                         }
                     })
@@ -59,12 +62,17 @@ jQuery.fn.valid = function(newParams){
                     if(!regsingle.test($(this).val())){
                         param.callback(regmsg,this)
                         validPower--
+                        tempPower++
                         return param.isAllCheck
                     }
                 }
             }
 
-            //checked的
+        })
+
+        //checked的
+        // 验证完required和data-reg后开始杨峥checked
+        if(tempPower==0||param.isAllCheck){
             // 整理checkbox的数组
             var checktemp2 = [];
             var checkarr = [];
@@ -99,7 +107,8 @@ jQuery.fn.valid = function(newParams){
                     return param.isAllCheck
                 }
             })
-        })
+        }
+
 
 
         if(validPower<3){return false}else{return true}
