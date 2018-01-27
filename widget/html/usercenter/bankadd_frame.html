@@ -26,23 +26,29 @@
 					<b>户名</b>
 				</li>
 				<li>
-					<input type="text" name="yhcard" id="yhcard" placeholder="请输入银行卡账号" datatype="yhcard" style="padding-left: 70px;">
+					<input type="text" name="yhcard" id="yhcard" placeholder="请输入银行卡账号"  style="padding-left: 70px;" required-msg="请输入银行卡账号" required>
 					<b>卡号</b>
 				</li>
 				<li>
-					<input type="text" name="cardname" id="cardname" placeholder="请输入开户银行" style="padding-left: 70px;">
+					<input type="text" name="cardname" id="cardname" placeholder="请输入开户银行" style="padding-left: 70px;"  required-msg="请输入开户银行" required>
 					<b>银行</b>
 				</li>
 				<li>
-					<input type="text" name="a_subbranch" id="a_subbranch" placeholder="请输入银行卡支行名称"  style="padding-left: 70px;">
+					<input type="text" name="a_subbranch" id="a_subbranch" placeholder="请输入银行卡支行名称"  style="padding-left: 70px;" required-msg="请输入银行卡支行名称" required>
 					<b>支行</b>
 				</li>
 				<li>
-					<input type="password" name="tradepwd" id="tradepwd" placeholder="请输入交易密码"  style="padding-left: 70px;">
+					<input type="password" name="tradepwd" id="tradepwd" placeholder="请输入交易密码"  style="padding-left: 70px;"  data-reg="^.{3,6}&&^\w+" reg-msg="密码位数不足&&密码必选未数字或字母">
 					<b>密码</b>
 				</li>
 			</ul>
 			<button type="button" class="btn toubiao-btn">确定添加</button>
+            <input type="checkbox" name="ok" checkclass="偶像">1
+            <input type="checkbox" name="ok" checkclass="偶像">2
+            <input type="checkbox" name="ok" checkclass="偶像">3
+            <input type="checkbox" name="fake" checkclass="法克">1
+            <input type="checkbox" name="fake" checkclass="法克">2
+            <input type="checkbox" name="fake" checkclass="法克">3
 		</form>
 
 	</div>
@@ -50,18 +56,75 @@
     <script src="../../script/jquery.js"></script>
     <script src="../../script/common.js"></script>
     <script src="../../script/template-web.js"></script>
+    <script src="../../script/valid.js"></script>
     <script>
         $('.toubiao-btn').click(function(){
             var a = $('#bank_form')[0];
-            for(var i = 0;i<a.length;i++ ){
-                console.log(a[i]);
-            }
-            // a.forEach(function(a,b){
-            //     console.log(a,b)
+            var ok = $('#bank_form').valid({
+                callback:function(msg){
+                    console.log(msg)
+                },
+                isAllCheck:false
+            })
+            console.log(ok)
+            // var temparr = []
+            // var checkallarr = []
+            // for(var i = 0;i<a.length;i++ ){
+            //     if($(a[i]).attr('data-reg')
+            //     ||$(a[i]).attr('required')
+            //     ||$(a[i]).attr('checked')){
+            //         temparr.push(a[i])
+            //     }
+            //     if($(a[i]).attr('type')=='checkbox'){
+            //         var checktemp = []
+            //         checktemp.push($(a[i]).attr('name'))
+            //         checktemp.push($(a[i])[0])
+            //         checkallarr.push(checktemp)
+            //     }
+            // }
+            //
+            // $(temparr).each(function(index,elm){
+            //     //required的
+            //     if($(this).attr('required')){
+            //         if($(elm).val()==''){
+            //             console.log($(this).attr('required-msg'))
+            //             // showToastMsg($(elm).attr('required-msg'))
+            //         }
+            //     }
+            //     //data-reg的
+            //     if($(this).attr('data-reg')){
+            //         var reg = $(this).attr('data-reg')
+            //     }
             // })
-            // $(a).each(function(a,b){
-            //     console.log(a)
-            //     console.log(b)
+            // //checked的
+            // // 整理checkbox的数组
+            // var checktemp2 = [];
+            // var checkarr = [];
+            // if(checkallarr.length!=0){
+            //     $(checkallarr).each(function(index,elm){
+            //         if(checktemp2.length==0){
+            //             checktemp2.push(elm)
+            //         }
+            //         if(checkallarr[index+1]!=undefined){
+            //             if(checkallarr[index][0]==checkallarr[index+1][0]){
+            //                 checktemp2.push(checkallarr[index+1])
+            //             }else{
+            //                 checkarr.push(checktemp2)
+            //                 checktemp2 = [];
+            //             }
+            //         }else{
+            //             checkarr.push(checktemp2)
+            //         }
+            //     })
+            // }
+            //
+            // $(checkarr).each(function(index,elm){
+            //     var msgswitch = 0;
+            //     $(elm).each(function(i,e){
+            //         // console.log($(e))
+            //         if($(e[1]).prop('checked')){msgswitch++}
+            //     })
+            //     if(msgswitch==0){console.log('至少勾选'+$(elm[0][1]).attr('checkclass')+'中的一项')}
             // })
 
         })
