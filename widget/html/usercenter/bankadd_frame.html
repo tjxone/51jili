@@ -22,7 +22,7 @@
 		<form id="bank_form" method="POST">
 			<ul class="login-input">
 				<li>
-                <input type="text" name="username11" value="唐建兴" readonly="true" id="username11" style="padding-left: 70px;">
+                <input type="text" name="username11" value="***" readonly="true" id="username11" style="padding-left: 70px;">
 					<b>户名</b>
 				</li>
 				<li>
@@ -38,95 +38,84 @@
 					<b>支行</b>
 				</li>
 				<li>
-					<input type="password" name="tradepwd" id="tradepwd" placeholder="请输入交易密码"  style="padding-left: 70px;"  data-reg="^.{3,6}$&&^\w+" reg-msg="密码位数为3-6位&&密码必选未数字或字母">
+					<input type="password" name="tradepwd" id="tradepwd" placeholder="请输入交易密码"  style="padding-left: 70px;"  data-reg="^.{6,20}$&&^\w+$" reg-msg="密码位数为6-20位&&密码必选未数字或字母">
 					<b>密码</b>
 				</li>
 			</ul>
 			<button type="button" class="btn toubiao-btn">确定添加</button>
-            <input type="checkbox" name="ok" checkclass="偶像">1
-            <input type="checkbox" name="ok" checkclass="偶像">2
-            <input type="checkbox" name="ok" checkclass="偶像">3
-            <input type="checkbox" name="fake" checkclass="法克">1
-            <input type="checkbox" name="fake" checkclass="法克">2
-            <input type="checkbox" name="fake" checkclass="法克">3
 		</form>
 
 	</div>
 </body>
     <script src="../../script/jquery.js"></script>
+    <script src="../../script/valid.js"></script>
     <script src="../../script/common.js"></script>
     <script src="../../script/template-web.js"></script>
-    <script src="../../script/valid.js"></script>
+
     <script>
+    apiready = function(){
+        refreshFrameData()
+        bankadd()
+    }
+
+    function refreshFrameData(){
+        refreshData({
+            url: "user_status",
+            values: {
+                token: ''
+            },
+            fun: function(ret, err) {
+                if(ret.code ==1){
+                    $('#username11').val(ret.data.au_truename)
+                }
+            }
+        })
+    }
+
+    function bankadd(){
         $('.toubiao-btn').click(function(){
-            var a = $('#bank_form')[0];
-            var ok = $('#bank_form').valid({
+            var bankForm = $('#bank_form')[0];
+            var validInfo = $('#bank_form').valid({
                 callback:function(msg){
-                    console.log(msg)
+                    showToastMsg(msg)
                 },
                 isAllCheck:false
             })
-            console.log(ok)
-            // var temparr = []
-            // var checkallarr = []
-            // for(var i = 0;i<a.length;i++ ){
-            //     if($(a[i]).attr('data-reg')
-            //     ||$(a[i]).attr('required')
-            //     ||$(a[i]).attr('checked')){
-            //         temparr.push(a[i])
-            //     }
-            //     if($(a[i]).attr('type')=='checkbox'){
-            //         var checktemp = []
-            //         checktemp.push($(a[i]).attr('name'))
-            //         checktemp.push($(a[i])[0])
-            //         checkallarr.push(checktemp)
-            //     }
-            // }
-            //
-            // $(temparr).each(function(index,elm){
-            //     //required的
-            //     if($(this).attr('required')){
-            //         if($(elm).val()==''){
-            //             console.log($(this).attr('required-msg'))
-            //             // showToastMsg($(elm).attr('required-msg'))
-            //         }
-            //     }
-            //     //data-reg的
-            //     if($(this).attr('data-reg')){
-            //         var reg = $(this).attr('data-reg')
-            //     }
-            // })
-            // //checked的
-            // // 整理checkbox的数组
-            // var checktemp2 = [];
-            // var checkarr = [];
-            // if(checkallarr.length!=0){
-            //     $(checkallarr).each(function(index,elm){
-            //         if(checktemp2.length==0){
-            //             checktemp2.push(elm)
-            //         }
-            //         if(checkallarr[index+1]!=undefined){
-            //             if(checkallarr[index][0]==checkallarr[index+1][0]){
-            //                 checktemp2.push(checkallarr[index+1])
-            //             }else{
-            //                 checkarr.push(checktemp2)
-            //                 checktemp2 = [];
-            //             }
-            //         }else{
-            //             checkarr.push(checktemp2)
-            //         }
-            //     })
-            // }
-            //
-            // $(checkarr).each(function(index,elm){
-            //     var msgswitch = 0;
-            //     $(elm).each(function(i,e){
-            //         // console.log($(e))
-            //         if($(e[1]).prop('checked')){msgswitch++}
-            //     })
-            //     if(msgswitch==0){console.log('至少勾选'+$(elm[0][1]).attr('checkclass')+'中的一项')}
-            // })
 
+            var a_account_user = $('#username11').val()
+            var a_account = $('#yhcard').val()
+            var a_the_depositary_bank = $('#cardname').val()
+            var a_subbranch = $('#a_subbranch').val()
+            var tradepwd = $('#tradepwd').val()
+            if(validInfo){
+                refreshData({
+                    url:'bank_action',
+                    values:{
+                        token:'',
+                        a_account_user:a_account_user,
+                        a_account : a_account,
+                        a_the_depositary_bank : a_the_depositary_bank,
+                        a_subbranch : a_subbranch,
+                        tradepwd : tradepwd
+                    },
+                    fun:function(ret,err){
+                        if(ret.code == 1){
+                            showToastMsg('银行卡添加成功')
+                            api.execScript({
+                                name: 'usercenter/bankmg',
+                                frameName: 'usercenter/bankmg_frame',
+                                script: 'refreshFrameData();'
+                            });
+
+                            api.closeWin()
+                        }
+                    }
+                })
+            }
         })
+
+
+
+    }
     </script>
 </html>
