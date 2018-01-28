@@ -70,8 +70,8 @@ jQuery.fn.valid = function(newParams){
                     if(tempPower<1){return false}//检验不通过，里面的循环跳出，外面循环跟住跳出
                 }else{
                     var regsingle = new RegExp(regstr,'gi')
-                    if(!regsingle.test($(this).val())){
-                        param.callback(regmsg,this)
+                    if(!regsingle.test($(inputElm).val())){
+                        param.callback(regmsg,inputElm)
                         validPower--
                         return param.isAllCheck
                     }
