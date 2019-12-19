@@ -14,10 +14,10 @@ const appid = '06wygzvDdr062rNwIXTC';
 const appkey = 'vxCdATZ76WeqjhF3ZNHu';
 const appver = '2.6.0';
 const apptype = 'ios';
-const base = 'http://bugfix.51jili.com/';
+const base = 'http://ksh.51jili.com/';
 // const baseUrl = 'http://ksh.51jili.com/api/';
 // const baseUrl = 'http://bugfix.51jili.com/api/';
-const baseUrl = 'http://bugfix.51jili.com/api2/';
+const baseUrl = 'http://ksh.51jili.com/api2/';
 // const baseUrl = 'https://www.51jili.com/api/';
 // const baseUrl = 'http://192.168.20.4/api/';
 
