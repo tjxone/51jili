@@ -197,18 +197,18 @@
 	    },
 	    corner: 5,
 	    bg: {
-	        normal: '#ff0000',
-	        highlight: '#ff0000',
-	        active: '#ff0000'
+	        normal: '#ef4646',
+	        highlight: '#ffd6d6',
+	        active: '#ffd6d6'
 	    },
 	    title: {
 	        size: 14,
 	        highlight: '回到顶部',
 	        active: '回到顶部',
 	        normal: '回到顶部',
-	        highlightColor: '#000adf',
-	        activeColor: '#000adf',
-	        normalColor: '#000adf',
+	        highlightColor: '#000',
+	        activeColor: '#000',
+	        normalColor: '#fff',
 	        alignment: 'center'
 	    },
 	    fixedOn: api.frameName,
@@ -217,6 +217,11 @@
 		}, function(ret, err) {
 			api.pageUp({
 				top:true
+			});
+			var id = ret.id
+			button.setState({
+				id: id,
+				state: 'normal'
 			});
 		});
 	}
